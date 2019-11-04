@@ -9,3 +9,11 @@ div.gameScreen {
     margin: auto;
     width: 500px;
 }
+
+div.userShape {
+    height: 0;
+    width: 0;
+	border-left: 15px solid transparent;
+	border-right: 15px solid transparent;
+	border-bottom: 30px solid #555;
+}
