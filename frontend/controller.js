@@ -15,6 +15,7 @@ class Controller{
             's': false,
             'd': false
         }
+        this.userHUD = new userHUD(this)
         this.addMovementListeners()
     }
 
@@ -47,12 +48,19 @@ class Controller{
         }
     }
 
+    isPressed(key){
+        if(['w','a','s','d'].includes(key)){
+            return this.pressedKeys[key]
+        } 
+    }
+
     draw(){
         this.game.draw()
     }
 
     update(){
         this.draw()
+        this.userHUD.update()
     }
 
     start(){

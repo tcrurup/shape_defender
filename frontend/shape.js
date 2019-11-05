@@ -40,7 +40,6 @@ class UserShape extends Shape{
         if(user == null){
             this.game.addElement(this.element); 
         } else {
-            document.querySelector('div.controlBox').innerHTML = Object.entries(this.game.controller.pressedKeys)
         }
     }
 

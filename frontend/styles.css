@@ -33,7 +33,40 @@ div.controlBox div.bottomRow{
     width: 90%;
 }
 
-div.userButtonKeyboard{
+div.userButtonKeyboard-w{
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 10px;
+    margin: 5px;
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+div.userButtonKeyboard-a{
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 10px;
+    margin: 5px;
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+div.userButtonKeyboard-s{
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 10px;
+    margin: 5px;
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    vertical-align: middle;
+}
+
+div.userButtonKeyboard-d{
     border-style: solid;
     border-width: 2px;
     border-radius: 10px;
