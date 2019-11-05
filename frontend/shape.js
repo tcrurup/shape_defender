@@ -15,6 +15,8 @@ class UserShape extends Shape{
         super(game)
 
         this.element = this._createElement()
+        this.fireRate = 1;
+        this.shotCooldownFrames = 0;
         this.x = 225;
         this.y = 740;
     }    
@@ -30,7 +32,18 @@ class UserShape extends Shape{
         }
     }
 
+    shoot(){
+        if(this.shotCooldownFrames === 0){
+            console.log('shoot')
+            this.shotCooldownFrames = 30
+        }        
+    }
+
     update(){
+
+        //Reduce the cooldown on the weapon every fram by the fire rate
+        if(this.shotCooldownFrames > 0){ this.shotCooldownFrames -= this.fireRate }
+        
         let inputs = this.controller.allPressedKeys()
         if (inputs.length > 0){
             let user = document.querySelector('canvas.userShape')
@@ -51,7 +64,10 @@ class UserShape extends Shape{
                     case 'd':
                         this.x += 10
                         if(this.x > 455){ this.x = 455 }
-                        break;    
+                        break;   
+                    case ' ':
+                        this.shoot()
+                        break; 
                 }
             })
         }
