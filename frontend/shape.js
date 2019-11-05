@@ -35,19 +35,57 @@ class UserShape extends Shape{
         this.y=0;
     }
 
+    get controller(){
+        return this.game.controller
+    }
+
     draw(){
         let user = document.querySelector('canvas.userShape')
         if(user == null){
-            this.game.addElement(this.element); 
-        } else {
+            this.game.addElement(this.element);
+            this.draw(); 
+        } else { 
+            user.style.top = `${this.y}px`;
+            user.style.left = `${this.x}px`;
         }
     }
 
     update(){
-        let user = document.querySelector('canvas.userShape')
+        let inputs = this.controller.allPressedKeys()
+        if (inputs.length > 0){
+            let user = document.querySelector('canvas.userShape')
+            inputs.forEach( input => {
+                switch(input){
+                    case 'w':
+                        this.y -= 6
+                        break;
+                    case 'a':
+                        this.x -= 10
+                        break;
+                    case 's':
+                        this.y += 6
+                        break;
+                    case 'd':
+                        this.x += 10
+                        break;    
+                }
+            })
+        }
+        
         
     }
 
+    moveVertical(){
+        let topStyle = this.style.top.replace("px", "");
+        let top = parseInt(topStyle, 10);
+        this.style.top = `${top - 3}px`;
+    }
+
+    moveHorizontal(){
+        let leftStyle = this.style.left.replace("px", "");
+        let left = parseInt(leftStyle, 10);
+        this.style.left = `${left + 3}px`;
+    }
 
     static element() {
         return document.querySelector("div.userShape")
@@ -55,14 +93,3 @@ class UserShape extends Shape{
   
 }
 
-function moveVertical(factor){
-    let topStyle = this.style.top.replace("px", "");
-    let top = parseInt(topStyle, 10);
-    this.style.top = `${top - factor}px`;
-}
-
-function moveHorizontal(factor){
-    let leftStyle = this.style.left.replace("px", "");
-    let left = parseInt(leftStyle, 10);
-    this.style.left = `${left + factor}px`;
-}

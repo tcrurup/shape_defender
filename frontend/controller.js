@@ -16,6 +16,7 @@ class Controller{
             'd': false
         }
         this.userHUD = new userHUD(this)
+        document.querySelector('div.userInputContainer').appendChild(this.userHUD.draw())
         this.addMovementListeners()
     }
 
@@ -68,13 +69,13 @@ class Controller{
     }
 
     draw(){
-        document.querySelector('div.userInputContainer').appendChild(this.userHUD.draw())
         this.game.draw()
     }
 
     update(){
         this.userHUD.update()
-        console.log(this.allPressedKeys())
+        this.game.update()
+        this.draw()
     }
 
     start(){

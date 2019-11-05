@@ -2,7 +2,7 @@ class Game{
 
     constructor(controller){
         this.allObjects = [];
-        this.controller = controller
+        this.gameController = controller
         this.userShape = new UserShape(this)
         this.allObjects.push(this.userShape)
         
@@ -10,6 +10,24 @@ class Game{
 
     addElement(element){
         this.controller.addElementToScreen(element)
+    }
+
+    update(){
+        this.allObjects.forEach(obj =>{
+            obj.update()
+        });
+    }
+
+    get controller(){
+        return this.gameController
+    }
+
+    set controller(cont){
+        this.gameController = controller
+    }
+
+    get allPressedKeys(){
+        this.controller.allPressedKeys()
     }
 
     draw(){
