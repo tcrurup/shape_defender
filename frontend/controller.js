@@ -13,7 +13,8 @@ class Controller{
             'w': false,
             'a': false,
             's': false,
-            'd': false
+            'd': false,
+            ' ': false
         }
         this.userHUD = new userHUD(this)
         document.querySelector('div.userInputContainer').appendChild(this.userHUD.draw())
@@ -27,13 +28,13 @@ class Controller{
     addMovementListeners(){
 
         document.addEventListener('keydown', e => {
-            if(['w','a','s','d'].includes(e.key)){
+            if(['w','a','s','d',' '].includes(e.key)){
                 this.pressedKeys[e.key] = true;
             }
         })
 
         document.addEventListener('keyup', e => {
-            if(['w','a','s','d'].includes(e.key)){
+            if(['w','a','s','d',' '].includes(e.key)){
                 this.pressedKeys[e.key] = false;
             }
         })
@@ -75,6 +76,7 @@ class Controller{
     update(){
         this.userHUD.update()
         this.game.update()
+        console.log(this.allPressedKeys())
         this.draw()
     }
 
