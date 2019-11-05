@@ -43,6 +43,11 @@ class UserShape extends Shape{
         }
     }
 
+    update(){
+        let user = document.querySelector('canvas.userShape')
+        
+    }
+
 
     static element() {
         return document.querySelector("div.userShape")

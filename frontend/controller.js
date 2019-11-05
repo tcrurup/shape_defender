@@ -38,6 +38,19 @@ class Controller{
         })
     }
 
+    allPressedKeys(){
+        
+        let pressedInputs = []
+        
+        Object.keys(this.pressedKeys).forEach( key => {
+            if(this.pressedKeys[key] == true){
+                pressedInputs.push(key)
+            }
+        });
+
+        return pressedInputs
+    }
+
     createNewGame(){
         this.game = new Game(this)
     }
@@ -61,6 +74,7 @@ class Controller{
 
     update(){
         this.userHUD.update()
+        console.log(this.allPressedKeys())
     }
 
     start(){
