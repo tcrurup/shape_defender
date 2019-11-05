@@ -14,6 +14,7 @@ class UserShape extends Shape{
         this.element.setAttribute('height', 50)
         this.element.style.top = '10px'
         this.element.style.left = '10px'
+        let pressedKeys = {};
 
         let context = this.element.getContext("2d")
         context.beginPath();
@@ -33,25 +34,10 @@ class UserShape extends Shape{
         this.y=0;
     }
 
-
-
-
-
-
-    addMovementListeners(){
-        console.log("Adding user controls")
-        document.addEventListener('keydown', function(e){
-            if(['w','a','s','d'].includes(e.key)){
-                pressedKeys[e.key] = true;
-            }
-        })
-
-        document.addEventListener('keyup', function(e){
-            if(['w','a','s','d'].includes(e.key)){
-                pressedKeys[e.key] = false;
-            }
-        })
+    draw(){
+        this.element.innerHTML = this.pressedKeys
     }
+
 
     static element() {
         return document.querySelector("div.userShape")

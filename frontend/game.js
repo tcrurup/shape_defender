@@ -5,9 +5,10 @@ class Game{
         Controller.gameScreen().appendChild(this.userShape.element)
     }
 
-    drawScreen(){
-        
+    draw(){
+        this.userShape.draw()
     }
+
 
    
 
