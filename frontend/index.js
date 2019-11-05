@@ -12,6 +12,6 @@ function addButtonListeners(){
 
 function startGame(event){
     event.preventDefault();
-    alert('Starting New Game')
     new Game
 }
+
