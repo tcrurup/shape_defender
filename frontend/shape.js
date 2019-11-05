@@ -14,8 +14,6 @@ class UserShape extends Shape{
         this.element.className = 'userShape'
         this.element.setAttribute('width', 50)
         this.element.setAttribute('height', 50)
-        this.element.style.top = '10px'
-        this.element.style.left = '10px'
 
         let context = this.element.getContext("2d")
         context.beginPath();
@@ -31,8 +29,8 @@ class UserShape extends Shape{
         context.fillStyle = "#FFCC00";
         context.fill();
 
-        this.x = 0;
-        this.y=0;
+        this.x = 225;
+        this.y = 740;
     }
 
     get controller(){
@@ -45,6 +43,7 @@ class UserShape extends Shape{
             this.game.addElement(this.element);
             this.draw(); 
         } else { 
+            
             user.style.top = `${this.y}px`;
             user.style.left = `${this.x}px`;
         }
@@ -58,15 +57,19 @@ class UserShape extends Shape{
                 switch(input){
                     case 'w':
                         this.y -= 6
+                        if(this.y < 500){ this.y = 500 }
                         break;
                     case 'a':
                         this.x -= 10
+                        if(this.x < -5){ this.x = -5 }
                         break;
                     case 's':
                         this.y += 6
+                        if(this.y > 740){ this.y = 740 }
                         break;
                     case 'd':
                         this.x += 10
+                        if(this.x > 455){ this.x = 455 }
                         break;    
                 }
             })
