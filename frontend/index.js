@@ -11,7 +11,9 @@ function addButtonListeners(){
 }
 
 function startGame(event){
-    event.preventDefault();
-    new Game
+    let controller = new Controller
+    controller.start()
 }
+
+
 

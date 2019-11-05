@@ -8,30 +8,47 @@ class UserShape extends Shape{
 
     constructor(){
         super()
-        let shape = this.element
-        
-        this.element = document.createElement("div")
-        this.element.className = "userShape"
-        this.element.style.top = "100px"
-        this.element.style.left = "50px"
+        this.element = document.createElement('canvas')
+        this.element.className = 'userShape'
+        this.element.setAttribute('width', 50)
+        this.element.setAttribute('height', 50)
+        this.element.style.top = '10px'
+        this.element.style.left = '10px'
 
-        this.pressedKeys = {};
+        let context = this.element.getContext("2d")
+        context.beginPath();
+        context.moveTo(10,40)
+        context.lineTo(25,10)
+        context.lineTo(40,40)
+        context.closePath()
 
-        document.querySelector("div.gameScreen").appendChild(this.element)
-        this.addMovementListeners()
+        context.lineWidth = 5;
+        context.strokeStyle = '#666666';
+        context.stroke()
+
+        context.fillStyle = "#FFCC00";
+        context.fill();
+
+        this.x = 0;
+        this.y=0;
     }
+
+
+
+
+
 
     addMovementListeners(){
         console.log("Adding user controls")
         document.addEventListener('keydown', function(e){
-            if(e.key === 'w'){
-                moveVertical.call(UserShape.element(), 2)
-            } else if(e.key === 's'){
-                moveVertical.call(UserShape.element(), -2)
-            } else if(e.key === 'a'){
-                moveHorizontal.call(UserShape.element(), -5)
-            } else if (e.key === 'd'){
-                moveHorizontal.call(UserShape.element(), 5)
+            if(['w','a','s','d'].includes(e.key)){
+                pressedKeys[e.key] = true;
+            }
+        })
+
+        document.addEventListener('keyup', function(e){
+            if(['w','a','s','d'].includes(e.key)){
+                pressedKeys[e.key] = false;
             }
         })
     }
