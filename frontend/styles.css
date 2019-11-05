@@ -9,10 +9,39 @@ div.controlBox{
     border-width: 2px;
     border-color: black;
     border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
     position: absolute;
     width: 300px;
     height: 150px;
     top: 650px;
+}
+    
+
+div.controlBox div.topRow{
+    display: flex;
+    justify-content: center;
+    width: 90%;
+
+}
+
+div.controlBox div.bottomRow{
+    display: flex;
+    justify-content: center;
+    width: 90%;
+}
+
+div.userButtonKeyboard{
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 10px;
+    margin: 5px;
+    height: 50px;
+    width: 50px;
+    text-align: center;
+    vertical-align: middle;
 }
 
 div.gameScreen {
