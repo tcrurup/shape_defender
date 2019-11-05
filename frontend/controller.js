@@ -55,16 +55,17 @@ class Controller{
     }
 
     draw(){
+        document.querySelector('div.userInputContainer').appendChild(this.userHUD.draw())
         this.game.draw()
     }
 
     update(){
-        this.draw()
         this.userHUD.update()
     }
 
     start(){
         //Refresh approx 30 per second
+        this.draw()
         setInterval(this.update.bind(this), 33)
     }
 
