@@ -1,12 +1,21 @@
 class Game{
 
-    constructor(){
-        this.userShape = new UserShape
-        Controller.gameScreen().appendChild(this.userShape.element)
+    constructor(controller){
+        this.allObjects = [];
+        this.controller = controller
+        this.userShape = new UserShape(this)
+        this.allObjects.push(this.userShape)
+        
+    }
+
+    addElement(element){
+        this.controller.addElementToScreen(element)
     }
 
     draw(){
-        this.userShape.draw()
+        this.allObjects.forEach(obj =>{
+            obj.draw()
+        });
     }
 
 

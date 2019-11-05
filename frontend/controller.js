@@ -5,8 +5,9 @@ class Controller{
         if(Object.keys(game).length > 0){
             this.game = game
         } else {
-            this.game = new Game
+            this.createNewGame()
         }
+        this.gameScreen = document.querySelector('div.gameScreen');
         this.gameTime = 0;
         this.pressedKeys = {
             'w': false,
@@ -15,6 +16,10 @@ class Controller{
             'd': false
         }
         this.addMovementListeners()
+    }
+
+    addElementToScreen(element){
+        this.gameScreen.appendChild(element)
     }
 
     addMovementListeners(){
@@ -30,6 +35,10 @@ class Controller{
                 this.pressedKeys[e.key] = false;
             }
         })
+    }
+
+    createNewGame(){
+        this.game = new Game(this)
     }
 
     onKeyDown(keyPressed){
@@ -49,10 +58,6 @@ class Controller{
     start(){
         //Refresh approx 30 per second
         setInterval(this.update.bind(this), 33)
-    }
-
-    static gameScreen(){
-        return document.querySelector('div.gameScreen')
     }
 
 }

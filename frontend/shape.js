@@ -6,15 +6,16 @@ class Shape {
 
 class UserShape extends Shape{
 
-    constructor(){
+    constructor(game){
         super()
+        this.game = game
+
         this.element = document.createElement('canvas')
         this.element.className = 'userShape'
         this.element.setAttribute('width', 50)
         this.element.setAttribute('height', 50)
         this.element.style.top = '10px'
         this.element.style.left = '10px'
-        let pressedKeys = {};
 
         let context = this.element.getContext("2d")
         context.beginPath();
@@ -35,7 +36,12 @@ class UserShape extends Shape{
     }
 
     draw(){
-        this.element.innerHTML = this.pressedKeys
+        let user = document.querySelector('canvas.userShape')
+        if(user == null){
+            this.game.addElement(this.element); 
+        } else {
+            document.querySelector('div.controlBox').innerHTML = Object.entries(this.game.controller.pressedKeys)
+        }
     }
 
 

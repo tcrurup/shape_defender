@@ -3,6 +3,18 @@ body {
     background-color: gray;
 }
 
+div.controlBox{
+    background-color: lightskyblue;
+    border-style: solid;
+    border-width: 2px;
+    border-color: black;
+    border-radius: 10px;
+    position: absolute;
+    width: 300px;
+    height: 150px;
+    top: 650px;
+}
+
 div.gameScreen {
     background-color: white;
     height: 800px;
