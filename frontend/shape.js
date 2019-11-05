@@ -1,49 +1,30 @@
 class Shape {
-    constructor(){
-
-    }
-}
-
-class UserShape extends Shape{
-
     constructor(game){
-        super()
-        this.game = game
-
-        this.element = document.createElement('canvas')
-        this.element.className = 'userShape'
-        this.element.setAttribute('width', 50)
-        this.element.setAttribute('height', 50)
-
-        let context = this.element.getContext("2d")
-        context.beginPath();
-        context.moveTo(10,40)
-        context.lineTo(25,10)
-        context.lineTo(40,40)
-        context.closePath()
-
-        context.lineWidth = 5;
-        context.strokeStyle = '#666666';
-        context.stroke()
-
-        context.fillStyle = "#FFCC00";
-        context.fill();
-
-        this.x = 225;
-        this.y = 740;
+        this.game = game;
     }
 
     get controller(){
         return this.game.controller
     }
+}
+
+class UserShape extends Shape{
+
+    
+    constructor(game){
+        super(game)
+
+        this.element = this._createElement()
+        this.x = 225;
+        this.y = 740;
+    }    
 
     draw(){
         let user = document.querySelector('canvas.userShape')
         if(user == null){
             this.game.addElement(this.element);
             this.draw(); 
-        } else { 
-            
+        } else {             
             user.style.top = `${this.y}px`;
             user.style.left = `${this.x}px`;
         }
@@ -78,20 +59,28 @@ class UserShape extends Shape{
         
     }
 
-    moveVertical(){
-        let topStyle = this.style.top.replace("px", "");
-        let top = parseInt(topStyle, 10);
-        this.style.top = `${top - 3}px`;
-    }
+    //PRIVATE FUNCTIONS
+    _createElement(){
+        let element = document.createElement('canvas')
+        element.className = 'userShape'
+        element.setAttribute('width', 50)
+        element.setAttribute('height', 50)
 
-    moveHorizontal(){
-        let leftStyle = this.style.left.replace("px", "");
-        let left = parseInt(leftStyle, 10);
-        this.style.left = `${left + 3}px`;
-    }
+        let context = element.getContext("2d")
+        context.beginPath();
+        context.moveTo(10,40)
+        context.lineTo(25,10)
+        context.lineTo(40,40)
+        context.closePath()
 
-    static element() {
-        return document.querySelector("div.userShape")
+        context.lineWidth = 5;
+        context.strokeStyle = '#666666';
+        context.stroke()
+
+        context.fillStyle = "#FFCC00";
+        context.fill();
+
+        return element
     }
   
 }
