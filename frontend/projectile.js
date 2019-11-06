@@ -7,7 +7,6 @@ class Projectile extends GameUnit{
         this.x = initX;
         this.y = initY;
         this.isDestroyed = false;
-        this.game.allObjects.push(this)
         this.draw() 
     }
 
@@ -22,7 +21,7 @@ class Projectile extends GameUnit{
     draw(){
         this.element.style.top = `${this.y}px`;
         this.element.style.left = `${this.x}px`;
-        this.game.controller.gameScreen.appendChild(this.element)        
+        GAME_DISPLAY.appendChild(this.element)        
     }
 
     destroy(){

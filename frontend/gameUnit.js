@@ -1,6 +1,7 @@
 class GameUnit {    
     
-    constructor(){
+    constructor(controller){
+        this.controller = controller
         this.isDestroyed = false;
     }
 
@@ -9,8 +10,8 @@ class GameUnit {
 class UserUnit extends GameUnit{
 
     
-    constructor(){
-        super()
+    constructor(controller){
+        super(controller)
 
         this.element = Shape.equilateralTriangle()
         this.fireRate = 1;

@@ -67,7 +67,7 @@ class Controller{
     }
 
     spawnUser(x, y){
-        this.userUnit = new UserUnit(x, y)
+        this.userUnit = new UserUnit(this, x, y)
         GAME_DISPLAY.appendChild(this.userUnit.element)
     }
 
@@ -84,14 +84,9 @@ class Controller{
         } 
     }
 
-    draw(){
-        this.game.draw()
-    }
-
     update(){
         this.userHUD.update()
         this.userUnit.update(this.allPressedKeys())
-        console.log(this.userUnit)
         for(let i = 0; i< this.allProjectiles.length; i++){
             let object = this.allProjectiles[i]
             if(object.isDestroyed){
@@ -103,9 +98,7 @@ class Controller{
     }
 
     start(){
-        //Refresh approx 30 per second
-        this.draw()
-        setInterval(this.update.bind(this), 33)
+        setInterval(this.update.bind(this), 16)
     }
 
 }

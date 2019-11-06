@@ -1,11 +1,9 @@
 class Game{
 
     constructor(controller){
-        this.allObjects = [];
         this.allProjectiles = [];
         this.gameController = controller
         this.userUnit = new UserUnit(this)
-        this.allObjects.push(this.userUnit)
     }
 
     addElement(element){
@@ -38,10 +36,5 @@ class Game{
         this.controller.allPressedKeys()
     }
 
-    draw(){
-        this.allObjects.forEach(obj =>{
-            obj.draw()
-        });
-    }
 
 }
