@@ -40,4 +40,25 @@ class Shape{
 
         return element
     }
+
+    static circle(diameter){
+
+        let element = document.createElement('canvas')
+        element.className = 'enemyShape'
+        element.setAttribute('width', diameter * 1.1)
+        element.setAttribute('height', diameter * 1.1)
+
+        let context = element.getContext("2d")
+        context.beginPath();
+        context.arc(diameter/2, diameter/2, diameter/2, 0, Math.PI * 2)
+
+        context.lineWidth = 5;
+        context.strokeStyle = '#666666';
+        context.stroke()
+
+        context.fillStyle = "#FF0000";
+        context.fill();
+
+        return element
+    }
 }

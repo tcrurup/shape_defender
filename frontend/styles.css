@@ -59,6 +59,10 @@ canvas.userShape {
     position: absolute;
 }
 
+canvas.enemyShape{
+    position: absolute;
+}
+
 canvas.projectile {
     position: absolute;
 }

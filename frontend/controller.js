@@ -10,6 +10,7 @@ class Controller{
         }
 
         this.userUnit = new UserUnit()
+        this.allEnemies = []
         this.gameScreen = document.querySelector('div.gameScreen');
         this.gameTime = 0;
         this.pressedKeys = {
@@ -21,6 +22,7 @@ class Controller{
         }
         this.userHUD = new userHUD(this)
         document.querySelector('div.userInputContainer').appendChild(this.userHUD.draw())
+        document.querySelector('button#spawnTestEnemy').addEventListener('click', this.spawnEnemy.bind(this))
         this.addMovementListeners()
         this.spawnUser(225, 740)
     }
@@ -71,6 +73,12 @@ class Controller{
         GAME_DISPLAY.appendChild(this.userUnit.element)
     }
 
+    spawnEnemy(){
+        let enemy = new EnemyUnit(this)
+        this.allEnemies.push(enemy)
+        GAME_DISPLAY.appendChild(this.allEnemies[(this.allEnemies.length - 1)].element)
+    }
+
 
     onKeyDown(keyPressed){
         if(['w','a','s','d'].includes(e.key)){
@@ -91,6 +99,16 @@ class Controller{
             let object = this.allProjectiles[i]
             if(object.isDestroyed){
                 this.allProjectiles = [...this.allProjectiles.slice(0,i) , ...this.allProjectiles.slice(i+1)]
+            } else {
+                object.update()
+            }
+        }
+
+        for(let i = 0; i< this.allEnemies.length; i++){
+            console.log(this.allEnemies[i])
+            let object = this.allEnemies[i]
+            if(object.isDestroyed){
+                this.allEnemies = [...this.allEnemies.slice(0,i) , ...this.allEnemies.slice(i+1)]
             } else {
                 object.update()
             }

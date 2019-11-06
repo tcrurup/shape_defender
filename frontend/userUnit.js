@@ -9,7 +9,6 @@ class UserUnit extends GameUnit{
         this.shotCooldownFrames = 0;
         this.x = 225;
         this.y = 740;
-        this.draw
     } 
     
     get center(){
