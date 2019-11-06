@@ -2,17 +2,19 @@ class Controller{
 
     constructor(game={}){
 
-        this.allProjectiles = [];
+       //This is an option to load a saved game that is a json file, otherwise it just creates new
         if(Object.keys(game).length > 0){
             this.game = game
         } else {
             this.createNewGame()
         }
 
+
+        //Everything that you will see on display
+        this.allProjectiles = [];
+        this.allEnemies = []; 
         this.userUnit = new UserUnit()
-        this.allEnemies = []
-        this.gameScreen = document.querySelector('div.gameScreen');
-        this.gameTime = 0;
+        
         this.pressedKeys = {
             'w': false,
             'a': false,
@@ -25,10 +27,6 @@ class Controller{
         document.querySelector('button#spawnTestEnemy').addEventListener('click', this.spawnEnemy.bind(this))
         this.addMovementListeners()
         this.spawnUser(225, 740)
-    }
-
-    addElementToScreen(element){
-        this.gameScreen.appendChild(element)
     }
 
     addMovementListeners(){
