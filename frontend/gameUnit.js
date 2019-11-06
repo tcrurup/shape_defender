@@ -19,11 +19,16 @@ class UserUnit extends GameUnit{
         this.x = 225;
         this.y = 740;
         this.draw
-    }    
+    } 
+    
+    get center(){
+        let width = this.element.width  
+        return this.x + (width / 2)        
+    }
 
     shoot(){
         if(this.shotCooldownFrames === 0){
-            this.controller.spawnProjectile(this.x, this.y)
+            this.controller.spawnProjectile(this.center, this.y)
             this.shotCooldownFrames = 15
         }        
     }
