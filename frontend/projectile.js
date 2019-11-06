@@ -20,8 +20,8 @@ class Projectile extends GameUnit{
     }
 
     draw(){
-        this.element.style.top = `${this.x}px`;
-        this.element.style.left = `${this.y}px`;
+        this.element.style.top = `${this.y}px`;
+        this.element.style.left = `${this.x}px`;
         this.game.controller.gameScreen.appendChild(this.element)        
     }
 
