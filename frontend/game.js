@@ -3,8 +3,8 @@ class Game{
     constructor(controller){
         this.allObjects = [];
         this.gameController = controller
-        this.userShape = new UserShape(this)
-        this.allObjects.push(this.userShape)
+        this.userUnit = new UserUnit(this)
+        this.allObjects.push(this.userUnit)
         
     }
 

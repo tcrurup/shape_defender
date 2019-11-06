@@ -1,14 +1,26 @@
-class Shape {
+class GameUnit {
+    
+    
+    
     constructor(game){
         this.game = game;
+        this.element = document.createElement('canvas')
     }
 
     get controller(){
         return this.game.controller
     }
+
+    _createElement(){
+        
+    }
+
+    static equilateralTriangle(){
+
+    }
 }
 
-class UserShape extends Shape{
+class UserUnit extends GameUnit{
 
     
     constructor(game){
@@ -34,7 +46,8 @@ class UserShape extends Shape{
 
     shoot(){
         if(this.shotCooldownFrames === 0){
-            console.log('shoot')
+            let projectile = new Projectile(this.game)
+            projectile.fire()
             this.shotCooldownFrames = 30
         }        
     }
