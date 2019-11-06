@@ -1,56 +1,37 @@
-class GameUnit {
+class GameUnit {    
     
-    
-    
-    constructor(game){
-        this.game = game;
+    constructor(){
         this.isDestroyed = false;
     }
 
-    get controller(){
-        return this.game.controller
-    }
 }
 
 class UserUnit extends GameUnit{
 
     
-    constructor(game){
-        super(game)
+    constructor(){
+        super()
 
         this.element = Shape.equilateralTriangle()
         this.fireRate = 1;
         this.shotCooldownFrames = 0;
         this.x = 225;
         this.y = 740;
+        this.draw
     }    
-
-    draw(){
-        let user = document.querySelector('canvas.userShape')
-        if(user == null){
-            this.game.addElement(this.element);
-            this.draw(); 
-        } else {             
-            user.style.top = `${this.y}px`;
-            user.style.left = `${this.x}px`;
-        }
-    }
 
     shoot(){
         if(this.shotCooldownFrames === 0){
-            let projectile = new Projectile(this.game, this.x + 25, this.y)
-            this.shotCooldownFrames = 30
+            this.controller.spawnProjectile(this.x, this.y)
+            this.shotCooldownFrames = 15
         }        
     }
 
-    update(){
+    update(inputs){
 
         //Reduce the cooldown on the weapon every fram by the fire rate
         if(this.shotCooldownFrames > 0){ this.shotCooldownFrames -= this.fireRate }
-        
-        let inputs = this.controller.allPressedKeys()
         if (inputs.length > 0){
-            let user = document.querySelector('canvas.userShape')
             inputs.forEach( input => {
                 switch(input){
                     case 'w':
@@ -76,7 +57,8 @@ class UserUnit extends GameUnit{
             })
         }
         
-        
+        this.element.style.top = `${this.y}px`;
+        this.element.style.left = `${this.x}px`;
     }
 
 }

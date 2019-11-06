@@ -12,7 +12,7 @@ class Projectile extends GameUnit{
     }
 
     update(){
-        this.y -= 5;
+        this.y -= 15;
         this.element.style.top = `${this.y}px`;
         if(this.y < 0){
             this.destroy()

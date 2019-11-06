@@ -2,6 +2,7 @@ class Game{
 
     constructor(controller){
         this.allObjects = [];
+        this.allProjectiles = [];
         this.gameController = controller
         this.userUnit = new UserUnit(this)
         this.allObjects.push(this.userUnit)
@@ -21,8 +22,9 @@ class Game{
                 object.update()
             }
         }
-        console.log(this.allObjects)
     }
+
+    
 
     get controller(){
         return this.gameController
