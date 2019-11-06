@@ -1,64 +1,83 @@
 class Shape{
 
-    static equilateralTriangle(){
-        let element = document.createElement('canvas')
-        element.className = 'userShape'
-        element.setAttribute('width', 50)
-        element.setAttribute('height', 50)
-
-        let context = element.getContext("2d")
-        context.beginPath();
-        context.moveTo(10,40)
-        context.lineTo(25,10)
-        context.lineTo(40,40)
-        context.closePath()
-
-        context.lineWidth = 5;
-        context.strokeStyle = '#666666';
-        context.stroke()
-
-        context.fillStyle = "#FFCC00";
-        context.fill();
-
-        return element
+    constructor(className, width, height){
+        this.element = document.createElement('canvas')
+        this.element.setAttribute('width', width)
+        this.element.setAttribute('height', height)
+        this.element.className = className
     }
 
-    static line(width, height){
-        let element = document.createElement('canvas')
-        element.className = 'projectile'
-        element.setAttribute('width', width)
-        element.setAttribute('height', height)
-
-        let context = element.getContext("2d")
-        context.beginPath();
-        context.moveTo(width/2 ,0)
-        context.lineTo(width/2, height)
-
-        context.lineWidth = 1;
-        context.strokeStyle = '#666666';
-        context.stroke()
-
-        return element
+    set borderWidth(width){
+        this.canvas.lineWidth = width
     }
 
-    static circle(diameter){
+    set borderColor(color){
+        this.canvas.strokeStyle = color
+    }
 
-        let element = document.createElement('canvas')
-        element.className = 'enemyShape'
-        element.setAttribute('width', diameter * 1.1)
-        element.setAttribute('height', diameter * 1.1)
+    set fillColor(color){
+        this.canvas.fillStyle = color
+    }
 
-        let context = element.getContext("2d")
-        context.beginPath();
-        context.arc(diameter/2, diameter/2, diameter/2, 0, Math.PI * 2)
+    get canvas(){
+        return this.element.getContext('2d')
+    }
 
-        context.lineWidth = 5;
-        context.strokeStyle = '#666666';
-        context.stroke()
+    drawAndFill(){
+        this.canvas.stroke()
+        this.canvas.fill()
+    }
 
-        context.fillStyle = "#FF0000";
-        context.fill();
+    asElement(){
+        this.drawAndFill()
+        return this.element
+    }
 
-        return element
+
+    static equilateralTriangle(className, width, height){
+        
+        let shape = new Shape(className, width, height)
+
+        shape.canvas.beginPath();
+        shape.canvas.moveTo(10,40)
+        shape.canvas.lineTo(25,10)
+        shape.canvas.lineTo(40,40)
+        shape.canvas.closePath()
+
+        shape.borderWidth = 5;
+        shape.borderColor = '#666666';
+        shape.canvas.fillStyle = "#FFCC00";
+  
+
+        return shape.asElement()
+    }
+
+    static line(className, width, height){
+
+        let shape = new Shape(className, width, height)
+
+        shape.canvas.beginPath();
+        shape.canvas.moveTo(width/2 ,0)
+        shape.canvas.lineTo(width/2, height)
+
+        shape.borderWidth = 1;
+        shape.borderColor = '#666666';
+
+        return shape.asElement()
+    }
+
+    static circle(className, diameter){
+
+        let shape = new Shape(className, diameter, diameter)
+
+        shape.canvas.beginPath();
+        shape.canvas.arc(diameter/2, diameter/2, diameter/2*.8, 0, Math.PI * 2)
+
+        shape.borderWidth = 5;
+        shape.borderColor = '#666666';
+
+        shape.fillColor = "#FF0000";
+
+        return shape.asElement()
     }
 }

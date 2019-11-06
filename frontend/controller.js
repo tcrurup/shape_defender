@@ -105,7 +105,6 @@ class Controller{
         }
 
         for(let i = 0; i< this.allEnemies.length; i++){
-            console.log(this.allEnemies[i])
             let object = this.allEnemies[i]
             if(object.isDestroyed){
                 this.allEnemies = [...this.allEnemies.slice(0,i) , ...this.allEnemies.slice(i+1)]

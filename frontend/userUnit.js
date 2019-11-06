@@ -4,7 +4,7 @@ class UserUnit extends GameUnit{
     constructor(controller){
         super(controller)
 
-        this.element = Shape.equilateralTriangle()
+        this.element = Shape.equilateralTriangle('userShape', 50, 50)
         this.fireRate = 1;
         this.shotCooldownFrames = 0;
         this.x = 225;

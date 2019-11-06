@@ -2,8 +2,8 @@ class EnemyUnit extends GameUnit{
 
     constructor(controller){
         super(controller)
-        this.element = Shape.circle(30)
-        this.x = Math.floor(Math.random() * 225);
+        this.element = Shape.circle('enemyShape', 20)
+        this.x = Math.floor(Math.random() * 475);
         this.y = 0
 
         this.element.style.left = `${this.x}px`;
