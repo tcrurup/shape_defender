@@ -4,19 +4,11 @@ class GameUnit {
     
     constructor(game){
         this.game = game;
-        this.element = document.createElement('canvas')
+        this.isDestroyed = false;
     }
 
     get controller(){
         return this.game.controller
-    }
-
-    _createElement(){
-        
-    }
-
-    static equilateralTriangle(){
-
     }
 }
 
@@ -46,8 +38,7 @@ class UserUnit extends GameUnit{
 
     shoot(){
         if(this.shotCooldownFrames === 0){
-            let projectile = new Projectile(this.game)
-            projectile.fire()
+            let projectile = new Projectile(this.game, this.x, this.y)
             this.shotCooldownFrames = 30
         }        
     }

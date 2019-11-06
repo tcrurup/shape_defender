@@ -58,3 +58,7 @@ div.gameScreen {
 canvas.userShape {
     position: absolute;
 }
+
+canvas.projectile {
+    position: absolute;
+}

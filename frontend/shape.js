@@ -22,4 +22,22 @@ class Shape{
 
         return element
     }
+
+    static line(width, height){
+        let element = document.createElement('canvas')
+        element.className = 'projectile'
+        element.setAttribute('width', width)
+        element.setAttribute('height', height)
+
+        let context = element.getContext("2d")
+        context.beginPath();
+        context.moveTo(width/2 ,0)
+        context.lineTo(width/2, height)
+
+        context.lineWidth = 1;
+        context.strokeStyle = '#666666';
+        context.stroke()
+
+        return element
+    }
 }

@@ -76,7 +76,6 @@ class Controller{
     update(){
         this.userHUD.update()
         this.game.update()
-        this.draw()
     }
 
     start(){
