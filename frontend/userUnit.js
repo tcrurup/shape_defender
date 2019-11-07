@@ -1,20 +1,15 @@
 class UserUnit extends GameUnit{
 
     
-    constructor(controller){
-        super(controller)
+    constructor(controller, initX, initY){
+        super(controller, initX, initY)
 
         this.element = Shape.equilateralTriangle('userShape', 50, 50)
         this.fireRate = 1;
         this.shotCooldownFrames = 0;
-        this.x = 225;
-        this.y = 740;
     } 
     
-    get center(){
-        let width = this.element.width  
-        return this.x + (width / 2)        
-    }
+    
 
     shoot(){
         if(this.shotCooldownFrames === 0){
@@ -55,6 +50,12 @@ class UserUnit extends GameUnit{
         
         this.element.style.top = `${this.y}px`;
         this.element.style.left = `${this.x}px`;
+    }
+
+    draw(){
+        this.element.style.top = `${this.y}px`;
+        this.element.style.left = `${this.x}px`;
+        GAME_DISPLAY.appendChild(this.element)        
     }
 
 }

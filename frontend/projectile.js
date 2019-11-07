@@ -1,12 +1,10 @@
 class Projectile extends GameUnit{
 
-    constructor(game, initX, initY){
-        super(game)
-
+    constructor(controller, initX, initY){
+        super(controller)
         this.element = Shape.line('projectile', 2, 8)
         this.x = initX;
         this.y = initY;
-        this.isDestroyed = false;
         this.draw() 
     }
 

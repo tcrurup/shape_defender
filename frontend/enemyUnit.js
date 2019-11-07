@@ -2,7 +2,7 @@ class EnemyUnit extends GameUnit{
 
     constructor(controller){
         super(controller)
-        this.element = Shape.circle('enemyShape', 20)
+        this.element = Shape.circle('enemyShape', 40)
         this.x = Math.floor(Math.random() * 475);
         this.y = 0
 

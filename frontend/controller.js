@@ -13,8 +13,9 @@ class Controller{
         //Everything that you will see on display
         this.allProjectiles = [];
         this.allEnemies = []; 
-        this.userUnit = new UserUnit()
-        
+        this.userHUD = new userHUD(this)
+        this.userUnit = new UserUnit(this, 225, 700)
+        console.log(this.userUnit)
         this.pressedKeys = {
             'w': false,
             'a': false,
@@ -22,11 +23,16 @@ class Controller{
             'd': false,
             ' ': false
         }
-        this.userHUD = new userHUD(this)
+        
+        //Show the heads up display
         document.querySelector('div.userInputContainer').appendChild(this.userHUD.draw())
+
+        //Add event listeners
         document.querySelector('button#spawnTestEnemy').addEventListener('click', this.spawnEnemy.bind(this))
         this.addMovementListeners()
-        this.spawnUser(225, 740)
+
+        //Spawn in the user
+        this.userUnit.draw()
     }
 
     addMovementListeners(){
@@ -62,12 +68,12 @@ class Controller{
     }
 
     spawnProjectile(x, y){
-        let projectile = new Projectile(this.game, x, y)
+        let projectile = new Projectile(this, x, y)
         this.allProjectiles.push(projectile)        
     }
 
-    spawnUser(x, y){
-        this.userUnit = new UserUnit(this, x, y)
+    spawnUser(){
+        this.userUnit = new UserUnit(this)
         GAME_DISPLAY.appendChild(this.userUnit.element)
     }
 
@@ -90,8 +96,48 @@ class Controller{
         } 
     }
 
+    checkCollision(){
+        //Get all projectile x values as an array of [xmin, xmax]
+        let allProjectilesX = this.allProjectiles.map( projectile => { return projectile.xRange } )
+        let allProjectilesY = this.allProjectiles.map( projectile => { return projectile.yRange } )
+
+        //Get all enemy x values as an array of [xmin, xmax]
+        let allEnemyX = this.allEnemies.map( enemy => { return enemy.xRange } )
+        let allEnemyY = this.allEnemies.map( enemy => { return enemy.yRange } )
+        //Cycle through every projectile instead of enemies since there will be less at any given time
+        for(let i = 0; i< allProjectilesX.length; i++){
+            
+            let projX = allProjectilesX[i]
+
+
+            for(let j = 0; j< allEnemyX.length; j++){
+                
+                //If the the shapes x's overlap then go to next step and check y values
+                
+                let enemyX = allEnemyX[j]
+
+                if(projX[0] >= enemyX[0] && projX[1] <= enemyX[1]){
+
+                    let projY = allProjectilesY[i]
+                    let enemyY = allEnemyY[j]
+
+                    if( 
+                        (projY[0] >= enemyY[0] && projY[0] <= enemyY[1]) || 
+                        (projY[1] <= enemyY[0] && projY[1] >= enemyY[1]) 
+                    ){
+                        this.allEnemies[j].destroy()
+                        this.allProjectiles[i].destroy()
+                    }
+
+                }
+                
+            }
+        }
+    }
+
     update(){
         this.userHUD.update()
+
         this.userUnit.update(this.allPressedKeys())
         for(let i = 0; i< this.allProjectiles.length; i++){
             let object = this.allProjectiles[i]
@@ -109,6 +155,11 @@ class Controller{
             } else {
                 object.update()
             }
+        }
+
+        this.checkCollision()
+        if(this.allEnemies.length == 0){
+            this.spawnEnemy()
         }
     }
 

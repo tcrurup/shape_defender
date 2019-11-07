@@ -5,9 +5,6 @@ document.addEventListener("DOMContentLoaded", function(){
     addButtonListeners();
 });
 
-function allPressedKeys(){
-    
-}
 
 function addButtonListeners(){
     console.log("Adding button listeners")
@@ -17,6 +14,7 @@ function addButtonListeners(){
 function startGame(event){
     let controller = new Controller
     controller.start()
+    this.style.display = 'none';
 }
 
 function spawnTestEnemy(){
