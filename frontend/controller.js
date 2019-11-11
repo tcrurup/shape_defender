@@ -28,7 +28,6 @@ class Controller{
         document.querySelector('div.userInputContainer').appendChild(this.userHUD.draw())
 
         //Add event listeners
-        document.querySelector('button#spawnTestEnemy').addEventListener('click', this.spawnEnemy.bind(this))
         this.addMovementListeners()
 
         //Spawn in the user
@@ -125,8 +124,8 @@ class Controller{
                         (projY[0] >= enemyY[0] && projY[0] <= enemyY[1]) || 
                         (projY[1] <= enemyY[0] && projY[1] >= enemyY[1]) 
                     ){
-                        this.allEnemies[j].destroy()
-                        this.allProjectiles[i].destroy()
+                        this.allEnemies[j].isDestroyed = true
+                        this.allProjectiles[i].isDestroyed = true
                     }
 
                 }
@@ -140,29 +139,25 @@ class Controller{
         //Update the user display
         this.userHUD.update()
 
+        //Check for collision
+        this.checkCollision()
+
+        //Remove all DOM elements for objects marked for destruction
+        this.allEnemies.map( x => { if(x.isDestroyed === true){ x.destroy() } } )
+        this.allProjectiles.map( x => { if(x.isDestroyed === true){ x.destroy() } } )
+
+        this.allEnemies = this.allEnemies.filter( x => { return x.isDestroyed === false } )
+        this.allProjectiles = this.allProjectiles.filter( x => { return x.isDestroyed === false } )
+
         //Update the users shape based on input
         this.userUnit.update(this.allPressedKeys)
-        for(let i = 0; i< this.allProjectiles.length; i++){
-            let object = this.allProjectiles[i]
-            if(object.isDestroyed){
-                this.allProjectiles = [...this.allProjectiles.slice(0,i) , ...this.allProjectiles.slice(i+1)]
-            } else {
-                object.update()
-            }
-        }
 
-        //Move all the enmies on the board
-        for(let i = 0; i< this.allEnemies.length; i++){
-            let object = this.allEnemies[i]
-            if(object.isDestroyed){
-                this.allEnemies = [...this.allEnemies.slice(0,i) , ...this.allEnemies.slice(i+1)]
-            } else {
-                object.update()
-            }
-        }
+        //Update remaining projectiles and enemies
+        this.allEnemies.forEach( x => { x.update() } )
+        this.allProjectiles.forEach( x => { x.update() } )
 
         //Check if there is any collision between projectiles and enemy shapes
-        this.checkCollision()
+        
         if(this.allEnemies.length == 0){
             this.spawnEnemy()
         }

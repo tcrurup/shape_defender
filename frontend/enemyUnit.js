@@ -14,13 +14,12 @@ class EnemyUnit extends GameUnit{
         this.y += 5;
         this.element.style.top = `${this.y}px`;
         if(this.y > 800){
-            this.destroy()
+            this.isDestroyed = true
         }
     }
 
     destroy(){
         this.element.remove()
-        this.isDestroyed = true;
     }
 }
 
