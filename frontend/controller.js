@@ -50,7 +50,7 @@ class Controller{
         })
     }
 
-    allPressedKeys(){
+    get allPressedKeys(){
         
         let pressedInputs = []
         
@@ -141,7 +141,7 @@ class Controller{
         this.userHUD.update()
 
         //Update the users shape based on input
-        this.userUnit.update(this.allPressedKeys())
+        this.userUnit.update(this.allPressedKeys)
         for(let i = 0; i< this.allProjectiles.length; i++){
             let object = this.allProjectiles[i]
             if(object.isDestroyed){
