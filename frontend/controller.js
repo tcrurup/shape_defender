@@ -9,13 +9,11 @@ class Controller{
             this.createNewGame()
         }
 
-
         //Everything that you will see on display
         this.allProjectiles = [];
         this.allEnemies = []; 
         this.userHUD = new userHUD(this)
-        this.userUnit = new UserUnit(this, 225, 700)
-        console.log(this.userUnit)
+        this.userUnit = new UserUnit(225, 700)
         this.pressedKeys = {
             'w': false,
             'a': false,
@@ -32,6 +30,7 @@ class Controller{
 
         //Spawn in the user
         this.userUnit.draw()
+        this.spawnEnemy(new MediumEnemy(this))
     }
 
     addMovementListeners(){
@@ -76,10 +75,13 @@ class Controller{
         GAME_DISPLAY.appendChild(this.userUnit.element)
     }
 
-    spawnEnemy(){
-        let enemy = new EnemyUnit(this, 20, 'red')
+    spawnEnemy(enemy){
         this.allEnemies.push(enemy)
         GAME_DISPLAY.appendChild(this.allEnemies[(this.allEnemies.length - 1)].element)
+    }
+
+    shoot(){
+          
     }
 
 
@@ -90,7 +92,7 @@ class Controller{
     }
 
     isPressed(key){
-        if(['w','a','s','d'].includes(key)){
+        if(['w','a','s','d',' '].includes(key)){
             return this.pressedKeys[key]
         } 
     }
@@ -143,14 +145,31 @@ class Controller{
         this.checkCollision()
 
         //Remove all DOM elements for objects marked for destruction
-        this.allEnemies.map( x => { if(x.isDestroyed === true){ x.destroy() } } )
+        this.allEnemies.map( x => { 
+            if(x.isDestroyed === true){ 
+                let newEnemies = x.destroy()
+                if (newEnemies.length > 0){
+                    newEnemies.forEach( x => {
+                        this.spawnEnemy(x)
+                    });
+                } 
+            } 
+        })
+
         this.allProjectiles.map( x => { if(x.isDestroyed === true){ x.destroy() } } )
 
+        //Update the arrays the contain the projectile and enemy data to remove the objects marked destroyed
         this.allEnemies = this.allEnemies.filter( x => { return x.isDestroyed === false } )
         this.allProjectiles = this.allProjectiles.filter( x => { return x.isDestroyed === false } )
 
         //Update the users shape based on input
         this.userUnit.update(this.allPressedKeys)
+
+        //Shoot projectile
+        if(this.userUnit.shotCooldownFrames === 0 && this.isPressed(' ')){
+            this.spawnProjectile(this.userUnit.center, this.userUnit.y)
+            this.userUnit.shotCooldownFrames = 15
+        }      
 
         //Update remaining projectiles and enemies
         this.allEnemies.forEach( x => { x.update() } )

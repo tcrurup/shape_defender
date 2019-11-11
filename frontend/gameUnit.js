@@ -1,7 +1,6 @@
 class GameUnit {    
     
-    constructor(controller, initX, initY){
-        this.controller = controller
+    constructor(initX, initY){
         this.isDestroyed = false;
         this.x = initX;
         this.y = initY;

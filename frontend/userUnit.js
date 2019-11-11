@@ -1,8 +1,8 @@
 class UserUnit extends GameUnit{
 
     
-    constructor(controller, initX, initY){
-        super(controller, initX, initY)
+    constructor(initX, initY){
+        super(initX, initY)
 
         this.element = Shape.equilateralTriangle('userShape', 50, 50)
         this.fireRate = 1;
@@ -11,12 +11,7 @@ class UserUnit extends GameUnit{
     
     
 
-    shoot(){
-        if(this.shotCooldownFrames === 0){
-            this.controller.spawnProjectile(this.center, this.y)
-            this.shotCooldownFrames = 15
-        }        
-    }
+   
 
     update(inputs){
 
@@ -41,9 +36,6 @@ class UserUnit extends GameUnit{
                         this.x += 10
                         if(this.x > 455){ this.x = 455 }
                         break;   
-                    case ' ':
-                        this.shoot()
-                        break; 
                 }
             })
         }

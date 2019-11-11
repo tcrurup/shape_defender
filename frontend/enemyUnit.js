@@ -1,15 +1,11 @@
 class EnemyUnit extends GameUnit{
 
-    constructor(controller, size, color){
-        super(controller)
-
-        this.element = Shape.circle('enemyShape', size, color)
+    constructor(){
+        super()
         this.x = Math.floor(Math.random() * 475);
         this.y = 0
-        this.element.style.left = `${this.x}px`;
-        this.element.style.top = `${this.y}px`;
         this.xVel = 5;
-        this.yVel = 5;
+        this.yVel = 3;
     }
 
     update(){
@@ -29,6 +25,36 @@ class EnemyUnit extends GameUnit{
         this.element.remove()
     }
 }
+
+class SmallEnemy extends EnemyUnit{
+
+    constructor(){
+        super()
+        this.element = Shape.circle('enemyShape', 20, 'red')
+    }
+
+    destroy(){
+        this.element.remove()
+        return []
+    }
+
+}
+
+class MediumEnemy extends EnemyUnit{
+
+    constructor(){
+        super()
+        this.element = Shape.circle('enemyShape', 40, 'blue')
+    }
+
+    destroy(){
+        this.element.remove()
+        return [new SmallEnemy, new SmallEnemy]
+    }
+
+}
+
+
 
 
 
