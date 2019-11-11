@@ -1,11 +1,11 @@
 class EnemyUnit extends GameUnit{
 
-    constructor(controller){
+    constructor(controller, size, color){
         super(controller)
-        this.element = Shape.circle('enemyShape', 40)
+
+        this.element = Shape.circle('enemyShape', size, color)
         this.x = Math.floor(Math.random() * 475);
         this.y = 0
-
         this.element.style.left = `${this.x}px`;
         this.element.style.top = `${this.y}px`;
     }
@@ -23,3 +23,6 @@ class EnemyUnit extends GameUnit{
         this.isDestroyed = true;
     }
 }
+
+
+

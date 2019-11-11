@@ -78,7 +78,7 @@ class Controller{
     }
 
     spawnEnemy(){
-        let enemy = new EnemyUnit(this)
+        let enemy = new EnemyUnit(this, 20, 'red')
         this.allEnemies.push(enemy)
         GAME_DISPLAY.appendChild(this.allEnemies[(this.allEnemies.length - 1)].element)
     }
@@ -136,8 +136,11 @@ class Controller{
     }
 
     update(){
+
+        //Update the user display
         this.userHUD.update()
 
+        //Update the users shape based on input
         this.userUnit.update(this.allPressedKeys())
         for(let i = 0; i< this.allProjectiles.length; i++){
             let object = this.allProjectiles[i]
@@ -148,6 +151,7 @@ class Controller{
             }
         }
 
+        //Move all the enmies on the board
         for(let i = 0; i< this.allEnemies.length; i++){
             let object = this.allEnemies[i]
             if(object.isDestroyed){
@@ -157,6 +161,7 @@ class Controller{
             }
         }
 
+        //Check if there is any collision between projectiles and enemy shapes
         this.checkCollision()
         if(this.allEnemies.length == 0){
             this.spawnEnemy()

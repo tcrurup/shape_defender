@@ -66,7 +66,7 @@ class Shape{
         return shape.asElement()
     }
 
-    static circle(className, diameter){
+    static circle(className, diameter, color){
 
         let shape = new Shape(className, diameter, diameter)
 
@@ -76,7 +76,7 @@ class Shape{
         shape.borderWidth = 5;
         shape.borderColor = '#666666';
 
-        shape.fillColor = "#FF0000";
+        shape.fillColor = color;
 
         return shape.asElement()
     }
