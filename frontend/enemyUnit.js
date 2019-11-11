@@ -31,6 +31,7 @@ class SmallEnemy extends EnemyUnit{
     constructor(){
         super()
         this.element = Shape.circle('enemyShape', 20, 'red')
+        return this
     }
 
     destroy(){
@@ -45,6 +46,7 @@ class MediumEnemy extends EnemyUnit{
     constructor(){
         super()
         this.element = Shape.circle('enemyShape', 40, 'blue')
+        return this
     }
 
     destroy(){

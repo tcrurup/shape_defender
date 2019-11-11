@@ -29,9 +29,8 @@ class Controller{
         //Add event listeners
         this.addMovementListeners()
 
-        //Spawn in the user
-        this.userUnit.draw()
-        this.spawnEnemy(new MediumEnemy(this))
+        //Add on the board
+        this.draw()
     }
 
     addMovementListeners(){
@@ -61,20 +60,18 @@ class Controller{
 
         return pressedInputs
     }
+    
 
     spawnProjectile(x, y){
         let projectile = new Projectile(x, y)
+        this.display.appendChild(projectile.element)
         this.allProjectiles.push(projectile)        
     }
 
-    spawnUser(){
-        this.userUnit = new UserUnit(this)
-        GAME_DISPLAY.appendChild(this.userUnit.element)
-    }
-
     spawnEnemy(enemy){
+        console.log(enemy)
         this.allEnemies.push(enemy)
-        GAME_DISPLAY.appendChild(this.allEnemies[(this.allEnemies.length - 1)].element)
+        this.display.appendChild(this.allEnemies[(this.allEnemies.length - 1)].element)
     }
 
     onKeyDown(keyPressed){
@@ -87,6 +84,10 @@ class Controller{
         if(['w','a','s','d',' '].includes(key)){
             return this.pressedKeys[key]
         } 
+    }
+
+    draw(){
+        this.display.appendChild(this.userUnit.element)
     }
 
     checkCollision(){
@@ -130,6 +131,10 @@ class Controller{
 
     update(){
 
+        if(this.allEnemies.length === 0){
+            console.log('spawning new')
+            this.spawnEnemy(new MediumEnemy())
+        }
         //Update the user display
         this.userHUD.update()
 
@@ -168,10 +173,6 @@ class Controller{
         this.allProjectiles.forEach( x => { x.update() } )
 
         //Check if there is any collision between projectiles and enemy shapes
-        
-        if(this.allEnemies.length == 0){
-            this.spawnEnemy()
-        }
     }
 
     start(){

@@ -7,6 +7,7 @@ class UserUnit extends GameUnit{
         this.element = Shape.equilateralTriangle('userShape', 50, 50)
         this.fireRate = 1;
         this.shotCooldownFrames = 0;
+        return this;
     } 
 
     update(inputs){
@@ -42,8 +43,7 @@ class UserUnit extends GameUnit{
 
     draw(){
         this.element.style.top = `${this.y}px`;
-        this.element.style.left = `${this.x}px`;
-        GAME_DISPLAY.appendChild(this.element)        
+        this.element.style.left = `${this.x}px`;    
     }
 
 }

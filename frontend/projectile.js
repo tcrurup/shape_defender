@@ -5,7 +5,8 @@ class Projectile extends GameUnit{
         this.element = Shape.line('projectile', 2, 8)
         this.x = initX;
         this.y = initY;
-        this.draw() 
+        this.draw()
+        return this 
     }
 
     update(){
@@ -18,8 +19,7 @@ class Projectile extends GameUnit{
 
     draw(){
         this.element.style.top = `${this.y}px`;
-        this.element.style.left = `${this.x}px`;
-        GAME_DISPLAY.appendChild(this.element)        
+        this.element.style.left = `${this.x}px`;     
     }
 
     destroy(){
