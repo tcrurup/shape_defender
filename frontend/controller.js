@@ -63,7 +63,7 @@ class Controller{
     }
 
     spawnProjectile(x, y){
-        let projectile = new Projectile(this, x, y)
+        let projectile = new Projectile(x, y)
         this.allProjectiles.push(projectile)        
     }
 

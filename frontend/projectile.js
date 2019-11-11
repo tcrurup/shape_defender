@@ -1,7 +1,7 @@
 class Projectile extends GameUnit{
 
-    constructor(controller, initX, initY){
-        super(controller)
+    constructor(initX, initY){
+        super()
         this.element = Shape.line('projectile', 2, 8)
         this.x = initX;
         this.y = initY;
