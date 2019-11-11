@@ -8,10 +8,6 @@ class UserUnit extends GameUnit{
         this.fireRate = 1;
         this.shotCooldownFrames = 0;
     } 
-    
-    
-
-   
 
     update(inputs){
 

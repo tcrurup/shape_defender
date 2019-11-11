@@ -6,12 +6,13 @@ class Controller{
         if(Object.keys(game).length > 0){
             this.game = game
         } else {
-            this.createNewGame()
+            this.game = new Game(this)
         }
 
         //Everything that you will see on display
         this.allProjectiles = [];
         this.allEnemies = []; 
+        this.display = document.querySelector('div.gameScreen');
         this.userHUD = new userHUD(this)
         this.userUnit = new UserUnit(225, 700)
         this.pressedKeys = {
@@ -61,10 +62,6 @@ class Controller{
         return pressedInputs
     }
 
-    createNewGame(){
-        this.game = new Game(this)
-    }
-
     spawnProjectile(x, y){
         let projectile = new Projectile(this, x, y)
         this.allProjectiles.push(projectile)        
@@ -79,11 +76,6 @@ class Controller{
         this.allEnemies.push(enemy)
         GAME_DISPLAY.appendChild(this.allEnemies[(this.allEnemies.length - 1)].element)
     }
-
-    shoot(){
-          
-    }
-
 
     onKeyDown(keyPressed){
         if(['w','a','s','d'].includes(e.key)){

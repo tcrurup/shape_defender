@@ -1,4 +1,4 @@
-const GAME_DISPLAY = document.querySelector('div.gameScreen');
+const GAME_DISPLAY = 
 
 document.addEventListener("DOMContentLoaded", function(){
     console.log("DOM Loaded")
