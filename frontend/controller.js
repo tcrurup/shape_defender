@@ -25,27 +25,29 @@ class Controller{
         }        
 
         //Add event listeners
-        this.addMovementListeners()
+        this.addInputListeners()
 
         //Add on the board
         this.draw()
     }
 
-    addMovementListeners(){
+    addInputListeners(){
 
         document.addEventListener('keydown', e => {
-            if(['w','a','s','d',' '].includes(e.key)){
-                this.pressedKeys[e.key] = true;
-            } 
-        })
+            if(this.inputIsValid(e.key)){ 
+                this.pressedKeys[e.key] = true 
+            }
+        });
 
         document.addEventListener('keyup', e => {
-            if(['w','a','s','d',' '].includes(e.key)){
-                this.pressedKeys[e.key] = false;
-            } else if(e.key === 'p'){
-                this.togglePause()
+            if(this.inputIsValid(e.key)){
+                if(e.key === 'p'){
+                    this.togglePause()
+                } else {
+                    this.pressedKeys[e.key] = false
+                }
             }
-        })
+        });
     }
 
     get allPressedKeys(){
@@ -69,15 +71,8 @@ class Controller{
     }
 
     spawnEnemy(enemy){
-        console.log(enemy)
         this.allEnemies.push(enemy)
         this.display.appendChild(this.allEnemies[(this.allEnemies.length - 1)].element)
-    }
-
-    onKeyDown(keyPressed){
-        if(['w','a','s','d'].includes(e.key)){
-            this.pressedKeys[e.key] = true
-        }
     }
 
     isPressed(key){
@@ -224,6 +219,14 @@ class Controller{
             clearInterval(this.loop)
             this.showMenu()
         }
+    }
+
+    inputIsValid(input){
+        return Controller.validInputs.includes(input)
+    }
+
+    static get validInputs(){
+        return ['w','a','s','d',' ', 'p']
     }
 
 }
