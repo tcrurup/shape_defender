@@ -13,6 +13,7 @@ class Controller{
         this.allProjectiles = [];
         this.allEnemies = []; 
         this.display = document.querySelector('div.gameScreen');
+        this.isPaused = false;
         this.userHUD = new userHUD(this)
         this.userUnit = new UserUnit(225, 700)
         this.pressedKeys = {
@@ -38,12 +39,14 @@ class Controller{
         document.addEventListener('keydown', e => {
             if(['w','a','s','d',' '].includes(e.key)){
                 this.pressedKeys[e.key] = true;
-            }
+            } 
         })
 
         document.addEventListener('keyup', e => {
             if(['w','a','s','d',' '].includes(e.key)){
                 this.pressedKeys[e.key] = false;
+            } else if(e.key === 'p'){
+                this.togglePause()
             }
         })
     }
@@ -190,8 +193,14 @@ class Controller{
         this.loop = setInterval(this.update.bind(this), 16)
     }
 
-    pause(){
-        clearInterval(this.loop)
+    togglePause(){
+        if(this.isPaused){
+            this.isPaused = false;
+            this.start()
+        } else {
+            this.isPaused = true;
+            clearInterval(this.loop)
+        }
     }
 
 }
