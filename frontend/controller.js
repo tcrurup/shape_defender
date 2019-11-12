@@ -22,10 +22,7 @@ class Controller{
             's': false,
             'd': false,
             ' ': false
-        }
-        
-        //Show the heads up display
-        document.querySelector('div.userInputContainer').appendChild(this.userHUD.draw())
+        }        
 
         //Add event listeners
         this.addMovementListeners()
@@ -91,6 +88,7 @@ class Controller{
 
     draw(){
         this.display.appendChild(this.userUnit.element)
+        document.querySelector('div.userInputContainer').appendChild(this.userHUD.draw())
     }
 
     checkCollision(){
@@ -143,7 +141,13 @@ class Controller{
         })
     }
 
+    showMenu(){
+        this.isPaused = true;
+        
+    }
+
     update(){
+
         if(this.userUnit.isDestroyed){
             this.pause()
             console.log(allEnemies)
