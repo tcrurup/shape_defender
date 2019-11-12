@@ -10,6 +10,10 @@ class UserUnit extends GameUnit{
         return this;
     } 
 
+    intersectOnY(enemy){
+       
+    }
+
     update(inputs){
 
         //Reduce the cooldown on the weapon every fram by the fire rate

@@ -12,11 +12,27 @@ class GameUnit {
     }
 
     get xRange(){
-        return [this.x, (this.x + this.element.width)]
+        return [this.left, this.right]
     }
 
     get yRange(){
-        return [(this.y - this.element.height), this.y]
+        return [this.top, this.bottom]
+    }
+
+    get top(){
+        return this.y
+    }
+
+    get bottom(){
+        return this.y + this.element.height
+    }
+
+    get left(){
+        return this.x
+    }
+
+    get right(){
+        return this.x + this.element.width
     }
 
 }

@@ -91,19 +91,24 @@ class Controller{
     }
 
     checkCollision(){
-        //Get all projectile x values as an array of [xmin, xmax]
+        //Get all projectile x and y values as an array of [xmin, xmax]
         let allProjectilesX = this.allProjectiles.map( projectile => { return projectile.xRange } )
         let allProjectilesY = this.allProjectiles.map( projectile => { return projectile.yRange } )
 
-        //Get all enemy x values as an array of [xmin, xmax]
+        //Get all enemy x and y values as an array of [xmin, xmax]
         let allEnemyX = this.allEnemies.map( enemy => { return enemy.xRange } )
         let allEnemyY = this.allEnemies.map( enemy => { return enemy.yRange } )
+
+        //Get all user x and y values as an array of [xmin, xmax]
+        let userX = this.userUnit.xRange
+        let userY = this.userUnit.yRange
+
         //Cycle through every projectile instead of enemies since there will be less at any given time
         for(let i = 0; i< allProjectilesX.length; i++){
             
             let projX = allProjectilesX[i]
 
-
+            //Check if projectiles are colliding with enemy unit
             for(let j = 0; j< allEnemyX.length; j++){
                 
                 //If the the shapes x's overlap then go to next step and check y values
@@ -126,7 +131,9 @@ class Controller{
                 }
                 
             }
+
         }
+        this.allEnemies.filter( enemy => { return this.userUnit.intersectOnY(enemy) } )
     }
 
     update(){
