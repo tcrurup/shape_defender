@@ -54,6 +54,18 @@ class Controller{
         return pressedInputs
     }
 
+    get controlBox(){
+        return document.querySelector('div.controlBox')
+    }
+
+    get gameDisplay(){
+        return document.querySelector('div.gameScreen');
+    }
+
+    get loginMenu(){
+        return document.querySelector('div.login');
+    }
+
     //********************SETTERS********************
 
     //********************FUNCTIONS********************
@@ -131,8 +143,27 @@ class Controller{
         this.allProjectiles = this.allProjectiles.filter( x => { return x.isDestroyed === false } )
     }
 
+    hideControlBox(){
+        this.controlBox.style.display = 'none'
+    }
+
+    hideGameDisplay(){
+        this.gameDisplay.style.display = 'none'
+    }
+
+    hideLogin(){
+        this.loginMenu.style.display = 'none'
+    }
+
     hideMenu(){
         document.querySelector('div.gameMenu').style.display = 'none'
+    }
+
+    initialize(){
+        this.hideGameDisplay();
+        this.hideMenu();
+        this.hideControlBox();
+        this.showLogin();
     }
 
     inputIsValid(input){
@@ -178,6 +209,18 @@ class Controller{
         this.allProjectiles = [];
         this.draw()              
         this.unpause();        
+    }
+
+    showControlBox(){
+        this.controlBox.style.display = 'flex'
+    }
+
+    showGameDisplay(){
+        this.gameDisplay.style.display = 'flex'
+    }
+
+    showLogin(){
+        this.loginMenu.style.display = 'flex'
     }
 
     showMenu(){
