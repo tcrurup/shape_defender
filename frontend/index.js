@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", function(){
     addButtonListeners();
+    createController();
 });
 
 function createController(){
@@ -8,7 +9,7 @@ function createController(){
 }
 
 function addButtonListeners(){
-    document.querySelector('button#startGame').addEventListener('click', createController)
+    
 }
 
 

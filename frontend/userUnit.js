@@ -55,4 +55,8 @@ class UserUnit extends GameUnit{
         this.element.style.left = `${this.x}px`;    
     }
 
+    shoot(){
+        
+    }
+
 }

@@ -27,6 +27,9 @@ class Controller{
         //Add event listeners
         this.addInputListeners()
 
+        document.querySelector('div.userInputContainer').appendChild(this.userHUD.draw())
+        document.querySelector('button#startGame').addEventListener('click', this.restartLevel.bind(this))
+
         //Add on the board
         this.draw()
     }
@@ -82,8 +85,19 @@ class Controller{
     }
 
     draw(){
+        //Clear the display first of any other elements
+        this.display.querySelectorAll('canvas').forEach( x => {
+            x.parentNode.removeChild(x)
+        })
         this.display.appendChild(this.userUnit.element)
-        document.querySelector('div.userInputContainer').appendChild(this.userHUD.draw())
+    }
+
+    restartLevel(){
+        this.userUnit.isDestroyed = false;
+        this.allEnemies = [];
+        this.allProjectiles = [];
+        this.draw()              
+        this.unpause();        
     }
 
     checkCollision(){
@@ -203,6 +217,11 @@ class Controller{
     pause(){
         clearInterval(this.loop)
         this.showMenu();
+    }
+
+    unpause(){
+        this.hideMenu();
+        this.loop = setInterval(this.update.bind(this), 16)
     }
 
     start(){
