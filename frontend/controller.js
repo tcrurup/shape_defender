@@ -84,8 +84,36 @@ class Controller{
         this.appendToDisplay(this.userUnit.element)
     }
 
+    deleteDestroyedObjects(){
+        this.allEnemies = this.allEnemies.filter( x => { return x.isDestroyed === false } )
+        this.allProjectiles = this.allProjectiles.filter( x => { return x.isDestroyed === false } )
+    }
+
     isPressed(key){
         return this.allPressedKeys.includes(key)
+    }
+
+    removeDestroyedElementsFromDOM(){
+        this.removeDestroyedEnemiesFromDOM();
+        this.removeDestroyedProjectilesFromDOM();
+    }
+
+    removeDestroyedEnemiesFromDOM(){
+        this.allEnemies.filter( enemy => {
+            return enemy.isDestroyed
+        }).forEach( destroyedEnemy => {
+            destroyedEnemy.destroy().forEach( newEnemy => {
+                this.spawnEnemy(newEnemy)
+            })
+        })
+    }
+
+    removeDestroyedProjectilesFromDOM(){
+        this.allProjectiles.forEach( projectile => { 
+            if(projectile.isDestroyed === true){ 
+                projectile.destroy() 
+            } 
+        })
     }
 
     restartLevel(){
@@ -122,6 +150,7 @@ class Controller{
                     }
                 )
 
+                //If there is a hit mark both the enemy and projectile for destruction
                 if(hitEnemies.length > 0){
                     projectile.isDestroyed = true;
                     hitEnemies.forEach( enemy => { enemy.isDestroyed = true })
@@ -147,35 +176,19 @@ class Controller{
     update(){
 
         if(this.userUnit.isDestroyed){
+            this.clearDisplay()
             this.pause()
-        } else {
+        } 
+        else {
+            
             if(this.allEnemies.length === 0){
-                console.log('spawning new')
                 this.spawnEnemy(new MediumEnemy())
             }
-            //Update the user display
+
             this.userHUD.update()
-
-            //Check for collision
             this.checkCollision()
-
-            //Remove all DOM elements for objects marked for destruction
-            this.allEnemies.map( x => { 
-                if(x.isDestroyed === true){ 
-                    let newEnemies = x.destroy()
-                    if (newEnemies.length > 0){
-                        newEnemies.forEach( x => {
-                            this.spawnEnemy(x)
-                        });
-                    } 
-                } 
-            })
-
-            this.allProjectiles.map( x => { if(x.isDestroyed === true){ x.destroy() } } )
-
-            //Update the arrays the contain the projectile and enemy data to remove the objects marked destroyed
-            this.allEnemies = this.allEnemies.filter( x => { return x.isDestroyed === false } )
-            this.allProjectiles = this.allProjectiles.filter( x => { return x.isDestroyed === false } )
+            this.removeDestroyedElementsFromDOM()  
+            this.deleteDestroyedObjects()            
 
             this.allEnemies.filter( x => { return x.atBottom === true } ).forEach( enemy => {
                 enemy.y = 0;
