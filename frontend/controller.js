@@ -34,6 +34,22 @@ class Controller{
         this.draw()
     }
 
+    //GETTERS
+
+    get allPressedKeys(){
+        let pressedInputs = []
+
+        Object.keys(this.pressedKeys).forEach( key => {
+            if(this.pressedKeys[key] == true){
+                pressedInputs.push(key)
+            }
+        });
+
+        return pressedInputs
+    }
+
+    //SETTERS
+
     addInputListeners(){
 
         document.addEventListener('keydown', e => {
@@ -53,43 +69,23 @@ class Controller{
         });
     }
 
-    get allPressedKeys(){
-        
-        let pressedInputs = []
-        
-        Object.keys(this.pressedKeys).forEach( key => {
-            if(this.pressedKeys[key] == true){
-                pressedInputs.push(key)
-            }
-        });
-
-        return pressedInputs
+    appendToDisplay(element){
+        this.display.appendChild(element)
     }
     
-
-    spawnProjectile(x, y){
-        let projectile = new Projectile(x, y)
-        this.display.appendChild(projectile.element)
-        this.allProjectiles.push(projectile)        
-    }
-
-    spawnEnemy(enemy){
-        this.allEnemies.push(enemy)
-        this.display.appendChild(this.allEnemies[(this.allEnemies.length - 1)].element)
-    }
-
-    isPressed(key){
-        if(['w','a','s','d',' '].includes(key)){
-            return this.pressedKeys[key]
-        } 
-    }
-
-    draw(){
-        //Clear the display first of any other elements
+    clearDisplay(){
         this.display.querySelectorAll('canvas').forEach( x => {
             x.parentNode.removeChild(x)
         })
-        this.display.appendChild(this.userUnit.element)
+    }
+
+    draw(){
+        this.clearDisplay()
+        this.appendToDisplay(this.userUnit.element)
+    }
+
+    isPressed(key){
+        return this.allPressedKeys.includes(key)
     }
 
     restartLevel(){
@@ -99,8 +95,31 @@ class Controller{
         this.draw()              
         this.unpause();        
     }
+    
+    spawnEnemy(enemy){
+        this.allEnemies.push(enemy)
+        this.appendToDisplay(enemy.element)
+    }
+
+    spawnProjectile(x, y){
+        let projectile = new Projectile(x, y)
+        this.appendToDisplay(projectile.element)
+        this.allProjectiles.push(projectile)        
+    }
+
+    
+
+    
+
+    
+
+    
+
+    
 
     checkCollision(){
+
+        
         //Get all projectile x and y values as an array of [xmin, xmax]
         let allProjectilesX = this.allProjectiles.map( projectile => { return projectile.xRange } )
         let allProjectilesY = this.allProjectiles.map( projectile => { return projectile.yRange } )
