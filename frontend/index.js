@@ -1,20 +1,14 @@
-
-
 document.addEventListener("DOMContentLoaded", function(){
-    console.log("DOM Loaded")
     addButtonListeners();
 });
 
-
-function addButtonListeners(){
-    console.log("Adding button listeners")
-    document.querySelector('button#startGame').addEventListener('click', startGame)
-}
-
-function startGame(event){
+function createController(){
     let controller = new Controller
     controller.start()
-    this.style.display = 'none';
+}
+
+function addButtonListeners(){
+    document.querySelector('button#startGame').addEventListener('click', createController)
 }
 
 

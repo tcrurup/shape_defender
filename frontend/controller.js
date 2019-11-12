@@ -141,16 +141,18 @@ class Controller{
         })
     }
 
+    hideMenu(){
+        document.querySelector('div.gameMenu').style.display = 'none'
+    }
+
     showMenu(){
-        this.isPaused = true;
-        
+        document.querySelector('div.gameMenu').style.display = 'flex'
     }
 
     update(){
 
         if(this.userUnit.isDestroyed){
             this.pause()
-            console.log(allEnemies)
         } else {
             if(this.allEnemies.length === 0){
                 console.log('spawning new')
@@ -203,7 +205,13 @@ class Controller{
         }
     }
 
+    pause(){
+        clearInterval(this.loop)
+        this.showMenu();
+    }
+
     start(){
+        this.hideMenu();
         this.loop = setInterval(this.update.bind(this), 16)
     }
 
@@ -213,8 +221,8 @@ class Controller{
             this.start()
         } else {
             this.isPaused = true;
-            console.log(this.allEnemies)
             clearInterval(this.loop)
+            this.showMenu()
         }
     }
 
