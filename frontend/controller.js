@@ -69,7 +69,6 @@ class Controller{
     }
 
     spawnEnemy(enemy){
-        console.log(enemy)
         this.allEnemies.push(enemy)
         this.display.appendChild(this.allEnemies[(this.allEnemies.length - 1)].element)
     }
@@ -141,53 +140,58 @@ class Controller{
     }
 
     update(){
+        if(this.userUnit.isDestroyed){
+            this.pause()
+        } else {
+            if(this.allEnemies.length === 0){
+                console.log('spawning new')
+                this.spawnEnemy(new MediumEnemy())
+            }
+            //Update the user display
+            this.userHUD.update()
 
-        if(this.allEnemies.length === 0){
-            console.log('spawning new')
-            this.spawnEnemy(new MediumEnemy())
-        }
-        //Update the user display
-        this.userHUD.update()
+            //Check for collision
+            this.checkCollision()
 
-        //Check for collision
-        this.checkCollision()
-
-        //Remove all DOM elements for objects marked for destruction
-        this.allEnemies.map( x => { 
-            if(x.isDestroyed === true){ 
-                let newEnemies = x.destroy()
-                if (newEnemies.length > 0){
-                    newEnemies.forEach( x => {
-                        this.spawnEnemy(x)
-                    });
+            //Remove all DOM elements for objects marked for destruction
+            this.allEnemies.map( x => { 
+                if(x.isDestroyed === true){ 
+                    let newEnemies = x.destroy()
+                    if (newEnemies.length > 0){
+                        newEnemies.forEach( x => {
+                            this.spawnEnemy(x)
+                        });
+                    } 
                 } 
-            } 
-        })
+            })
 
-        this.allProjectiles.map( x => { if(x.isDestroyed === true){ x.destroy() } } )
+            this.allProjectiles.map( x => { if(x.isDestroyed === true){ x.destroy() } } )
 
-        //Update the arrays the contain the projectile and enemy data to remove the objects marked destroyed
-        this.allEnemies = this.allEnemies.filter( x => { return x.isDestroyed === false } )
-        this.allProjectiles = this.allProjectiles.filter( x => { return x.isDestroyed === false } )
+            //Update the arrays the contain the projectile and enemy data to remove the objects marked destroyed
+            this.allEnemies = this.allEnemies.filter( x => { return x.isDestroyed === false } )
+            this.allProjectiles = this.allProjectiles.filter( x => { return x.isDestroyed === false } )
 
-        //Update the users shape based on input
-        this.userUnit.update(this.allPressedKeys)
+            //Update the users shape based on input
+            this.userUnit.update(this.allPressedKeys)
 
-        //Shoot projectile
-        if(this.userUnit.shotCooldownFrames === 0 && this.isPressed(' ')){
-            this.spawnProjectile(this.userUnit.center, this.userUnit.y)
-            this.userUnit.shotCooldownFrames = 15
-        }      
+            //Shoot projectile
+            if(this.userUnit.shotCooldownFrames === 0 && this.isPressed(' ')){
+                this.spawnProjectile(this.userUnit.center, this.userUnit.y)
+                this.userUnit.shotCooldownFrames = 15
+            }      
 
-        //Update remaining projectiles and enemies
-        this.allEnemies.forEach( x => { x.update() } )
-        this.allProjectiles.forEach( x => { x.update() } )
-
-        //Check if there is any collision between projectiles and enemy shapes
+            //Update remaining projectiles and enemies
+            this.allEnemies.forEach( x => { x.update() } )
+            this.allProjectiles.forEach( x => { x.update() } )
+        }
     }
 
     start(){
-        setInterval(this.update.bind(this), 16)
+        this.loop = setInterval(this.update.bind(this), 16)
+    }
+
+    pause(){
+        clearInterval(this.loop)
     }
 
 }

@@ -1,10 +1,10 @@
 class EnemyUnit extends GameUnit{
 
-    constructor(){
+    constructor(initX = Math.floor(Math.random() * 475), initY = 0, xVel=5){
         super()
-        this.x = Math.floor(Math.random() * 475);
-        this.y = 0
-        this.xVel = 5;
+        this.x = initX;
+        this.y = initY;
+        this.xVel = xVel;
         this.yVel = 3;
     }
 
@@ -28,8 +28,8 @@ class EnemyUnit extends GameUnit{
 
 class SmallEnemy extends EnemyUnit{
 
-    constructor(){
-        super()
+    constructor(initX, initY, xVel){
+        super(initX, initY, xVel)
         this.element = Shape.circle('enemyShape', 20, 'red')
         return this
     }
@@ -43,15 +43,15 @@ class SmallEnemy extends EnemyUnit{
 
 class MediumEnemy extends EnemyUnit{
 
-    constructor(){
-        super()
+    constructor(initX, initY, xVel){
+        super(initX, initY, xVel)
         this.element = Shape.circle('enemyShape', 40, 'blue')
         return this
     }
 
     destroy(){
         this.element.remove()
-        return [new SmallEnemy, new SmallEnemy]
+        return [new SmallEnemy(this.left, this.top, this.xVel), new SmallEnemy(this.right, this.top, this.xVel*-1)]
     }
 
 }

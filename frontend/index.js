@@ -1,4 +1,4 @@
-const GAME_DISPLAY = 
+
 
 document.addEventListener("DOMContentLoaded", function(){
     console.log("DOM Loaded")
@@ -17,9 +17,6 @@ function startGame(event){
     this.style.display = 'none';
 }
 
-function spawnTestEnemy(){
-    console.log('spawning enemy')
-}
 
 
 
