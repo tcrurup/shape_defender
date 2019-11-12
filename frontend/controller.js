@@ -22,7 +22,8 @@ class Controller{
             's': false,
             'd': false,
             ' ': false
-        }        
+        } 
+        this.spawnCooldown = 0;       
 
         //Add event listeners
         this.addInputListeners()
@@ -171,6 +172,7 @@ class Controller{
 
     restartLevel(){
         this.userUnit.isDestroyed = false;
+        this.game.resetCurrentSeed();
         this.allEnemies = [];
         this.allProjectiles = [];
         this.draw()              
@@ -219,22 +221,41 @@ class Controller{
             this.pause()
         } 
         else {            
-            if(this.allEnemies.length === 0){
-                this.spawnEnemy(new MediumEnemy())
-            }
-
             this.userHUD.update()
             this.checkCollision()
             this.removeDestroyedElementsFromDOM()  
             this.deleteDestroyedObjects()   
             this.cycleEnemiesAtBottom()
-            this.updateAllObjects();     
+            this.updateAllObjects();
+            this.updateSpawner();     
         }
     }
 
     updateAllObjects(){
         this.userUnit.update(this.allPressedKeys)
         this.allObjects.forEach( object => { object.update() } )     
+    }
+
+    updateSpawner(){
+        if(this.spawnCooldown > 0){ 
+            this.spawnCooldown-- 
+        }
+        else if(this.spawnCooldown === 0 && this.game.currentSeed.length > 0){
+            let enemy;
+            switch(this.game.currentSeed.pop()){
+                case 3:
+                    enemy = new LargeEnemy();
+                    break;
+                case 2:
+                    enemy = new MediumEnemy();
+                    break;
+                case 1:
+                    enemy = new SmallEnemy();
+                    break;                     
+            }
+            this.spawnEnemy(enemy)
+            this.spawnCooldown = this.game.spawnDelay * 60;
+        }        
     }
 
     //********************STATIC FUNCTIONS********************
