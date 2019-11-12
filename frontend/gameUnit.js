@@ -6,6 +6,14 @@ class GameUnit {
         this.y = initY;
     }
 
+    intersectOnY(target){
+        return (this.top > target.top && this.top < target.bottom) || (this.bottom > target.top && this.bottom < target.bottom) 
+    }
+
+    intersectOnX(target){
+        return (this.left > target.left && this.left < target.right) || (this.right > target.left && this.right < target.right)
+    }
+
     get center(){
         let width = this.element.width  
         return this.x + (width / 2)        

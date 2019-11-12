@@ -107,61 +107,28 @@ class Controller{
         this.allProjectiles.push(projectile)        
     }
 
-    
-
-    
-
-    
-
-    
-
-    
-
     checkCollision(){
 
-        
-        //Get all projectile x and y values as an array of [xmin, xmax]
-        let allProjectilesX = this.allProjectiles.map( projectile => { return projectile.xRange } )
-        let allProjectilesY = this.allProjectiles.map( projectile => { return projectile.yRange } )
-
-        //Get all enemy x and y values as an array of [xmin, xmax]
-        let allEnemyX = this.allEnemies.map( enemy => { return enemy.xRange } )
-        let allEnemyY = this.allEnemies.map( enemy => { return enemy.yRange } )
-
-        //Get all user x and y values as an array of [xmin, xmax]
-        let userX = this.userUnit.xRange
-        let userY = this.userUnit.yRange
-
-        //Cycle through every projectile instead of enemies since there will be less at any given time
-        for(let i = 0; i< allProjectilesX.length; i++){
-            
-            let projX = allProjectilesX[i]
-
-            //Check if projectiles are colliding with enemy unit
-            for(let j = 0; j< allEnemyX.length; j++){
+        //Check projectile collision against enemies
+        this.allProjectiles.forEach( projectile => {
                 
-                //If the the shapes x's overlap then go to next step and check y values
-                
-                let enemyX = allEnemyX[j]
-
-                if(projX[0] >= enemyX[0] && projX[1] <= enemyX[1]){
-
-                    let projY = allProjectilesY[i]
-                    let enemyY = allEnemyY[j]
-
-                    if( 
-                        (projY[0] >= enemyY[0] && projY[0] <= enemyY[1]) || 
-                        (projY[1] <= enemyY[0] && projY[1] >= enemyY[1]) 
-                    ){
-                        this.allEnemies[j].isDestroyed = true
-                        this.allProjectiles[i].isDestroyed = true
+                let hitEnemies = this.allEnemies.filter( 
+                    enemy => {
+                        return projectile.intersectOnX(enemy)
                     }
+                ).filter( 
+                    enemyOnIntersect => {
+                        return projectile.intersectOnY(enemyOnIntersect)
+                    }
+                )
 
+                if(hitEnemies.length > 0){
+                    projectile.isDestroyed = true;
+                    hitEnemies.forEach( enemy => { enemy.isDestroyed = true })
                 }
-                
-            }
+        })
 
-        }
+        //Check enemy collision against the main player
         this.allEnemies.filter( enemy => { return this.userUnit.intersectOnY(enemy) } ).forEach( enemy => {
             if (this.userUnit.intersectOnX(enemy)){
                 this.userUnit.isDestroyed = true;

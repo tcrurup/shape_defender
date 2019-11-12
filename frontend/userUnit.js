@@ -11,14 +11,6 @@ class UserUnit extends GameUnit{
         return this;
     } 
 
-    intersectOnY(enemy){
-        return (this.top > enemy.top && this.top < enemy.bottom) || (this.bottom > enemy.top && this.bottom < enemy.bottom) 
-    }
-
-    intersectOnX(enemy){
-        return (this.left > enemy.left && this.left < enemy.right) || (this.right > enemy.left && this.right < enemy.right)
-    }
-
     update(inputs){
 
         //Reduce the cooldown on the weapon every fram by the fire rate
