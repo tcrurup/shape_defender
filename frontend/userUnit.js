@@ -36,10 +36,7 @@ class UserUnit extends GameUnit{
                         if(this.x > 455){ this.x = 455 }
                         break;
                     case ' ':
-                        if(this.shotCooldownFrames === 0){
-                            this.shootCallback(this.center, this.y)
-                            this.shotCooldownFrames = 15
-                        } 
+                        if(this.shotCooldownFrames === 0){ this.shoot() } 
                         break;     
                 }
             })
@@ -55,7 +52,8 @@ class UserUnit extends GameUnit{
     }
 
     shoot(){
-       
+        this.shootCallback(this.center, this.y)
+        this.shotCooldownFrames = 15
     }
 
 }

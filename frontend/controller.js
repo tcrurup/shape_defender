@@ -34,7 +34,7 @@ class Controller{
         this.draw()
     }
 
-    //GETTERS
+    //********************GETTERS********************
 
     get allObjects(){
         return [...this.allEnemies, ...this.allProjectiles]
@@ -52,8 +52,9 @@ class Controller{
         return pressedInputs
     }
 
-    //SETTERS
+    //********************SETTERS********************
 
+    //********************FUNCTIONS********************
     addInputListeners(){
 
         document.addEventListener('keydown', e => {
@@ -75,6 +76,33 @@ class Controller{
 
     appendToDisplay(element){
         this.display.appendChild(element)
+    }
+
+    checkCollision(){
+        //Check collisions between enemy units and projectiles, marks both as destroyed if found
+        this.allProjectiles.forEach( projectile => {
+                
+                let hitEnemies = this.allEnemies.filter( 
+                    enemy => {
+                        return projectile.intersectOnX(enemy)
+                    }
+                ).filter( 
+                    enemyOnIntersect => {
+                        return projectile.intersectOnY(enemyOnIntersect)
+                    }
+                )
+                if(hitEnemies.length > 0){
+                    projectile.isDestroyed = true;
+                    hitEnemies.forEach( enemy => { enemy.isDestroyed = true })
+                }
+        })
+
+        //Check enemy collision against the main player, marks both as destroyed if found
+        this.allEnemies.filter( enemy => { return this.userUnit.intersectOnY(enemy) } ).forEach( enemy => {
+            if (this.userUnit.intersectOnX(enemy)){
+                this.userUnit.isDestroyed = true;
+            }
+        })
     }
     
     clearDisplay(){
@@ -101,8 +129,21 @@ class Controller{
         this.allProjectiles = this.allProjectiles.filter( x => { return x.isDestroyed === false } )
     }
 
+    hideMenu(){
+        document.querySelector('div.gameMenu').style.display = 'none'
+    }
+
+    inputIsValid(input){
+        return Controller.validInputs.includes(input)
+    }
+
     isPressed(key){
         return this.allPressedKeys.includes(key)
+    }
+
+    pause(){
+        clearInterval(this.loop)
+        this.showMenu();
     }
 
     removeDestroyedElementsFromDOM(){
@@ -135,6 +176,10 @@ class Controller{
         this.draw()              
         this.unpause();        
     }
+
+    showMenu(){
+        document.querySelector('div.gameMenu').style.display = 'flex'
+    }
     
     spawnEnemy(enemy){
         this.allEnemies.push(enemy)
@@ -145,81 +190,6 @@ class Controller{
         let projectile = new Projectile(x, y)
         this.appendToDisplay(projectile.element)
         this.allProjectiles.push(projectile)        
-    }
-
-    checkCollision(){
-
-        //Check projectile collision against enemies
-        this.allProjectiles.forEach( projectile => {
-                
-                let hitEnemies = this.allEnemies.filter( 
-                    enemy => {
-                        return projectile.intersectOnX(enemy)
-                    }
-                ).filter( 
-                    enemyOnIntersect => {
-                        return projectile.intersectOnY(enemyOnIntersect)
-                    }
-                )
-
-                //If there is a hit mark both the enemy and projectile for destruction
-                if(hitEnemies.length > 0){
-                    projectile.isDestroyed = true;
-                    hitEnemies.forEach( enemy => { enemy.isDestroyed = true })
-                }
-        })
-
-        //Check enemy collision against the main player
-        this.allEnemies.filter( enemy => { return this.userUnit.intersectOnY(enemy) } ).forEach( enemy => {
-            if (this.userUnit.intersectOnX(enemy)){
-                this.userUnit.isDestroyed = true;
-            }
-        })
-    }
-
-    hideMenu(){
-        document.querySelector('div.gameMenu').style.display = 'none'
-    }
-
-    showMenu(){
-        document.querySelector('div.gameMenu').style.display = 'flex'
-    }
-
-    update(){
-
-        if(this.userUnit.isDestroyed){
-            this.clearDisplay()
-            this.pause()
-        } 
-        else {
-            
-            if(this.allEnemies.length === 0){
-                this.spawnEnemy(new MediumEnemy())
-            }
-
-            this.userHUD.update()
-            this.checkCollision()
-            this.removeDestroyedElementsFromDOM()  
-            this.deleteDestroyedObjects()   
-            this.cycleEnemiesAtBottom()
-            
-            //Move the user based on inputs
-            this.userUnit.update(this.allPressedKeys)
-               
-
-            //Update remaining projectiles and enemies
-            this.allObjects.forEach( object => { object.update() } )            
-        }
-    }
-
-    pause(){
-        clearInterval(this.loop)
-        this.showMenu();
-    }
-
-    unpause(){
-        this.hideMenu();
-        this.loop = setInterval(this.update.bind(this), 16)
     }
 
     start(){
@@ -238,9 +208,36 @@ class Controller{
         }
     }
 
-    inputIsValid(input){
-        return Controller.validInputs.includes(input)
+    unpause(){
+        this.start()
     }
+    
+    update(){
+
+        if(this.userUnit.isDestroyed){
+            this.clearDisplay()
+            this.pause()
+        } 
+        else {            
+            if(this.allEnemies.length === 0){
+                this.spawnEnemy(new MediumEnemy())
+            }
+
+            this.userHUD.update()
+            this.checkCollision()
+            this.removeDestroyedElementsFromDOM()  
+            this.deleteDestroyedObjects()   
+            this.cycleEnemiesAtBottom()
+            this.updateAllObjects();     
+        }
+    }
+
+    updateAllObjects(){
+        this.userUnit.update(this.allPressedKeys)
+        this.allObjects.forEach( object => { object.update() } )     
+    }
+
+    //********************STATIC FUNCTIONS********************
 
     static get validInputs(){
         return ['w','a','s','d',' ', 'p']
