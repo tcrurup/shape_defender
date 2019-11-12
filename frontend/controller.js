@@ -30,6 +30,7 @@ class Controller{
 
         document.querySelector('div.userInputContainer').appendChild(this.userHUD.draw())
         document.querySelector('button#startGame').addEventListener('click', this.restartLevel.bind(this))
+        document.querySelector('button#loginSubmit').addEventListener('click', this.submitLogin)
 
         //Add on the board
         this.draw()
@@ -197,6 +198,28 @@ class Controller{
     start(){
         this.hideMenu();
         this.loop = setInterval(this.update.bind(this), 16)
+    }
+
+    submitLogin(event){
+        event.preventDefault()
+
+        let formData = {
+            username: document.querySelector('div.login input#username').value,
+            password: document.querySelector('div.login input#password').value
+        }
+
+        let config = {
+            method: "POST",
+            body: JSON.stringify(formData),
+            headers:{
+                "Content-Type" : "application/json",
+                "Accept" : "application/json"
+            }
+        }
+
+        fetch("http://localhost:3000/login", config)
+        .then( response => response.json() )
+        .then( object => console.log(object) )
     }
 
     togglePause(){
