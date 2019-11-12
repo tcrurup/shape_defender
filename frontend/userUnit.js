@@ -7,11 +7,16 @@ class UserUnit extends GameUnit{
         this.element = Shape.equilateralTriangle('userShape', 50, 50)
         this.fireRate = 1;
         this.shotCooldownFrames = 0;
+        this.isDestroyed = false;
         return this;
     } 
 
     intersectOnY(enemy){
-       
+        return (this.top > enemy.top && this.top < enemy.bottom) || (this.bottom > enemy.top && this.bottom < enemy.bottom) 
+    }
+
+    intersectOnX(enemy){
+        return (this.left > enemy.left && this.left < enemy.right) || (this.right > enemy.left && this.right < enemy.right)
     }
 
     update(inputs){

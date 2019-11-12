@@ -133,7 +133,11 @@ class Controller{
             }
 
         }
-        this.allEnemies.filter( enemy => { return this.userUnit.intersectOnY(enemy) } )
+        this.allEnemies.filter( enemy => { return this.userUnit.intersectOnY(enemy) } ).forEach( enemy => {
+            if (this.userUnit.intersectOnX(enemy)){
+                this.userUnit.isDestroyed = true;
+            }
+        })
     }
 
     update(){
