@@ -1,11 +1,12 @@
 class UserUnit extends GameUnit{
 
     
-    constructor(initX, initY){
+    constructor(initX, initY, shootCB){
         super(initX, initY)
 
         this.element = Shape.equilateralTriangle('userShape', 50, 50)
         this.fireRate = 1;
+        this.shootCallback = shootCB
         this.shotCooldownFrames = 0;
         this.isDestroyed = false;
         return this;
@@ -33,7 +34,13 @@ class UserUnit extends GameUnit{
                     case 'd':
                         this.x += 10
                         if(this.x > 455){ this.x = 455 }
-                        break;   
+                        break;
+                    case ' ':
+                        if(this.shotCooldownFrames === 0){
+                            this.shootCallback(this.center, this.y)
+                            this.shotCooldownFrames = 15
+                        } 
+                        break;     
                 }
             })
         }
@@ -48,7 +55,7 @@ class UserUnit extends GameUnit{
     }
 
     shoot(){
-        
+       
     }
 
 }

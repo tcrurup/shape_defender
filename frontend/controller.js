@@ -15,7 +15,7 @@ class Controller{
         this.display = document.querySelector('div.gameScreen');
         this.isPaused = false;
         this.userHUD = new userHUD(this)
-        this.userUnit = new UserUnit(225, 700)
+        this.userUnit = new UserUnit(225, 700, this.spawnProjectile.bind(this))
         this.pressedKeys = {
             'w': false,
             'a': false,
@@ -35,6 +35,10 @@ class Controller{
     }
 
     //GETTERS
+
+    get allObjects(){
+        return [...this.allEnemies, ...this.allProjectiles]
+    }
 
     get allPressedKeys(){
         let pressedInputs = []
@@ -77,6 +81,14 @@ class Controller{
         this.display.querySelectorAll('canvas').forEach( x => {
             x.parentNode.removeChild(x)
         })
+    }
+
+    cycleEnemiesAtBottom(){
+        this.allEnemies.filter( x => { return x.atBottom === true } ).forEach( enemy => {
+            enemy.y = 0;
+            enemy.atBottom = false;
+            this.spawnEnemy(enemy.clone())
+        });
     }
 
     draw(){
@@ -188,28 +200,15 @@ class Controller{
             this.userHUD.update()
             this.checkCollision()
             this.removeDestroyedElementsFromDOM()  
-            this.deleteDestroyedObjects()            
-
-            this.allEnemies.filter( x => { return x.atBottom === true } ).forEach( enemy => {
-                enemy.y = 0;
-                enemy.atBottom = false;
-                this.spawnEnemy(enemy.clone())
-            });
-
-            //Update the users shape based on input
+            this.deleteDestroyedObjects()   
+            this.cycleEnemiesAtBottom()
+            
+            //Move the user based on inputs
             this.userUnit.update(this.allPressedKeys)
-
-            //Shoot projectile
-            if(this.userUnit.shotCooldownFrames === 0 && this.isPressed(' ')){
-                this.spawnProjectile(this.userUnit.center, this.userUnit.y)
-                this.userUnit.shotCooldownFrames = 15
-            }      
+               
 
             //Update remaining projectiles and enemies
-            this.allEnemies.forEach( x => { x.update() } )
-            this.allProjectiles.forEach( x => { x.update() } )
-
-            
+            this.allObjects.forEach( object => { object.update() } )            
         }
     }
 
