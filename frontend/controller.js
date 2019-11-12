@@ -72,6 +72,7 @@ class Controller{
     }
 
     spawnEnemy(enemy){
+        console.log(enemy)
         this.allEnemies.push(enemy)
         this.display.appendChild(this.allEnemies[(this.allEnemies.length - 1)].element)
     }
@@ -145,6 +146,7 @@ class Controller{
     update(){
         if(this.userUnit.isDestroyed){
             this.pause()
+            console.log(allEnemies)
         } else {
             if(this.allEnemies.length === 0){
                 console.log('spawning new')
@@ -174,6 +176,12 @@ class Controller{
             this.allEnemies = this.allEnemies.filter( x => { return x.isDestroyed === false } )
             this.allProjectiles = this.allProjectiles.filter( x => { return x.isDestroyed === false } )
 
+            this.allEnemies.filter( x => { return x.atBottom === true } ).forEach( enemy => {
+                enemy.y = 0;
+                enemy.atBottom = false;
+                this.spawnEnemy(enemy.clone())
+            });
+
             //Update the users shape based on input
             this.userUnit.update(this.allPressedKeys)
 
@@ -186,6 +194,8 @@ class Controller{
             //Update remaining projectiles and enemies
             this.allEnemies.forEach( x => { x.update() } )
             this.allProjectiles.forEach( x => { x.update() } )
+
+            
         }
     }
 
@@ -199,6 +209,7 @@ class Controller{
             this.start()
         } else {
             this.isPaused = true;
+            console.log(this.allEnemies)
             clearInterval(this.loop)
         }
     }

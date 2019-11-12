@@ -2,6 +2,7 @@ class EnemyUnit extends GameUnit{
 
     constructor(initX = Math.floor(Math.random() * 475), initY = 0, xVel=5){
         super()
+        this.atBottom = false;
         this.x = initX;
         this.y = initY;
         this.xVel = xVel;
@@ -14,7 +15,7 @@ class EnemyUnit extends GameUnit{
         this.element.style.top = `${this.y}px`;
         this.element.style.left = `${this.x}px`;
         if(this.y > 800){
-            this.isDestroyed = true
+            this.atBottom = true;
         }
         if(this.x >475 || this.x < 0){
             this.xVel *= -1
@@ -34,6 +35,14 @@ class SmallEnemy extends EnemyUnit{
         return this
     }
 
+    clone(){
+        let clone = new SmallEnemy;
+        clone.y = this.y 
+        clone.xVel = this.xVel * -1
+        clone.x = Math.floor(Math.random() * 475)
+        return clone
+    }
+
     destroy(){
         this.element.remove()
         return []
@@ -47,6 +56,14 @@ class MediumEnemy extends EnemyUnit{
         super(initX, initY, xVel)
         this.element = Shape.circle('enemyShape', 40, 'blue')
         return this
+    }
+
+    clone(){
+        let clone = new MediumEnemy;
+        clone.y = this.y 
+        clone.xVel = this.xVel * -1
+        clone.x = Math.floor(Math.random() * 475)
+        return clone
     }
 
     destroy(){
