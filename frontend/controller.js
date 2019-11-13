@@ -251,6 +251,8 @@ class Controller{
             password: document.querySelector('div.login input#password').value
         }
 
+        console.log(JSON.stringify(formData))
+
         let config = {
             method: "POST",
             body: JSON.stringify(formData),
@@ -261,8 +263,11 @@ class Controller{
         }
 
         fetch("http://localhost:3000/login", config)
-        .then( response => response.json() )
+        .then( response => {
+            return response.json() 
+        })
         .then( object => console.log(object) )
+        .catch( error => console.log(error))
     }
 
     togglePause(){
