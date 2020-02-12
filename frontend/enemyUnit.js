@@ -1,4 +1,4 @@
-fclass EnemyUnit extends GameUnit{
+class EnemyUnit extends GameUnit{
 
     constructor(initX = Math.floor(Math.random() * 475), initY = 0, xVel=5){
         super()

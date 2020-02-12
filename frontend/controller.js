@@ -182,6 +182,10 @@ class Controller{
         this.showMenu();
     }
 
+    processLoginAttempt(jsonObject){
+        
+    }
+
     removeDestroyedElementsFromDOM(){
         this.removeDestroyedEnemiesFromDOM();
         this.removeDestroyedProjectilesFromDOM();
@@ -267,7 +271,13 @@ class Controller{
 
         fetch("http://localhost:3000/login", config)
         .then( response => response.json())
-        .then( object => console.log(object))
+        .then( object => { 
+            if(object.message != ""){
+                alert(object.message)
+            } else {
+                console.log("success")
+            }    
+        })
         .catch( error => console.log(error))
     }
 
