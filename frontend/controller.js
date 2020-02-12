@@ -143,6 +143,9 @@ class Controller{
         this.allProjectiles = this.allProjectiles.filter( x => { return x.isDestroyed === false } )
     }
 
+    hideAll(){
+    }
+
     hideControlBox(){
         this.controlBox.style.display = 'none'
     }
@@ -263,10 +266,8 @@ class Controller{
         }
 
         fetch("http://localhost:3000/login", config)
-        .then( response => {
-            return response.json() 
-        })
-        .then( object => console.log(object) )
+        .then( response => response.json())
+        .then( object => console.log(object))
         .catch( error => console.log(error))
     }
 
