@@ -9,7 +9,7 @@ div.controlBox{
     border-width: 2px;
     border-color: black;
     border-radius: 10px;
-    display: none;
+    display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -49,6 +49,11 @@ div.login form button{
     width: 100px;
 }
 
+div.logoutText{
+    display: inline-block;
+    color: white;
+}
+
 div.gameMenu{
     display: flex;
     align-items: center;
@@ -73,6 +78,10 @@ div.userButtonKeyboard{
     width: 50px;
     text-align: center;
     vertical-align: middle;
+}
+
+div.userInputContainer{
+    display: none;
 }
 
 

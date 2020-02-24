@@ -31,7 +31,7 @@ class Controller{
         document.querySelector('div.userInputContainer').appendChild(this.userHUD.draw())
         document.querySelector('button#startGame').addEventListener('click', this.restartLevel.bind(this))
         document.querySelector('button#loginSubmit').addEventListener('click', this.submitLogin.bind(this))
-        document.querySelector('button#currentUser').addEventListener('click', this.outputUserToLog.bind(this))  //TESTING
+        document.querySelector('a#logout').addEventListener('click', this.logoutUser.bind(this))
 
         //Add on the board
         this.draw()
@@ -56,7 +56,7 @@ class Controller{
     }
 
     get controlBox(){
-        return document.querySelector('div.controlBox')
+        return document.querySelector('div.userInputContainer')
     }
 
     get gameDisplay(){
@@ -72,6 +72,7 @@ class Controller{
     }
 
     //********************SETTERS********************
+
 
     //********************FUNCTIONS********************
     addInputListeners(){
@@ -168,9 +169,6 @@ class Controller{
     }
 
     initialize(){
-        this.hideGameDisplay();
-        this.hideMenu();
-        this.hideControlBox();
         this.showLogin();
     }
 
@@ -184,9 +182,19 @@ class Controller{
 
     logInUserAndShowGame(username){
         this.currentUser = username
+        document.querySelector('span#loggedInUser').innerHTML = username
         this.hideLogin();
         this.showGameDisplay();
         this.showControlBox();
+        console.log(this.currentUser)
+    }
+
+    logoutUser(event){
+        event.preventDefault()
+        this.currentUser = undefined
+        this.hideGameDisplay();
+        this.hideControlBox();
+        this.showLogin();
     }
 
     outputUserToLog(){

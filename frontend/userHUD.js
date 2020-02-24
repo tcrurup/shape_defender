@@ -22,8 +22,9 @@ class userHUD{
         topRowKeys.forEach( keyElement => {topRow.appendChild(keyElement)} )
         bottomRowKeys.forEach( keyElement => {bottomRow.appendChild(keyElement)} )
 
-        controlBox.appendChild(topRow)
-        controlBox.appendChild(bottomRow)
+        controlBox.prepend(bottomRow)
+        controlBox.prepend(topRow)
+        
         return controlBox
     }
 
