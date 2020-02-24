@@ -30,8 +30,9 @@ class Controller{
 
         document.querySelector('div.userInputContainer').appendChild(this.userHUD.draw())
         document.querySelector('button#startGame').addEventListener('click', this.restartLevel.bind(this))
-        document.querySelector('button#loginSubmit').addEventListener('click', this.submitLogin.bind(this))
+        document.querySelector('button#formSubmit').addEventListener('click', this.submitForm.bind(this))
         document.querySelector('a#logout').addEventListener('click', this.logoutUser.bind(this))
+        document.querySelector('a#signUpLink').addEventListener('click', this.toggleLoginAndSignUp.bind(this))
 
         //Add on the board
         this.draw()
@@ -67,12 +68,25 @@ class Controller{
         return document.querySelector('div.login');
     }
 
+    get formSubmitType(){
+        return document.querySelector('input#submitType').value
+    }
+
     get userIsLoggedIn(){
         return this.currentUser != undefined && this.currentUser != ""
     }
 
     //********************SETTERS********************
 
+    set formSubmitType(type){
+        if(type === 'login' || type === 'signUp'){
+            document.querySelector('input#submitType').value = type
+        }
+    }
+
+    set formButtonText(text){
+        document.querySelector('button#formSubmit').innerHTML = text
+    }
 
     //********************FUNCTIONS********************
     addInputListeners(){
@@ -206,10 +220,10 @@ class Controller{
         this.showMenu();
     }
 
-    processLoginAttempt(config){
+    processFormSubmit(config){
         let controller = this
-
-        fetch("http://localhost:3000/login", config)
+        const url = `http://localhost:3000/${this.formSubmitType}`
+        fetch(url, config)
             .then(response => response.json())
             .then( (object) => {
                 if(object.errors){
@@ -264,10 +278,18 @@ class Controller{
 
     showLogin(){
         this.loginMenu.style.display = 'flex'
+        this.formSubmitType = 'login'
+        this.formButtonText = 'Login'
     }
 
     showMenu(){
         document.querySelector('div.gameMenu').style.display = 'flex'
+    }
+
+    showSignUp(event){
+        this.loginMenu.style.display = 'flex'
+        this.formSubmitType = 'signUp'
+        this.formButtonText = 'Sign Up'
     }
     
     spawnEnemy(enemy){
@@ -286,7 +308,7 @@ class Controller{
         this.loop = setInterval(this.update.bind(this), 16)
     }
 
-    submitLogin(event){
+    submitForm(event){
         event.preventDefault()
 
         let formData = {
@@ -303,7 +325,18 @@ class Controller{
             }
         }
 
-        this.processLoginAttempt(config) 
+        this.processFormSubmit(config) 
+    }
+
+    toggleLoginAndSignUp(event){
+        event.preventDefault();
+        if(this.formSubmitType === 'login'){
+            this.showSignUp()
+            this.formSubmitType = 'signUp'            
+        } else {
+            this.showLogin()
+            this.formSubmitType = 'login'   
+        }
     }
 
     togglePause(){
