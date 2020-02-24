@@ -30,7 +30,8 @@ class Controller{
 
         document.querySelector('div.userInputContainer').appendChild(this.userHUD.draw())
         document.querySelector('button#startGame').addEventListener('click', this.restartLevel.bind(this))
-        document.querySelector('button#loginSubmit').addEventListener('click', this.submitLogin)
+        document.querySelector('button#loginSubmit').addEventListener('click', this.submitLogin.bind(this))
+        document.querySelector('button#currentUser').addEventListener('click', this.outputUserToLog.bind(this))  //TESTING
 
         //Add on the board
         this.draw()
@@ -177,14 +178,15 @@ class Controller{
         return this.allPressedKeys.includes(key)
     }
 
+    outputUserToLog(){
+        console.log(this.currentUser)
+    }
+
     pause(){
         clearInterval(this.loop)
         this.showMenu();
     }
 
-    processLoginAttempt(jsonObject){
-        
-    }
 
     removeDestroyedElementsFromDOM(){
         this.removeDestroyedEnemiesFromDOM();
@@ -258,8 +260,6 @@ class Controller{
             password: document.querySelector('div.login input#password').value
         }
 
-        console.log(JSON.stringify(formData))
-
         let config = {
             method: "POST",
             body: JSON.stringify(formData),
@@ -269,16 +269,14 @@ class Controller{
             }
         }
 
+        let controller = this
+
         fetch("http://localhost:3000/login", config)
-        .then( response => response.json())
-        .then( object => { 
-            if(object.message != ""){
-                alert(object.message)
-            } else {
-                console.log("success")
-            }    
-        })
-        .catch( error => console.log(error))
+            .then(response => response.json())
+            .then( (object) => {
+                controller.currentUser = object.username
+            })
+        .catch( error => alert(error))  
     }
 
     togglePause(){

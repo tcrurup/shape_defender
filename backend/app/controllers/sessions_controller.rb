@@ -4,11 +4,11 @@ class SessionsController < ApplicationController
         user = User.find_by(username: session_params[:username])
         
         if(user && user.authenticate(session_params[:password]))
-            render json: {message: ""}
+            render json: user.slice(:username)
         elsif(user)
-            render json: {message: "Incorrect Password"}
+            render json: { errors: "Incorrect Password" }
         else
-            render json: {message: "Username Not Found"}
+            render json: { errors: "Username Not Found" }
         end
     end
 
