@@ -79,7 +79,7 @@ class Controller{
     //********************SETTERS********************
 
     set formSubmitType(type){
-        if(type === 'login' || type === 'signUp'){
+        if(type === 'login' || type === 'signup'){
             document.querySelector('input#submitType').value = type
         }
     }
@@ -288,7 +288,7 @@ class Controller{
 
     showSignUp(event){
         this.loginMenu.style.display = 'flex'
-        this.formSubmitType = 'signUp'
+        this.formSubmitType = 'signup'
         this.formButtonText = 'Sign Up'
     }
     
@@ -330,9 +330,9 @@ class Controller{
 
     toggleLoginAndSignUp(event){
         event.preventDefault();
-        if(this.formSubmitType === 'login'){
+        if(this.formSubmitType == 'login'){
             this.showSignUp()
-            this.formSubmitType = 'signUp'            
+            this.formSubmitType = 'signup'            
         } else {
             this.showLogin()
             this.formSubmitType = 'login'   

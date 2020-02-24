@@ -12,6 +12,16 @@ class SessionsController < ApplicationController
         end
     end
 
+    def sign_up
+        user = User.new(username: session_params[:username], password: session_params[:password])
+
+        if(user.save)
+            render json: user.slice(:username)
+        else
+            render json: { errors: user.errors.full_messages }
+        end
+    end
+
     private
 
     def session_params
