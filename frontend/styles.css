@@ -9,7 +9,7 @@ div.controlBox{
     border-width: 2px;
     border-color: black;
     border-radius: 10px;
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -79,7 +79,7 @@ div.userButtonKeyboard{
 
 div.gameScreen {
     background-color: white;
-    display: flex;
+    display: none;
     height: 800px;
     justify-content: center;
     margin: auto;

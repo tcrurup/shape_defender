@@ -187,6 +187,16 @@ class Controller{
         this.showMenu();
     }
 
+    processLoginAttempt(config){
+        let controller = this
+
+        fetch("http://localhost:3000/login", config)
+            .then(response => response.json())
+            .then( (object) => {
+                controller.currentUser = object.username
+            })
+        .catch( error => alert(error)) 
+    }
 
     removeDestroyedElementsFromDOM(){
         this.removeDestroyedEnemiesFromDOM();
@@ -269,14 +279,7 @@ class Controller{
             }
         }
 
-        let controller = this
-
-        fetch("http://localhost:3000/login", config)
-            .then(response => response.json())
-            .then( (object) => {
-                controller.currentUser = object.username
-            })
-        .catch( error => alert(error))  
+        this.processLoginAttempt(config) 
     }
 
     togglePause(){
