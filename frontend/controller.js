@@ -67,6 +67,10 @@ class Controller{
         return document.querySelector('div.login');
     }
 
+    get userIsLoggedIn(){
+        return this.currentUser != undefined && this.currentUser != ""
+    }
+
     //********************SETTERS********************
 
     //********************FUNCTIONS********************
@@ -178,6 +182,13 @@ class Controller{
         return this.allPressedKeys.includes(key)
     }
 
+    logInUserAndShowGame(username){
+        this.currentUser = username
+        this.hideLogin();
+        this.showGameDisplay();
+        this.showControlBox();
+    }
+
     outputUserToLog(){
         console.log(this.currentUser)
     }
@@ -193,7 +204,12 @@ class Controller{
         fetch("http://localhost:3000/login", config)
             .then(response => response.json())
             .then( (object) => {
-                controller.currentUser = object.username
+                if(object.errors){
+                    alert(object.errors)
+                }
+                else{
+                    controller.logInUserAndShowGame(object.username)
+                }
             })
         .catch( error => alert(error)) 
     }
