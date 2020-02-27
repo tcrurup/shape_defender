@@ -11,9 +11,10 @@
 
     <main>
 
-        <a id='debug' href="">Debug!</a>
+        
 
         <div class = 'login'>
+          <a id='debug' href="">Debug!</a>
           <form>
             <input type='hidden' id = 'submitType' value= ''>
             <span>
@@ -30,19 +31,23 @@
           </form>
         </div>
 
+        <div class = 'userInputContainer'>
+            <div class = 'logoutText'>  
+              <span>Hello </span>
+              <span id='loggedInUser'></span>
+              <a href="" id="logout"> logout </a>
+            </div>
+          </div>
+
         <div class = 'gameScreen'>
           <div class = 'gameMenu'>
             <button id= 'startGame'>Start Level</button>
             <button id= 'restartGame'>Restart Level</button>
           </div>
-        </div>
+        </div> 
         
-        <div class = 'userInputContainer'>
-          <div class = 'logoutText'>  
-            <span>Hello </span>
-            <span id='loggedInUser'></span>
-            <a href="" id="logout"> logout </a>
-          </div>
+        <div id = 'scoreboard'>
+
         </div>
     </main>
 

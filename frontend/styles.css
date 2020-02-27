@@ -3,6 +3,18 @@ body {
     background-color: gray;
 }
 
+main{
+    display: flex;
+    justify-content: space-evenly;
+}
+
+div#scoreboard{
+    align-self: center;
+    background-color: white;
+    width: 400px;
+    height: 400px;
+}
+
 div.controlBox{
     background-color: lightskyblue;
     border-style: solid;
@@ -82,6 +94,8 @@ div.userButtonKeyboard{
 
 div.userInputContainer{
     display: none;
+    justify-content: center;
+    width: 400px;
 }
 
 
@@ -91,7 +105,6 @@ div.gameScreen {
     display: none;
     height: 800px;
     justify-content: center;
-    margin: auto;
     position: relative;
     width: 500px;
 }

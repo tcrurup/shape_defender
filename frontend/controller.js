@@ -282,11 +282,11 @@ class Controller{
     }
 
     showControlBox(){
-        this.controlBox.style.display = 'flex'
+        this.controlBox.style.display = 'inline-flex'
     }
 
     showGameDisplay(){
-        this.gameDisplay.style.display = 'flex'
+        this.gameDisplay.style.display = 'inline-flex'
     }
 
     showLogin(){
