@@ -9,6 +9,8 @@ class EnemyUnit extends GameUnit{
         this.yVel = 3;
     }
 
+
+
     update(){
         this.y += this.yVel;
         this.x += this.xVel;
@@ -35,19 +37,13 @@ class SmallEnemy extends EnemyUnit{
         return this
     }
 
+    breaksInto(){
+        return [];
+    }
+
     clone(){
-        let clone = new SmallEnemy;
-        clone.y = this.y 
-        clone.xVel = this.xVel * -1
-        clone.x = Math.floor(Math.random() * 475)
-        return clone
+        return new SmallEnemy(Controller.randomXCoordinate, this.y, this.xVel * -1);
     }
-
-    destroy(){
-        this.element.remove()
-        return []
-    }
-
 }
 
 class MediumEnemy extends EnemyUnit{
@@ -58,19 +54,13 @@ class MediumEnemy extends EnemyUnit{
         return this
     }
 
+    breaksInto(){
+        return [new SmallEnemy(this.left, this.top, this.xVel), new SmallEnemy(this.left, this.top, this.xVel*-1)]
+    }
+
     clone(){
-        let clone = new MediumEnemy;
-        clone.y = this.y 
-        clone.xVel = this.xVel * -1
-        clone.x = Math.floor(Math.random() * 475)
-        return clone
+        return new MediumEnemy(Controller.randomXCoordinate, this.y, this.xVel * -1);
     }
-
-    destroy(){
-        this.element.remove()
-        return [new SmallEnemy(this.left, this.top, this.xVel), new SmallEnemy(this.right, this.top, this.xVel*-1)]
-    }
-
 }
 
 

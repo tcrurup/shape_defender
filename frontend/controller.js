@@ -29,6 +29,7 @@ class Controller{
         this.addInputListeners()
 
         document.querySelector('div.userInputContainer').appendChild(this.userHUD.draw())
+        document.querySelector('a#debug').addEventListener('click', this.debugMode.bind(this))
         document.querySelector('button#startGame').addEventListener('click', this.restartLevel.bind(this))
         document.querySelector('button#formSubmit').addEventListener('click', this.submitForm.bind(this))
         document.querySelector('a#logout').addEventListener('click', this.logoutUser.bind(this))
@@ -153,6 +154,13 @@ class Controller{
         });
     }
 
+    debugMode(event){
+        event.preventDefault()
+        this.hideLogin();
+        this.showGameDisplay();
+        this.showControlBox();
+    }
+
     draw(){
         this.clearDisplay()
         this.appendToDisplay(this.userUnit.element)
@@ -200,7 +208,6 @@ class Controller{
         this.hideLogin();
         this.showGameDisplay();
         this.showControlBox();
-        console.log(this.currentUser)
     }
 
     logoutUser(event){
@@ -245,9 +252,10 @@ class Controller{
         this.allEnemies.filter( enemy => {
             return enemy.isDestroyed
         }).forEach( destroyedEnemy => {
-            destroyedEnemy.destroy().forEach( newEnemy => {
+            destroyedEnemy.breaksInto().forEach( newEnemy => {
                 this.spawnEnemy(newEnemy)
             })
+            destroyedEnemy.destroy()
         })
     }
 
@@ -382,7 +390,7 @@ class Controller{
         }
         else if(this.spawnCooldown === 0 && this.game.currentSeed.length > 0){
             let enemy;
-            switch(this.game.currentSeed.pop()){
+            switch(Math.ceil(Math.random() * 3)){
                 case 3:
                     enemy = new LargeEnemy();
                     break;
@@ -399,6 +407,10 @@ class Controller{
     }
 
     //********************STATIC FUNCTIONS********************
+
+    static get randomXCoordinate(){
+        Math.floor(Math.random() * 475)
+    }
 
     static get validInputs(){
         return ['w','a','s','d',' ', 'p']
