@@ -120,3 +120,12 @@ canvas.enemyShape{
 canvas.projectile {
     position: absolute;
 }
+
+table#scoreboardList{
+    text-align: center;
+    width: 100%
+}
+
+table#scoreboardList th{
+    width: 50%;
+}
