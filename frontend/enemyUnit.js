@@ -34,6 +34,7 @@ class SmallEnemy extends EnemyUnit{
     constructor(initX, initY, xVel){
         super(initX, initY, xVel)
         this.element = Shape.circle('enemyShape', 20, 'red')
+        this.pointValue = 100;
         return this
     }
 
@@ -51,6 +52,7 @@ class MediumEnemy extends EnemyUnit{
     constructor(initX, initY, xVel){
         super(initX, initY, xVel)
         this.element = Shape.circle('enemyShape', 40, 'blue')
+        this.pointValue = 200;
         return this
     }
 
@@ -60,6 +62,24 @@ class MediumEnemy extends EnemyUnit{
 
     clone(){
         return new MediumEnemy(Controller.randomXCoordinate, this.y, this.xVel * -1);
+    }
+}
+
+class LargeEnemy extends EnemyUnit{
+
+    constructor(initX, initY, xVel){
+        super(initX, initY, xVel)
+        this.element = Shape.circle('enemyShape', 80, 'Yellow')
+        this.pointValue = 400;
+        return this
+    }
+
+    breaksInto(){
+        return [new MediumEnemy(this.left, this.top, this.xVel), new MediumEnemy(this.left, this.top, this.xVel*-1)]
+    }
+
+    clone(){
+        return new LargeEnemy(Controller.randomXCoordinate, this.y, this.xVel * -1);
     }
 }
 

@@ -14,6 +14,7 @@ class Controller{
         this.allEnemies = []; 
         this.display = document.querySelector('div.gameScreen');
         this.isPaused = false;
+        this.userPoints = 0;
         this.userHUD = new userHUD(this)
         this.userUnit = new UserUnit(225, 700, this.spawnProjectile.bind(this))
         this.pressedKeys = {
@@ -23,7 +24,8 @@ class Controller{
             'd': false,
             ' ': false
         } 
-        this.spawnCooldown = 0;       
+        this.spawnCooldown = 0; 
+        //this.speedIncreaseFactor = 1.5;  //max % enemy speed will increase upon cyclying    
 
         //Add event listeners
         this.addInputListeners()
@@ -128,7 +130,10 @@ class Controller{
                 )
                 if(hitEnemies.length > 0){
                     projectile.isDestroyed = true;
-                    hitEnemies.forEach( enemy => { enemy.isDestroyed = true })
+                    hitEnemies.forEach( enemy => { 
+                        enemy.isDestroyed = true
+                        this.userPoints += enemy.pointValue
+                    })
                 }
         })
 
