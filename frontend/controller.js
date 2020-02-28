@@ -341,6 +341,10 @@ class Controller{
         this.processFormSubmit(config) 
     }
 
+    submitScore(){
+
+    }
+
     toggleLoginAndSignUp(event){
         event.preventDefault();
         if(this.formSubmitType == 'login'){
@@ -372,6 +376,7 @@ class Controller{
         if(this.userUnit.isDestroyed){
             this.clearDisplay()
             this.pause()
+            this.submitScore()
         } 
         else {            
             this.userHUD.update()
