@@ -342,7 +342,29 @@ class Controller{
     }
 
     submitScore(){
+        const url = `http://localhost:3000/submitScore`
 
+        let formData = {
+            username: this.currentUser,
+            score: this.userPoints
+        }
+
+        let config = {
+            method: "POST",
+            body: JSON.stringify(formData),
+            headers:{
+                "Content-Type" : "application/json",
+                "Accept" : "application/json"
+            }
+        }
+
+        console.log("Submitting score...")
+        fetch(url, config)
+            .then(response => response.json())
+            .then( (object) => {
+                console.log(object)
+            })
+        .catch( error => alert(error)) 
     }
 
     toggleLoginAndSignUp(event){

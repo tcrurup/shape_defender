@@ -22,9 +22,20 @@ class SessionsController < ApplicationController
         end
     end
 
+    def submit_score
+        user = User.find_by(username: session_params[:username])
+        if user.highscore == nil || user.highscore < session_params[:score]
+            user.highscore = session_params[:score] 
+            user.save
+        end
+        render json: { message: 'Success'}
+    end
+
     private
 
     def session_params
-        params.require(:session).permit(:username, :password)
+        params.require(:session).permit(:username, :password, :score)
     end
+
+    
 end
