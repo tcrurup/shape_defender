@@ -361,8 +361,12 @@ class Controller{
         console.log("Submitting score...")
         fetch(url, config)
             .then(response => response.json())
-            .then( (object) => {
-                console.log(object)
+            .then( (score_list) => {
+                console.log(score_list) 
+                console.log(Object.keys(score_list))
+                Object.keys(score_list).forEach( key => {
+                    console.log(score_list[key]) 
+                })
             })
         .catch( error => alert(error)) 
     }

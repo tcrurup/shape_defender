@@ -1,10 +1,12 @@
 class ScoreListSerializer
 
-    def initialize(user_score)
-        @user_score = user_score
+    def initialize(score_list)
+        @score_list = score_list
     end
 
-    private
+    def to_serialized_json
+        @score_list.to_json()
+    end
 
 
 end

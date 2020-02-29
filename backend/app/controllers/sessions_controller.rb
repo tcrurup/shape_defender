@@ -28,7 +28,8 @@ class SessionsController < ApplicationController
             user.highscore = session_params[:score] 
             user.save
         end
-        render json: ScoreList.new(user).compile_list()
+        score_list = ScoreList.new(user).compile_list()
+        render json: ScoreListSerializer.new(score_list).to_serialized_json()
     end
 
     
