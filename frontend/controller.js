@@ -14,6 +14,8 @@ class Controller{
         this.allEnemies = []; 
         this.display = document.querySelector('div.gameScreen');
         this.isPaused = false;
+        this.scoreList = new ScoreList()
+        document.querySelector('main').appendChild(this.scoreList.element)
         this.userPoints = 0;
         this.userHUD = new userHUD(this)
         this.userUnit = new UserUnit(225, 700, this.spawnProjectile.bind(this))
@@ -365,6 +367,7 @@ class Controller{
                 console.log(score_list) 
                 console.log(Object.keys(score_list))
                 Object.keys(score_list).forEach( key => {
+                    console.log(key)
                     console.log(score_list[key]) 
                 })
             })
