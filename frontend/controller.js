@@ -215,6 +215,7 @@ class Controller{
         this.hideLogin();
         this.showGameDisplay();
         this.showControlBox();
+        this.submitScore();
     }
 
     logoutUser(event){
@@ -360,16 +361,10 @@ class Controller{
             }
         }
 
-        console.log("Submitting score...")
         fetch(url, config)
             .then(response => response.json())
-            .then( (score_list) => {
-                console.log(score_list) 
-                console.log(Object.keys(score_list))
-                Object.keys(score_list).forEach( key => {
-                    console.log(key)
-                    console.log(score_list[key]) 
-                })
+            .then( (object) => {
+                this.scoreList.updateList(object)
             })
         .catch( error => alert(error)) 
     }
@@ -421,6 +416,10 @@ class Controller{
     updateAllObjects(){
         this.userUnit.update(this.allPressedKeys)
         this.allObjects.forEach( object => { object.update() } )     
+    }
+
+    updateScoreList(){
+
     }
 
     updateSpawner(){

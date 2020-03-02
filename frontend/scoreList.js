@@ -19,25 +19,26 @@ class ScoreList{
 
     addHeaders(){
         const leftHeader = this.createHeader('Rank')
-        const middleHeader = this.createHeader('Username')
-        const rightHeader = this.createHeader('High Score')
+        const rightHeader = this.createHeader('Username  -  High Score')
 
 
-        const headers = [leftHeader, middleHeader, rightHeader]
+        const headers = [leftHeader, rightHeader]
         this.appendRow(headers)  
     }
 
-    addListItem(rank, username, score){
-        const left = this.createElement('td').innerHTML = rank
-        const middle = this.createElement('td').innerHTML = username
-        const right = this.createElement('td').innerHTML = score
-
-        const listItem = [left, middle, right]
+    addListItem(rank, usernameScore){
+        let left = document.createElement('td')
+        left.innerHTML = rank
+        let right = document.createElement('td')
+        right.innerHTML = `${usernameScore}`
+        const listItem = [left, right]
         this.appendRow(listItem)
     }
 
     appendRow(array){
-        array.forEach( elem => { this.element.appendChild(elem) }) 
+        let newRow = this.createRow()
+        array.forEach( elem => { newRow.appendChild(elem) }) 
+        this.element.appendChild(newRow)
     }
 
     createRow(){
@@ -50,5 +51,9 @@ class ScoreList{
         return header
     }
 
-    
+    updateList(response){
+        Object.keys(response).forEach( key => {
+            this.addListItem(key, response[key])
+        })
+    }    
 }

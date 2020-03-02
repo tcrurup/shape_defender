@@ -127,5 +127,5 @@ table#scoreboardList{
 }
 
 table#scoreboardList th{
-    width: 50%;
+    width: auto;
 }
