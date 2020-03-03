@@ -16,6 +16,7 @@ class Controller{
         this.isPaused = false;
         this.scoreList = new ScoreList()
         document.querySelector('main').appendChild(this.scoreList.element)
+        this.scoreCounter = new ScoreCounter()
         this.userPoints = 0;
         this.userHUD = new userHUD(this)
         this.userUnit = new UserUnit(225, 700, this.spawnProjectile.bind(this))
@@ -32,7 +33,9 @@ class Controller{
         //Add event listeners
         this.addInputListeners()
 
+        document.querySelector('div.userInputContainer').appendChild(this.scoreCounter.element)
         document.querySelector('div.userInputContainer').appendChild(this.userHUD.draw())
+
         document.querySelector('a#debug').addEventListener('click', this.debugMode.bind(this))
         document.querySelector('button#startGame').addEventListener('click', this.restartLevel.bind(this))
         document.querySelector('button#formSubmit').addEventListener('click', this.submitForm.bind(this))

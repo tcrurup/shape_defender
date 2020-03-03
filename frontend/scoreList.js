@@ -6,6 +6,7 @@ class ScoreList{
         this.element = document.createElement('table')
         this.element.id = ScoreList.tableId
         this.addHeaders()
+        return this
     }
 
     //STATIC FUNCTIONS
