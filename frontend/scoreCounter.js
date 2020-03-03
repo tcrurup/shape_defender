@@ -9,6 +9,10 @@ class ScoreCounter{
         this.currentScore = 0;
     }
 
+    set score(points){
+        this.element.innerHTML = points
+    }
+
     static get elementId(){
         return 'scoreCounter'
     }

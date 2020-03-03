@@ -283,6 +283,7 @@ class Controller{
         this.game.resetCurrentSeed();
         this.allEnemies = [];
         this.allProjectiles = [];
+        this.userPoints = 0;
         this.draw()              
         this.unpause();        
     }
@@ -412,6 +413,7 @@ class Controller{
             this.deleteDestroyedObjects()   
             this.cycleEnemiesAtBottom()
             this.updateAllObjects();
+            this.updateScoreCounter();
             this.updateSpawner();     
         }
     }
@@ -423,6 +425,10 @@ class Controller{
 
     updateScoreList(){
 
+    }
+
+    updateScoreCounter(){
+        this.scoreCounter.score = this.userPoints
     }
 
     updateSpawner(){
