@@ -10,7 +10,8 @@ class Controller{
         //User HUD elements
         this.scoreList = new ScoreList()
         this.scoreCounter = new ScoreCounter()
-        this.userHud = new userHUD()        
+        this.userHud = new userHUD()
+        this.loginPortal = new AppPortal()        
         
         //Initial Settings
         this.isPaused = false;
@@ -19,20 +20,15 @@ class Controller{
         this.spawnDelay = 1;
         //this.speedIncreaseFactor = 1.5;  //max % enemy speed will increase upon cyclying    
 
-        this.pressedKeys = {
-            'w': false,
-            'a': false,
-            's': false,
-            'd': false,
-            ' ': false
-        } 
-
         //Add event listeners
+        
         this.addInputListeners()
+
+        this.displayMiddle.appendChild(this.loginPortal.element)
 
     
 
-        document.querySelector('a#debug').addEventListener('click', this.debugMode.bind(this))
+        //document.querySelector('a#debug').addEventListener('click', this.debugMode.bind(this))
         document.querySelector('button#startGame').addEventListener('click', this.restartLevel.bind(this))
         document.querySelector('button#formSubmit').addEventListener('click', this.submitForm.bind(this))
         document.querySelector('a#logout').addEventListener('click', this.logoutUser.bind(this))
@@ -40,6 +36,9 @@ class Controller{
 
         //Add on the board
         this.draw()
+
+        this.resetKeyInputs()//Set initial key inputs to false to avoid unwanted initial movement
+        
     }
 
     //********************GETTERS********************
@@ -132,7 +131,6 @@ class Controller{
 
     //********************FUNCTIONS********************
     addInputListeners(){
-
         document.addEventListener('keydown', e => {
             if(this.inputIsValid(e.key)){ 
                 this.pressedKeys[e.key] = true 
@@ -311,6 +309,16 @@ class Controller{
         })
     }
 
+    resetKeyInputs(){
+        this.pressedKeys = {
+            'w': false,
+            'a': false,
+            's': false,
+            'd': false,
+            ' ': false
+        } 
+    }
+
     restartLevel(){
         this.userUnit.isDestroyed = false;
         this.allEnemies = [];
@@ -439,7 +447,7 @@ class Controller{
             this.submitScore()
         } 
         else {            
-            this.userHUD.update(this.allPressedKeys)
+            this.userHud.update(this.allPressedKeys)
             this.checkCollision()
             this.removeDestroyedElementsFromDOM()  
             this.deleteDestroyedObjects()   
