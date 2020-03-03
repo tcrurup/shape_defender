@@ -2,17 +2,23 @@ class Controller{
 
     constructor(){
 
-        //Everything that you will see on display
+        //Game elements on display
         this.allProjectiles = [];
-        this.allEnemies = []; 
-        this.display = document.querySelector('div.gameScreen');
-        this.isPaused = false;
-        this.scoreList = new ScoreList()
-        document.querySelector('main').appendChild(this.scoreList.element)
-        this.scoreCounter = new ScoreCounter()
-        this.userPoints = 0;
-        this.userHUD = new userHUD(this)
+        this.allEnemies = [];
         this.userUnit = new UserUnit(225, 700, this.spawnProjectile.bind(this))
+        
+        //User HUD elements
+        this.scoreList = new ScoreList()
+        this.scoreCounter = new ScoreCounter()
+        this.userHUD = new userHUD(this)        
+        
+        //Initial Settings
+        this.isPaused = false;
+        this.userPoints = 0;
+        this.spawnCooldown = 0;
+        this.spawnDelay = 1;
+        //this.speedIncreaseFactor = 1.5;  //max % enemy speed will increase upon cyclying    
+
         this.pressedKeys = {
             'w': false,
             'a': false,
@@ -20,9 +26,6 @@ class Controller{
             'd': false,
             ' ': false
         } 
-        this.spawnCooldown = 0; 
-        //this.speedIncreaseFactor = 1.5;  //max % enemy speed will increase upon cyclying    
-        this.spawnDelay = 1;
 
         //Add event listeners
         this.addInputListeners()
@@ -74,6 +77,10 @@ class Controller{
         return document.querySelector('input#submitType').value
     }
 
+    get scoreList(){
+        return this.scoreListObject
+    }
+
     get userIsLoggedIn(){
         return this.currentUser != undefined && this.currentUser != ""
     }
@@ -85,9 +92,13 @@ class Controller{
             document.querySelector('input#submitType').value = type
         }
     }
-
     set formButtonText(text){
         document.querySelector('button#formSubmit').innerHTML = text
+    }
+
+    set scoreList(slObject){
+        this.scoreListObject = slObject
+        document.querySelector('main').appendChild(this.scoreList.element)
     }
 
     //********************FUNCTIONS********************
@@ -111,7 +122,7 @@ class Controller{
     }
 
     appendToDisplay(element){
-        this.display.appendChild(element)
+        this.gameDisplay.appendChild(element)
     }
 
     checkCollision(){
@@ -145,7 +156,7 @@ class Controller{
     }
     
     clearDisplay(){
-        this.display.querySelectorAll('canvas').forEach( x => {
+        this.gameDisplay.querySelectorAll('canvas').forEach( x => {
             x.parentNode.removeChild(x)
         })
     }
