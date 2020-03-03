@@ -11,40 +11,54 @@
 
     <main>
 
+      <div class = 'screenLeft'>
+          <div class = 'userInputContainer'>
+              <div class = 'logoutText'>  
+                <span>Hello </span>
+                <span id='loggedInUser'></span>
+                <a href="" id="logout"> logout </a>
+              </div>
+            </div>
+      </div>
+
+      <div class = 'screenMiddle'>
+
+          <div class = 'login'>
+              <a id='debug' href="">Debug!</a>
+              <form>
+                <input type='hidden' id = 'submitType' value= ''>
+                <span>
+                  <label for='username'>Username: </label>
+                  <input type='text' id='username' name = 'username'>
+                </span>
+                <span>
+                  <label for='password'>Password: </label>
+                  <input type='password' id='password' name = 'password'>
+                </span>
+    
+                <button id='formSubmit'></button>
+                <a id='signUpLink' href="">Sign up!</a>
+              </form>
+            </div>
+
+            <div class = 'gameScreen'>
+                <div class = 'gameMenu'>
+                  <button id= 'startGame'>Start Level</button>
+                  <button id= 'restartGame'>Restart Level</button>
+                </div>
+            </div> 
+
+      </div>
+      
+      <div class = 'screenRight'>
+
+      </div>
+
         
 
-        <div class = 'login'>
-          <a id='debug' href="">Debug!</a>
-          <form>
-            <input type='hidden' id = 'submitType' value= ''>
-            <span>
-              <label for='username'>Username: </label>
-              <input type='text' id='username' name = 'username'>
-            </span>
-            <span>
-              <label for='password'>Password: </label>
-              <input type='password' id='password' name = 'password'>
-            </span>
+        
 
-            <button id='formSubmit'></button>
-            <a id='signUpLink' href="">Sign up!</a>
-          </form>
-        </div>
-
-        <div class = 'userInputContainer'>
-            <div class = 'logoutText'>  
-              <span>Hello </span>
-              <span id='loggedInUser'></span>
-              <a href="" id="logout"> logout </a>
-            </div>
-          </div>
-
-        <div class = 'gameScreen'>
-          <div class = 'gameMenu'>
-            <button id= 'startGame'>Start Level</button>
-            <button id= 'restartGame'>Restart Level</button>
-          </div>
-        </div> 
+        
         
         
     </main>

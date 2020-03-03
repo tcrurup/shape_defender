@@ -30,7 +30,6 @@ class Controller{
         //Add event listeners
         this.addInputListeners()
 
-        document.querySelector('div.userInputContainer').appendChild(this.scoreCounter.element)
         document.querySelector('div.userInputContainer').appendChild(this.userHUD.draw())
 
         document.querySelector('a#debug').addEventListener('click', this.debugMode.bind(this))
@@ -69,12 +68,28 @@ class Controller{
         return document.querySelector('div.gameScreen');
     }
 
+    get displayLeft(){
+        return document.querySelector('div.screenLeft')
+    }
+
+    get displayMiddle(){
+        return document.querySelector('div.screenMiddle')
+    }
+
+    get displayRight(){
+        return document.querySelector('div.screenRight')
+    }
+
     get loginMenu(){
         return document.querySelector('div.login');
     }
 
     get formSubmitType(){
         return document.querySelector('input#submitType').value
+    }
+
+    get scoreCounter(){
+        return this.scoreCounterObject
     }
 
     get scoreList(){
@@ -96,9 +111,14 @@ class Controller{
         document.querySelector('button#formSubmit').innerHTML = text
     }
 
+    set scoreCounter(scObject){
+        this.scoreCounterObject = scObject
+        document.querySelector('div.userInputContainer').appendChild(this.scoreCounter.element)
+    }
+
     set scoreList(slObject){
         this.scoreListObject = slObject
-        document.querySelector('main').appendChild(this.scoreList.element)
+        this.displayRight.appendChild(this.scoreList.element)
     }
 
     //********************FUNCTIONS********************
