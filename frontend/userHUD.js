@@ -1,8 +1,8 @@
 class userHUD{
 
     
-    constructor(controller){
-        this.controller = controller
+    constructor(){
+        this.element = this.draw()
     }
 
     draw(){
@@ -40,12 +40,12 @@ class userHUD{
         return userKey
     }
 
-    update(){
+    update(allPressedKeys){
         let [wKey, aKey, sKey, dKey] = [
-            this.controller.isPressed('w'),
-            this.controller.isPressed('a'),
-            this.controller.isPressed('s'),
-            this.controller.isPressed('d')
+            allPressedKeys.includes('w'),
+            allPressedKeys.includes('a'),
+            allPressedKeys.includes('s'),
+            allPressedKeys.includes('d')
         ]
         
         let [wElement, aElement, sElement, dElement] = [

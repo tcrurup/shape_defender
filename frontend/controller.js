@@ -10,7 +10,7 @@ class Controller{
         //User HUD elements
         this.scoreList = new ScoreList()
         this.scoreCounter = new ScoreCounter()
-        this.userHUD = new userHUD(this)        
+        this.userHud = new userHUD()        
         
         //Initial Settings
         this.isPaused = false;
@@ -30,7 +30,7 @@ class Controller{
         //Add event listeners
         this.addInputListeners()
 
-        document.querySelector('div.userInputContainer').appendChild(this.userHUD.draw())
+    
 
         document.querySelector('a#debug').addEventListener('click', this.debugMode.bind(this))
         document.querySelector('button#startGame').addEventListener('click', this.restartLevel.bind(this))
@@ -96,6 +96,10 @@ class Controller{
         return this.scoreListObject
     }
 
+    get userHud(){
+        return this.userHudObject
+    }
+
     get userIsLoggedIn(){
         return this.currentUser != undefined && this.currentUser != ""
     }
@@ -113,12 +117,17 @@ class Controller{
 
     set scoreCounter(scObject){
         this.scoreCounterObject = scObject
-        document.querySelector('div.userInputContainer').appendChild(this.scoreCounter.element)
+        this.displayLeft.appendChild(this.scoreCounter.element)
     }
 
     set scoreList(slObject){
         this.scoreListObject = slObject
         this.displayRight.appendChild(this.scoreList.element)
+    }
+
+    set userHud(uhObject){
+        this.userHudObject = uhObject
+        this.displayLeft.appendChild(this.userHud.element)
     }
 
     //********************FUNCTIONS********************
@@ -242,7 +251,6 @@ class Controller{
         document.querySelector('span#loggedInUser').innerHTML = username
         this.hideLogin();
         this.showGameDisplay();
-        this.showControlBox();
         this.submitScore();
     }
 
@@ -313,7 +321,7 @@ class Controller{
     }
 
     showControlBox(){
-        this.controlBox.style.display = 'inline-flex'
+        //this.controlBox.style.display = 'inline-flex'
     }
 
     showGameDisplay(){
@@ -431,7 +439,7 @@ class Controller{
             this.submitScore()
         } 
         else {            
-            this.userHUD.update()
+            this.userHUD.update(this.allPressedKeys)
             this.checkCollision()
             this.removeDestroyedElementsFromDOM()  
             this.deleteDestroyedObjects()   
