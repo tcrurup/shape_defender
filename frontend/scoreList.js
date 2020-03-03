@@ -18,6 +18,7 @@ class ScoreList{
         return 'scoreList'
     }
 
+    //CLASS FUNCTIONS
     addHeaders(){
         const leftHeader = this.createHeader('Rank')
         const rightHeader = this.createHeader('Username  -  High Score')

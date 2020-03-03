@@ -1,13 +1,6 @@
 class Controller{
 
-    constructor(game={}){
-
-       //This is an option to load a saved game that is a json file, otherwise it just creates new
-        if(Object.keys(game).length > 0){
-            this.game = game
-        } else {
-            this.game = new Game(this)
-        }
+    constructor(){
 
         //Everything that you will see on display
         this.allProjectiles = [];
@@ -29,6 +22,7 @@ class Controller{
         } 
         this.spawnCooldown = 0; 
         //this.speedIncreaseFactor = 1.5;  //max % enemy speed will increase upon cyclying    
+        this.spawnDelay = 1;
 
         //Add event listeners
         this.addInputListeners()
@@ -280,7 +274,6 @@ class Controller{
 
     restartLevel(){
         this.userUnit.isDestroyed = false;
-        this.game.resetCurrentSeed();
         this.allEnemies = [];
         this.allProjectiles = [];
         this.userPoints = 0;
@@ -435,7 +428,7 @@ class Controller{
         if(this.spawnCooldown > 0){ 
             this.spawnCooldown-- 
         }
-        else if(this.spawnCooldown === 0 && this.game.currentSeed.length > 0){
+        else if(this.spawnCooldown === 0){
             let enemy;
             switch(Math.ceil(Math.random() * 3)){
                 case 3:
@@ -449,7 +442,7 @@ class Controller{
                     break;                     
             }
             this.spawnEnemy(enemy)
-            this.spawnCooldown = this.game.spawnDelay * 60;
+            this.spawnCooldown = this.spawnDelay * 60;
         }        
     }
 
