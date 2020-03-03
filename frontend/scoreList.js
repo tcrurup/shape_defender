@@ -42,6 +42,10 @@ class ScoreList{
         this.element.appendChild(newRow)
     }
 
+    clear(){
+        this.element.querySelectorAll('tr:not(:first-child)').forEach( node => { node.parentNode.removeChild(node) })
+    }
+
     createRow(){
         return document.createElement('tr')
     }
@@ -53,6 +57,7 @@ class ScoreList{
     }
 
     updateList(response){
+        this.clear()
         Object.keys(response).forEach( key => {
             this.addListItem(key, response[key])
         })
