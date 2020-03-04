@@ -2,6 +2,14 @@ class AppPortal{
 
     constructor(){
         this.element = this.createElement()
+        this.submitType = AppPortal.submitTypes.login
+    }
+
+    static get submitTypes(){
+        return {
+            login : 'login',
+            signup : 'signup'
+        }
     }
 
     createElement(){

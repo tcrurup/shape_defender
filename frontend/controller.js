@@ -84,7 +84,7 @@ class Controller{
     }
 
     get formSubmitType(){
-        return document.querySelector('input#submitType').value
+        return this.loginPortal.submitType
     }
 
     get scoreCounter(){
