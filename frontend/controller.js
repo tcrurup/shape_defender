@@ -31,7 +31,7 @@ class Controller{
         //document.querySelector('a#debug').addEventListener('click', this.debugMode.bind(this))
         document.querySelector('button#startGame').addEventListener('click', this.restartLevel.bind(this))
         document.querySelector('a#logout').addEventListener('click', this.logoutUser.bind(this))
-        document.querySelector('a#signUpLink').addEventListener('click', this.toggleLoginAndSignUp.bind(this))
+        document.querySelector('a#toggleLink').addEventListener('click', this.toggleLoginAndSignUp.bind(this))
 
         //Add on the board
         this.clearDisplay()
@@ -325,8 +325,7 @@ class Controller{
     }
 
     showLogin(){
-        this.loginMenu.style.display = 'flex'
-        console.log(username)
+        this.loginPortal.show()
     }
 
     showMenu(){

@@ -9,6 +9,8 @@ class AppPortal{
         this.element.querySelector('button#formSubmit').addEventListener('click', this.submitForm.bind(this))
     }
 
+    //**********STATIC METHODS**********//
+
     static get submitTypes(){
         const options = {
             login : 'login',
@@ -18,7 +20,13 @@ class AppPortal{
         return options
     }
 
+    //**********SETTERS**********//
 
+    set elementDisplay(type){
+        this.element.style.display = type
+    }
+
+    //**********CLASS METHODS**********//
 
     createElement(){
         let element = document.createElement('div')
@@ -66,13 +74,21 @@ class AppPortal{
         form.appendChild(submitButton)
         form.appendChild(linkToggle)
         element.appendChild(form)
+        element.style.display = 'none'
         
         return element
     }
 
+    hide(){
+        this.elementDisplay = 'none'
+    }
+
     loginUser(user){
         this.currentUser = user.username
-        console.log(this.currentUser)
+    }
+
+    logout(){
+        this.currentUser = null
     }
 
     processFormSubmit(config){
@@ -89,6 +105,10 @@ class AppPortal{
             })
         .catch( error => alert(error)) 
     }
+
+    show(){
+        this.elementDisplay = 'flex'
+    }    
 
     submitForm(event){
         event.preventDefault()
@@ -108,6 +128,10 @@ class AppPortal{
         }
 
         this.processFormSubmit(config) 
+    }
+
+    userIsLoggedIn(){
+        return this.currentUser != null && this.currentUser != ""
     }
 
 }
