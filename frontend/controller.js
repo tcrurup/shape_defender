@@ -235,6 +235,10 @@ class Controller{
         document.querySelector('div.gameMenu').style.display = 'none'
     }
 
+    hideScoreCounter(){
+        this.scoreCounter.hide()
+    }
+
     initialize(){
         this.showLogin();
     }
@@ -330,6 +334,10 @@ class Controller{
 
     showMenu(){
         document.querySelector('div.gameMenu').style.display = 'flex'
+    }
+
+    showScoreCounter(){
+        this.scoreCounter.show()
     }
 
     showSignUp(event){

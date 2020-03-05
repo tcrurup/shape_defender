@@ -1,6 +1,7 @@
-class AppPortal{
+class AppPortal extends GameWindow{
 
     constructor(){
+        super()
         this.element = this.createElement()
         this.formSubmitType = AppPortal.submitTypes.login
         this.currentUser  = null
@@ -30,11 +31,6 @@ class AppPortal{
     }
 
     //**********SETTERS**********//
-
-    set elementDisplay(type){
-        this.element.style.display = type
-    }
-
     set formButtonText(text){
         this.formSubmitButton.innerHTML = text
     }
@@ -100,10 +96,6 @@ class AppPortal{
         return element
     }
 
-    hide(){
-        this.elementDisplay = 'none'
-    }
-
     loginUser(user){
         this.currentUser = user.username
         this.callbackOnLogin()
@@ -126,11 +118,7 @@ class AppPortal{
                 }
             })
         .catch( error => alert(error)) 
-    }
-
-    show(){
-        this.elementDisplay = 'flex'
-    }    
+    }  
 
     submitForm(event){
         event.preventDefault()
