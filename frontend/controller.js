@@ -11,7 +11,7 @@ class Controller{
         this.scoreList = new ScoreList()
         this.scoreCounter = new ScoreCounter()
         this.userHud = new userHUD()
-        
+
         this.loginPortal = new AppPortal() 
         this.loginPortal.onLoginCallback = this.showGameDisplay.bind(this)       
         
@@ -33,7 +33,7 @@ class Controller{
         //document.querySelector('a#debug').addEventListener('click', this.debugMode.bind(this))
         document.querySelector('button#startGame').addEventListener('click', this.restartLevel.bind(this))
         document.querySelector('a#logout').addEventListener('click', this.logoutUser.bind(this))
-        document.querySelector('a#toggleLink').addEventListener('click', this.toggleLoginAndSignUp.bind(this))
+        
 
         //Add on the board
         this.clearDisplay()
@@ -219,9 +219,6 @@ class Controller{
         this.allProjectiles = this.allProjectiles.filter( x => { return x.isDestroyed === false } )
     }
 
-    hideAll(){
-    }
-
     hideControlBox(){
         this.controlBox.style.display = 'none'
     }
@@ -231,7 +228,7 @@ class Controller{
     }
 
     hideLogin(){
-        this.loginMenu.style.display = 'none'
+        this.loginPortal.hide()
     }
 
     hideMenu(){
@@ -324,6 +321,7 @@ class Controller{
 
     showGameDisplay(){
         this.gameDisplay.style.display = 'inline-flex'
+        this.hideLogin()
     }
 
     showLogin(){
@@ -379,17 +377,6 @@ class Controller{
                 this.scoreList.updateList(object)
             })
         .catch( error => alert(error)) 
-    }
-
-    toggleLoginAndSignUp(event){
-        event.preventDefault();
-        if(this.formSubmitType == 'login'){
-            this.showSignUp()
-            this.formSubmitType = 'signup'            
-        } else {
-            this.showLogin()
-            this.formSubmitType = 'login'   
-        }
     }
 
     togglePause(){

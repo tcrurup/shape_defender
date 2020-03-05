@@ -5,7 +5,8 @@ class AppPortal{
         this.formSubmitType = AppPortal.submitTypes.login
         this.currentUser  = null
 
-        this.element.querySelector('button#formSubmit').addEventListener('click', this.submitForm.bind(this))
+        this.formSubmitButton.addEventListener('click', this.submitForm.bind(this))
+        this.signupLoginToggleLink.addEventListener('click', this.toggleLoginAndSignUp.bind(this))
     }
 
     //**********STATIC METHODS**********//
@@ -19,14 +20,31 @@ class AppPortal{
         return options
     }
 
+    //**********GETTERS**********//
+    get formSubmitButton(){
+        return this.element.querySelector('button#formSubmit')
+    }
+
+    get signupLoginToggleLink(){
+        return this.element.querySelector('a#toggleLink')
+    }
+
     //**********SETTERS**********//
 
     set elementDisplay(type){
         this.element.style.display = type
     }
 
+    set formButtonText(text){
+        this.formSubmitButton.innerHTML = text
+    }
+
     set onLoginCallback(cbFunction){
         this.callbackOnLogin = cbFunction
+    }
+
+    set toggleLinkText(text){
+        this.signupLoginToggleLink.innerHTML = text
     }
 
     //**********CLASS METHODS**********//
@@ -132,6 +150,19 @@ class AppPortal{
         }
 
         this.processFormSubmit(config) 
+    }
+
+    toggleLoginAndSignUp(event){
+        event.preventDefault();
+        if(this.formSubmitType === AppPortal.submitTypes.login){
+            this.formSubmitType = AppPortal.submitTypes.signup
+            this.formButtonText = "Sign Up"
+            this.toggleLinkText = "Login"
+        } else {
+            this.formSubmitType = AppPortal.submitTypes.login
+            this.formButtonText = "Login"
+            this.toggleLinkText = "Sign Up"
+        }
     }
 
     userIsLoggedIn(){
