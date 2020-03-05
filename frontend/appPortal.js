@@ -5,7 +5,6 @@ class AppPortal{
         this.formSubmitType = AppPortal.submitTypes.login
         this.currentUser  = null
 
-
         this.element.querySelector('button#formSubmit').addEventListener('click', this.submitForm.bind(this))
     }
 
@@ -24,6 +23,10 @@ class AppPortal{
 
     set elementDisplay(type){
         this.element.style.display = type
+    }
+
+    set onLoginCallback(cbFunction){
+        this.callbackOnLogin = cbFunction
     }
 
     //**********CLASS METHODS**********//
@@ -45,7 +48,7 @@ class AppPortal{
 
         let passwordLabel = document.createElement('label')
         passwordLabel.htmlFor = 'password'
-        passwordLabel.innerHTML = "Passoword: "
+        passwordLabel.innerHTML = "Password: "
 
         let passwordInput = document.createElement('input')
         passwordInput.type = 'password'
@@ -85,6 +88,7 @@ class AppPortal{
 
     loginUser(user){
         this.currentUser = user.username
+        this.callbackOnLogin()
     }
 
     logout(){

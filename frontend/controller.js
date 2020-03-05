@@ -11,7 +11,9 @@ class Controller{
         this.scoreList = new ScoreList()
         this.scoreCounter = new ScoreCounter()
         this.userHud = new userHUD()
-        this.loginPortal = new AppPortal()        
+        
+        this.loginPortal = new AppPortal() 
+        this.loginPortal.onLoginCallback = this.showGameDisplay.bind(this)       
         
         //Initial Settings
         this.isPaused = false;
