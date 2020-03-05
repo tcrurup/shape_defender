@@ -24,18 +24,18 @@ class Controller{
         
         this.addInputListeners()
 
-        this.displayMiddle.appendChild(this.loginPortal.element)
+        
 
     
 
         //document.querySelector('a#debug').addEventListener('click', this.debugMode.bind(this))
         document.querySelector('button#startGame').addEventListener('click', this.restartLevel.bind(this))
-        document.querySelector('button#formSubmit').addEventListener('click', this.submitForm.bind(this))
         document.querySelector('a#logout').addEventListener('click', this.logoutUser.bind(this))
         document.querySelector('a#signUpLink').addEventListener('click', this.toggleLoginAndSignUp.bind(this))
 
         //Add on the board
-        this.draw()
+        this.clearDisplay()
+        this.appendToDisplay(this.userUnit.element)
 
         this.resetKeyInputs()//Set initial key inputs to false to avoid unwanted initial movement
         
@@ -83,6 +83,10 @@ class Controller{
         return document.querySelector('div.login');
     }
 
+    get loginPortal(){
+        return this.loginPortalObject
+    }
+
     get formSubmitType(){
         return this.loginPortal.submitType
     }
@@ -112,6 +116,11 @@ class Controller{
     }
     set formButtonText(text){
         document.querySelector('button#formSubmit').innerHTML = text
+    }
+
+    set loginPortal(lpObject){
+        this.loginPortalObject = lpObject
+        this.displayMiddle.appendChild(this.loginPortal.element)
     }
 
     set scoreCounter(scObject){
@@ -203,11 +212,6 @@ class Controller{
         this.showControlBox();
     }
 
-    draw(){
-        this.clearDisplay()
-        this.appendToDisplay(this.userUnit.element)
-    }
-
     deleteDestroyedObjects(){
         this.allEnemies = this.allEnemies.filter( x => { return x.isDestroyed === false } )
         this.allProjectiles = this.allProjectiles.filter( x => { return x.isDestroyed === false } )
@@ -269,22 +273,6 @@ class Controller{
         this.showMenu();
     }
 
-    processFormSubmit(config){
-        let controller = this
-        const url = `http://localhost:3000/${this.formSubmitType}`
-        fetch(url, config)
-            .then(response => response.json())
-            .then( (object) => {
-                if(object.errors){
-                    alert(object.errors)
-                }
-                else{
-                    controller.logInUserAndShowGame(object.username)
-                }
-            })
-        .catch( error => alert(error)) 
-    }
-
     removeDestroyedElementsFromDOM(){
         this.removeDestroyedEnemiesFromDOM();
         this.removeDestroyedProjectilesFromDOM();
@@ -338,8 +326,7 @@ class Controller{
 
     showLogin(){
         this.loginMenu.style.display = 'flex'
-        this.formSubmitType = 'login'
-        this.formButtonText = 'Login'
+        console.log(username)
     }
 
     showMenu(){
@@ -366,26 +353,6 @@ class Controller{
     start(){
         this.hideMenu();
         this.loop = setInterval(this.update.bind(this), 16)
-    }
-
-    submitForm(event){
-        event.preventDefault()
-
-        let formData = {
-            username: document.querySelector('div.login input#username').value,
-            password: document.querySelector('div.login input#password').value
-        }
-
-        let config = {
-            method: "POST",
-            body: JSON.stringify(formData),
-            headers:{
-                "Content-Type" : "application/json",
-                "Accept" : "application/json"
-            }
-        }
-
-        this.processFormSubmit(config) 
     }
 
     submitScore(){

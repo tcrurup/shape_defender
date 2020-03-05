@@ -2,15 +2,23 @@ class AppPortal{
 
     constructor(){
         this.element = this.createElement()
-        this.submitType = AppPortal.submitTypes.login
+        this.formSubmitType = AppPortal.submitTypes.login
+        this.currentUser  = null
+
+
+        this.element.querySelector('button#formSubmit').addEventListener('click', this.submitForm.bind(this))
     }
 
     static get submitTypes(){
-        return {
+        const options = {
             login : 'login',
             signup : 'signup'
         }
+
+        return options
     }
+
+
 
     createElement(){
         let element = document.createElement('div')
@@ -60,6 +68,46 @@ class AppPortal{
         element.appendChild(form)
         
         return element
+    }
+
+    loginUser(user){
+        this.currentUser = user.username
+        console.log(this.currentUser)
+    }
+
+    processFormSubmit(config){
+        const url = `http://localhost:3000/${this.formSubmitType}`
+        fetch(url, config)
+            .then(response => response.json())
+            .then( (object) => {
+                if(object.errors){
+                    alert(object.errors)
+                }
+                else{
+                    this.loginUser(object)
+                }
+            })
+        .catch( error => alert(error)) 
+    }
+
+    submitForm(event){
+        event.preventDefault()
+
+        let formData = {
+            username: document.querySelector('div.login input#username').value,
+            password: document.querySelector('div.login input#password').value
+        }
+
+        let config = {
+            method: "POST",
+            body: JSON.stringify(formData),
+            headers:{
+                "Content-Type" : "application/json",
+                "Accept" : "application/json"
+            }
+        }
+
+        this.processFormSubmit(config) 
     }
 
 }
