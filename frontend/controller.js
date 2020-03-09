@@ -8,12 +8,13 @@ class Controller{
         this.userUnit = new UserUnit(225, 700, this.spawnProjectile.bind(this))
         
         //User HUD elements
+        this.gameBoard = new GameBoard()
         this.scoreList = new ScoreList()
         this.scoreCounter = new ScoreCounter()
         this.userHud = new userHUD()
 
         this.loginPortal = new AppPortal() 
-        this.loginPortal.onLoginCallback = this.showGameDisplay.bind(this)       
+        this.loginPortal.onLoginCallback = this.displayGame.bind(this)       
         
         //Initial Settings
         this.isPaused = false;
@@ -24,11 +25,7 @@ class Controller{
 
         //Add event listeners
         
-        this.addInputListeners()
-
-        
-
-    
+        this.addInputListeners()    
 
         //document.querySelector('a#debug').addEventListener('click', this.debugMode.bind(this))
         document.querySelector('button#startGame').addEventListener('click', this.restartLevel.bind(this))
@@ -37,7 +34,7 @@ class Controller{
 
         //Add on the board
         this.clearDisplay()
-        this.appendToDisplay(this.userUnit.element)
+        this.gameBoard.appendToDisplay(this.userUnit.element)
 
         this.resetKeyInputs()//Set initial key inputs to false to avoid unwanted initial movement
         
@@ -61,14 +58,6 @@ class Controller{
         return pressedInputs
     }
 
-    get controlBox(){
-        return document.querySelector('div.userInputContainer')
-    }
-
-    get gameDisplay(){
-        return document.querySelector('div.gameScreen');
-    }
-
     get displayLeft(){
         return document.querySelector('div.screenLeft')
     }
@@ -81,62 +70,49 @@ class Controller{
         return document.querySelector('div.screenRight')
     }
 
-    get loginMenu(){
-        return document.querySelector('div.login');
+    get gameBoard(){
+        return this._gameBoardObject
     }
 
     get loginPortal(){
-        return this.loginPortalObject
-    }
-
-    get formSubmitType(){
-        return this.loginPortal.submitType
+        return this._loginPortalObject
     }
 
     get scoreCounter(){
-        return this.scoreCounterObject
+        return this._scoreCounterObject
     }
 
     get scoreList(){
-        return this.scoreListObject
+        return this._scoreListObject
     }
 
     get userHud(){
-        return this.userHudObject
-    }
-
-    get userIsLoggedIn(){
-        return this.currentUser != undefined && this.currentUser != ""
+        return this._userHudObject
     }
 
     //********************SETTERS********************
-
-    set formSubmitType(type){
-        if(type === 'login' || type === 'signup'){
-            document.querySelector('input#submitType').value = type
-        }
-    }
-    set formButtonText(text){
-        document.querySelector('button#formSubmit').innerHTML = text
+    set gameBoard(gbObject){
+        this._gameBoardObject = gbObject
+        this.displayMiddle.appendChild(this.gameBoard.element)
     }
 
     set loginPortal(lpObject){
-        this.loginPortalObject = lpObject
+        this._loginPortalObject = lpObject
         this.displayMiddle.appendChild(this.loginPortal.element)
     }
 
     set scoreCounter(scObject){
-        this.scoreCounterObject = scObject
+        this._scoreCounterObject = scObject
         this.displayLeft.appendChild(this.scoreCounter.element)
     }
 
     set scoreList(slObject){
-        this.scoreListObject = slObject
+        this._scoreListObject = slObject
         this.displayRight.appendChild(this.scoreList.element)
     }
 
     set userHud(uhObject){
-        this.userHudObject = uhObject
+        this._userHudObject = uhObject
         this.displayLeft.appendChild(this.userHud.element)
     }
 
@@ -157,10 +133,6 @@ class Controller{
                 }
             }
         });
-    }
-
-    appendToDisplay(element){
-        this.gameDisplay.appendChild(element)
     }
 
     checkCollision(){
@@ -194,7 +166,7 @@ class Controller{
     }
     
     clearDisplay(){
-        this.gameDisplay.querySelectorAll('canvas').forEach( x => {
+        this.gameBoard.element.querySelectorAll('canvas').forEach( x => {
             x.parentNode.removeChild(x)
         })
     }
@@ -219,12 +191,30 @@ class Controller{
         this.allProjectiles = this.allProjectiles.filter( x => { return x.isDestroyed === false } )
     }
 
+    displayGame(){
+        this.gameBoard.show()
+        this.userHud.show()
+        this.scoreCounter.show()
+        this.scoreList.show()
+
+        this.loginPortal.hide()
+    }
+
+    displayLogin(){
+        this.gameBoard.hide()
+        this.userHud.hide()
+        this.scoreCounter.hide()
+        this.scoreList.hide()
+
+        this.loginPortal.show()
+    }
+
     hideControlBox(){
-        this.controlBox.style.display = 'none'
+        this.controlBox.hide()
     }
 
     hideGameDisplay(){
-        this.gameDisplay.style.display = 'none'
+        this.gameDisplay.hide()
     }
 
     hideLogin(){
@@ -339,21 +329,15 @@ class Controller{
     showScoreCounter(){
         this.scoreCounter.show()
     }
-
-    showSignUp(event){
-        this.loginMenu.style.display = 'flex'
-        this.formSubmitType = 'signup'
-        this.formButtonText = 'Sign Up'
-    }
     
     spawnEnemy(enemy){
         this.allEnemies.push(enemy)
-        this.appendToDisplay(enemy.element)
+        this.gameboard.appendToDisplay(enemy.element)
     }
 
     spawnProjectile(x, y){
         let projectile = new Projectile(x, y)
-        this.appendToDisplay(projectile.element)
+        this.gameboard.appendToDisplay(projectile.element)
         this.allProjectiles.push(projectile)        
     }
 

@@ -1,8 +1,10 @@
-class userHUD{
+class userHUD extends GameWindow{
 
     
     constructor(){
+        super()
         this.element = this.draw()
+        this.hide()
     }
 
     draw(){

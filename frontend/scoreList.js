@@ -1,12 +1,13 @@
-class ScoreList{
+class ScoreList extends GameWindow{
 
     //CCONSTRUCTOR
 
     constructor(){
+        super()
         this.element = document.createElement('table')
         this.element.id = ScoreList.tableId
         this.addHeaders()
-        return this
+        this.hide()
     }
 
     //STATIC FUNCTIONS
