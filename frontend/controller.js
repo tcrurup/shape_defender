@@ -2,11 +2,6 @@ class Controller{
 
     constructor(){
 
-        //Game elements on display
-        this.allProjectiles = [];
-        this.allEnemies = [];
-        this.userUnit = new UserUnit(225, 700, this.spawnProjectile.bind(this))
-        
         //User HUD elements
         this.gameBoard = new GameBoard()
         this.scoreList = new ScoreList()
@@ -19,8 +14,7 @@ class Controller{
         //Initial Settings
         this.isPaused = false;
         this.userPoints = 0;
-        this.spawnCooldown = 0;
-        this.spawnDelay = 1;
+        
         //this.speedIncreaseFactor = 1.5;  //max % enemy speed will increase upon cyclying    
 
         //Add event listeners
@@ -33,18 +27,11 @@ class Controller{
         
 
         //Add on the board
-        this.clearDisplay()
-        this.gameBoard.appendToDisplay(this.userUnit.element)
-
         this.resetKeyInputs()//Set initial key inputs to false to avoid unwanted initial movement
         
     }
 
     //********************GETTERS********************
-
-    get allObjects(){
-        return [...this.allEnemies, ...this.allProjectiles]
-    }
 
     get allPressedKeys(){
         let pressedInputs = []
@@ -135,60 +122,14 @@ class Controller{
         });
     }
 
-    checkCollision(){
-        //Check collisions between enemy units and projectiles, marks both as destroyed if found
-        this.allProjectiles.forEach( projectile => {
-                
-                let hitEnemies = this.allEnemies.filter( 
-                    enemy => {
-                        return projectile.intersectOnX(enemy)
-                    }
-                ).filter( 
-                    enemyOnIntersect => {
-                        return projectile.intersectOnY(enemyOnIntersect)
-                    }
-                )
-                if(hitEnemies.length > 0){
-                    projectile.isDestroyed = true;
-                    hitEnemies.forEach( enemy => { 
-                        enemy.isDestroyed = true
-                        this.userPoints += enemy.pointValue
-                    })
-                }
-        })
 
-        //Check enemy collision against the main player, marks both as destroyed if found
-        this.allEnemies.filter( enemy => { return this.userUnit.intersectOnY(enemy) } ).forEach( enemy => {
-            if (this.userUnit.intersectOnX(enemy)){
-                this.userUnit.isDestroyed = true;
-            }
-        })
-    }
     
-    clearDisplay(){
-        this.gameBoard.element.querySelectorAll('canvas').forEach( x => {
-            x.parentNode.removeChild(x)
-        })
-    }
-
-    cycleEnemiesAtBottom(){
-        this.allEnemies.filter( x => { return x.atBottom === true } ).forEach( enemy => {
-            enemy.y = 0;
-            enemy.atBottom = false;
-            this.spawnEnemy(enemy.clone())
-        });
-    }
 
     debugMode(event){
         event.preventDefault()
         this.hideLogin();
         this.showGameDisplay();
         this.showControlBox();
-    }
-
-    deleteDestroyedObjects(){
-        this.allEnemies = this.allEnemies.filter( x => { return x.isDestroyed === false } )
-        this.allProjectiles = this.allProjectiles.filter( x => { return x.isDestroyed === false } )
     }
 
     displayGame(){
@@ -219,10 +160,6 @@ class Controller{
 
     hideLogin(){
         this.loginPortal.hide()
-    }
-
-    hideMenu(){
-        document.querySelector('div.gameMenu').style.display = 'none'
     }
 
     hideScoreCounter(){
@@ -266,29 +203,10 @@ class Controller{
         this.showMenu();
     }
 
-    removeDestroyedElementsFromDOM(){
-        this.removeDestroyedEnemiesFromDOM();
-        this.removeDestroyedProjectilesFromDOM();
-    }
+    
+    
 
-    removeDestroyedEnemiesFromDOM(){
-        this.allEnemies.filter( enemy => {
-            return enemy.isDestroyed
-        }).forEach( destroyedEnemy => {
-            destroyedEnemy.breaksInto().forEach( newEnemy => {
-                this.spawnEnemy(newEnemy)
-            })
-            destroyedEnemy.destroy()
-        })
-    }
-
-    removeDestroyedProjectilesFromDOM(){
-        this.allProjectiles.forEach( projectile => { 
-            if(projectile.isDestroyed === true){ 
-                projectile.destroy() 
-            } 
-        })
-    }
+    
 
     resetKeyInputs(){
         this.pressedKeys = {
@@ -301,9 +219,7 @@ class Controller{
     }
 
     restartLevel(){
-        this.userUnit.isDestroyed = false;
-        this.allEnemies = [];
-        this.allProjectiles = [];
+        this.gameBoard.restartLevel()
         this.userPoints = 0;            
         this.unpause();        
     }
@@ -321,27 +237,16 @@ class Controller{
         this.loginPortal.show()
     }
 
-    showMenu(){
-        document.querySelector('div.gameMenu').style.display = 'flex'
-    }
-
     showScoreCounter(){
         this.scoreCounter.show()
     }
     
-    spawnEnemy(enemy){
-        this.allEnemies.push(enemy)
-        this.gameBoard.appendToDisplay(enemy.element)
-    }
+    
 
-    spawnProjectile(x, y){
-        let projectile = new Projectile(x, y)
-        this.gameBoard.appendToDisplay(projectile.element)
-        this.allProjectiles.push(projectile)        
-    }
+    
 
     start(){
-        this.hideMenu();
+        this.gameBoard.start()
         this.loop = setInterval(this.update.bind(this), 16)
     }
 
@@ -386,28 +291,17 @@ class Controller{
     }
     
     update(){
-
-        if(this.userUnit.isDestroyed){
-            this.clearDisplay()
+        if(this.gameBoard.userIsDestroyed()){
+            this.gameBoard.endGame()
             this.pause()
             this.submitScore()
         } 
         else {            
             this.userHud.update(this.allPressedKeys)
-            this.checkCollision()
-            this.removeDestroyedElementsFromDOM()  
-            this.deleteDestroyedObjects()   
-            this.cycleEnemiesAtBottom()
-            this.updateAllObjects();
-            this.updateScoreCounter();
-            this.updateSpawner();     
+            this.gameBoard.update(this.allPressedKeys)
+            this.updateScoreCounter();     
         }
-    }
-
-    updateAllObjects(){
-        this.userUnit.update(this.allPressedKeys)
-        this.allObjects.forEach( object => { object.update() } )     
-    }
+    }    
 
     updateScoreList(){
 
@@ -417,27 +311,7 @@ class Controller{
         this.scoreCounter.score = this.userPoints
     }
 
-    updateSpawner(){
-        if(this.spawnCooldown > 0){ 
-            this.spawnCooldown-- 
-        }
-        else if(this.spawnCooldown === 0){
-            let enemy;
-            switch(Math.ceil(Math.random() * 3)){
-                case 3:
-                    enemy = new LargeEnemy();
-                    break;
-                case 2:
-                    enemy = new MediumEnemy();
-                    break;
-                case 1:
-                    enemy = new SmallEnemy();
-                    break;                     
-            }
-            this.spawnEnemy(enemy)
-            this.spawnCooldown = this.spawnDelay * 60;
-        }        
-    }
+    
 
     //********************STATIC FUNCTIONS********************
 
