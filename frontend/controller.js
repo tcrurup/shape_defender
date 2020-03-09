@@ -77,6 +77,10 @@ class Controller{
         return this._userHudObject
     }
 
+    get usersCurrentScore(){
+        return this.gameBoard.userScore
+    }
+
     //********************SETTERS********************
     set gameBoard(gbObject){
         this._gameBoardObject = gbObject
@@ -91,6 +95,10 @@ class Controller{
     set scoreCounter(scObject){
         this._scoreCounterObject = scObject
         this.displayLeft.appendChild(this.scoreCounter.element)
+    }
+
+    set scoreDisplayValue(value){
+        this.scoreCounter.score = value
     }
 
     set scoreList(slObject){
@@ -308,10 +316,8 @@ class Controller{
     }
 
     updateScoreCounter(){
-        this.scoreCounter.score = this.userPoints
-    }
-
-    
+        this.scoreDisplayValue = this.usersCurrentScore
+    }  
 
     //********************STATIC FUNCTIONS********************
 

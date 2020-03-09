@@ -7,7 +7,7 @@ class GameBoard extends GameWindow{
         this.allEnemies = [];
         this.userUnit = new UserUnit(225, 700, this.spawnProjectile.bind(this))
         this.element = this.createElement()
-
+        this.userScore = 0;
         this.spawnCooldown = 0;
         this.spawnDelay = 1;
     }
@@ -42,7 +42,7 @@ class GameBoard extends GameWindow{
                     projectile.isDestroyed = true;
                     hitEnemies.forEach( enemy => { 
                         enemy.isDestroyed = true
-                        this.userPoints += enemy.pointValue
+                        this.userScore += enemy.pointValue
                     })
                 }
         })
@@ -120,6 +120,7 @@ class GameBoard extends GameWindow{
     }
 
     restartLevel(){
+        this.userScore = 0;
         this.clearDisplay()
         this.appendToDisplay(this.userUnit.element)
         this.userUnit.isDestroyed = false;
