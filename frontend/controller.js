@@ -304,8 +304,7 @@ class Controller{
         this.userUnit.isDestroyed = false;
         this.allEnemies = [];
         this.allProjectiles = [];
-        this.userPoints = 0;
-        this.draw()              
+        this.userPoints = 0;            
         this.unpause();        
     }
 
@@ -332,12 +331,12 @@ class Controller{
     
     spawnEnemy(enemy){
         this.allEnemies.push(enemy)
-        this.gameboard.appendToDisplay(enemy.element)
+        this.gameBoard.appendToDisplay(enemy.element)
     }
 
     spawnProjectile(x, y){
         let projectile = new Projectile(x, y)
-        this.gameboard.appendToDisplay(projectile.element)
+        this.gameBoard.appendToDisplay(projectile.element)
         this.allProjectiles.push(projectile)        
     }
 
