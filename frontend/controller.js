@@ -9,7 +9,7 @@ class Controller{
         this.userHud = new userHUD()
 
         this.loginPortal = new AppPortal() 
-        this.loginPortal.onLoginCallback = this.displayGame.bind(this)       
+        this.loginPortal.onLoginCallback = this.displayGame.bind(this)   
         
         //Initial Settings
         this.isPaused = false;
@@ -23,7 +23,6 @@ class Controller{
 
         //document.querySelector('a#debug').addEventListener('click', this.debugMode.bind(this))
         document.querySelector('button#startGame').addEventListener('click', this.restartLevel.bind(this))
-        document.querySelector('a#logout').addEventListener('click', this.logoutUser.bind(this))
         
 
         //Add on the board
@@ -43,6 +42,10 @@ class Controller{
         });
 
         return pressedInputs
+    }
+
+    get currentUser(){
+        return this.loginPortal.currentUser
     }
 
     get displayLeft(){
@@ -143,9 +146,11 @@ class Controller{
     displayGame(){
         this.gameBoard.show()
         this.userHud.show()
-        this.scoreCounter.show()
+        this.scoreCounter.show()        
         this.scoreList.show()
-
+        console.log(this.currentUser)
+        this.scoreList.submitScoreAndUpdate(this.currentUser, 0)
+        
         this.loginPortal.hide()
     }
 
@@ -186,22 +191,6 @@ class Controller{
         return this.allPressedKeys.includes(key)
     }
 
-    logInUserAndShowGame(username){
-        this.currentUser = username
-        document.querySelector('span#loggedInUser').innerHTML = username
-        this.hideLogin();
-        this.showGameDisplay();
-        this.submitScore();
-    }
-
-    logoutUser(event){
-        event.preventDefault()
-        this.currentUser = undefined
-        this.hideGameDisplay();
-        this.hideControlBox();
-        this.showLogin();
-    }
-
     outputUserToLog(){
         console.log(this.currentUser)
     }
@@ -209,12 +198,7 @@ class Controller{
     pause(){
         clearInterval(this.loop)
         this.showMenu();
-    }
-
-    
-    
-
-    
+    }   
 
     resetKeyInputs(){
         this.pressedKeys = {
@@ -225,12 +209,11 @@ class Controller{
             ' ': false
         } 
     }
-
+    
     restartLevel(){
         this.gameBoard.restartLevel()
-        this.userPoints = 0;            
-        this.unpause();        
-    }
+        this.start();        
+    }    
 
     showControlBox(){
         //this.controlBox.style.display = 'inline-flex'
@@ -247,40 +230,11 @@ class Controller{
 
     showScoreCounter(){
         this.scoreCounter.show()
-    }
-    
-    
-
-    
+    }   
 
     start(){
         this.gameBoard.start()
         this.loop = setInterval(this.update.bind(this), 16)
-    }
-
-    submitScore(){
-        const url = `http://localhost:3000/submitScore`
-
-        let formData = {
-            username: this.currentUser,
-            score: this.userPoints
-        }
-
-        let config = {
-            method: "POST",
-            body: JSON.stringify(formData),
-            headers:{
-                "Content-Type" : "application/json",
-                "Accept" : "application/json"
-            }
-        }
-
-        fetch(url, config)
-            .then(response => response.json())
-            .then( (object) => {
-                this.scoreList.updateList(object)
-            })
-        .catch( error => alert(error)) 
     }
 
     togglePause(){
@@ -294,15 +248,11 @@ class Controller{
         }
     }
 
-    unpause(){
-        this.start()
-    }
-    
     update(){
         if(this.gameBoard.userIsDestroyed()){
             this.gameBoard.endGame()
+            this.scoreList.submitScoreAndUpdate(this.currentUser, this.usersCurrentScore)
             this.pause()
-            this.submitScore()
         } 
         else {            
             this.userHud.update(this.allPressedKeys)
@@ -310,10 +260,6 @@ class Controller{
             this.updateScoreCounter();     
         }
     }    
-
-    updateScoreList(){
-
-    }
 
     updateScoreCounter(){
         this.scoreDisplayValue = this.usersCurrentScore

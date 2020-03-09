@@ -58,6 +58,33 @@ class ScoreList extends GameWindow{
         return header
     }
 
+    submitScoreAndUpdate(user, score){
+        const url = `http://localhost:3000/submitScore`
+
+        let formData = {
+            username: user,
+            score: score
+        }
+
+        let config = {
+            method: "POST",
+            body: JSON.stringify(formData),
+            headers:{
+                "Content-Type" : "application/json",
+                "Accept" : "application/json"
+            }
+        }
+
+        console.log(JSON.stringify(formData))
+
+        fetch(url, config)
+            .then(response => response.json())
+            .then( (object) => {
+                this.updateList(object)
+            })
+        .catch( error => alert(error)) 
+    }
+
     updateList(response){
         this.clear()
         Object.keys(response).forEach( key => {

@@ -23,7 +23,9 @@ class SessionsController < ApplicationController
     end
 
     def submit_score
+        puts session_params[:username]
         user = User.find_by(username: session_params[:username])
+        puts user
         if user.highscore == nil || user.highscore < session_params[:score]
             user.highscore = session_params[:score] 
             user.save

@@ -132,6 +132,7 @@ canvas.projectile {
 
 table#scoreList{
     text-align: center;
+    flex-direction: column;
     width: 400px;
 }
 

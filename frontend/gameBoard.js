@@ -20,11 +20,6 @@ class GameBoard extends GameWindow{
         this.element.appendChild(elem)
     }
 
-    endGame(){
-        this.clearDisplay()
-        this.showMenu()
-    }
-
     checkCollision(){
         //Check collisions between enemy units and projectiles, marks both as destroyed if found
         this.allProjectiles.forEach( projectile => {
@@ -91,6 +86,11 @@ class GameBoard extends GameWindow{
         this.allProjectiles = this.allProjectiles.filter( x => { return x.isDestroyed === false } )
     }
 
+    endGame(){
+        this.clearDisplay()
+        this.showMenu()
+    }
+
     hideMenu(){
         document.querySelector('div.gameMenu').style.display = 'none'
     }
@@ -120,12 +120,16 @@ class GameBoard extends GameWindow{
     }
 
     restartLevel(){
-        this.userScore = 0;
+        this.resetScore()
         this.clearDisplay()
         this.appendToDisplay(this.userUnit.element)
         this.userUnit.isDestroyed = false;
         this.allEnemies = [];
         this.allProjectiles = [];
+    }
+
+    resetScore(value = 0){
+        this.userScore = value
     }
 
     showMenu(){
