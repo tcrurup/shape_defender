@@ -22,19 +22,19 @@ class ScoreList extends GameWindow{
     //CLASS FUNCTIONS
     addHeaders(){
         const leftHeader = this.createHeader('Rank')
-        const rightHeader = this.createHeader('Username  -  High Score')
+        const middleHeader = this.createHeader('Username')
+        const rightHeader = this.createHeader('High Score')
 
 
-        const headers = [leftHeader, rightHeader]
+        const headers = [leftHeader, middleHeader, rightHeader]
         this.appendRow(headers)  
     }
 
-    addListItem(rank, usernameScore){
-        let left = document.createElement('td')
-        left.innerHTML = rank
-        let right = document.createElement('td')
-        right.innerHTML = `${usernameScore}`
-        const listItem = [left, right]
+    addListItem(rank, username, score){
+        let left = this.newTableData(rank)
+        let middle = this.newTableData(username)
+        let right = this.newTableData(score)
+        const listItem = [left, middle, right]
         this.appendRow(listItem)
     }
 
@@ -56,6 +56,12 @@ class ScoreList extends GameWindow{
         let header = document.createElement('th')
         header.innerHTML = text
         return header
+    }
+
+    newTableData(innerHtml){
+        let elem = document.createElement('td')
+        elem.innerHTML = innerHtml
+        return elem
     }
 
     submitScoreAndUpdate(user, score){
@@ -88,7 +94,9 @@ class ScoreList extends GameWindow{
     updateList(response){
         this.clear()
         Object.keys(response).forEach( key => {
-            this.addListItem(key, response[key])
+            let username = response[key][0]
+            let score = response[key][1]
+            this.addListItem(key, username, score)
         })
     }    
 }

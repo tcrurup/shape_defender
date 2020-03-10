@@ -3,15 +3,15 @@ class GameWindow{
     constructor(){
     }
 
-    set elementDisplay(type){
-        this.element.style.display = type
+    set elementClassName(name){
+        this.element.className = name
     }
 
     hide(){
-        this.elementDisplay = 'none'
+        this.elementClassName = 'hidden'
     }
 
     show(){
-        this.elementDisplay = 'flex'
+        this.elementClassName = 'flexContainer'
     }  
 }

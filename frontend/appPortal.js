@@ -47,7 +47,7 @@ class AppPortal extends GameWindow{
 
     createElement(){
         let element = document.createElement('div')
-        element.className = 'login'
+        element.id = 'login'
 
         let form = document.createElement('form')
 
@@ -91,7 +91,6 @@ class AppPortal extends GameWindow{
         form.appendChild(submitButton)
         form.appendChild(linkToggle)
         element.appendChild(form)
-        element.style.display = 'none'
         
         return element
     }
@@ -125,8 +124,8 @@ class AppPortal extends GameWindow{
         event.preventDefault()
 
         let formData = {
-            username: document.querySelector('div.login input#username').value,
-            password: document.querySelector('div.login input#password').value
+            username: document.querySelector('div#login input#username').value,
+            password: document.querySelector('div#login input#password').value
         }
 
         let config = {

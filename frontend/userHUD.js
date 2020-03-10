@@ -10,7 +10,7 @@ class userHUD extends GameWindow{
     draw(){
 
         let controlBox = document.createElement('div')
-        controlBox.className = 'controlBox'
+        controlBox.id = 'controlBox'
 
         let topRow = document.createElement('div')
         topRow.className = 'topRow'

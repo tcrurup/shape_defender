@@ -59,10 +59,11 @@ class GameBoard extends GameWindow{
     createElement(){
 
         let mainElem = document.createElement('div')
-        mainElem.className = 'gameScreen'
+        mainElem.id = 'gameScreen'
+        mainElem.className = 'hidden'
 
         let subElem = document.createElement('div')
-        subElem.className = 'gameMenu'
+        subElem.id = 'gameMenu'
 
         let button = document.createElement('button')
         button.id = 'startGame'
@@ -92,7 +93,7 @@ class GameBoard extends GameWindow{
     }
 
     hideMenu(){
-        document.querySelector('div.gameMenu').style.display = 'none'
+        document.querySelector('div#gameMenu').style.display = 'none'
     }
 
     removeDestroyedElementsFromDOM(){
@@ -133,7 +134,7 @@ class GameBoard extends GameWindow{
     }
 
     showMenu(){
-        document.querySelector('div.gameMenu').style.display = 'flex'
+        document.querySelector('div#gameMenu').style.display = 'flex'
     }
 
     spawnEnemy(enemy){
