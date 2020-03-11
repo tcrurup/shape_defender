@@ -5,6 +5,7 @@ class Controller{
         //User HUD elements
         this.gameBoard = new GameBoard()
         this.scoreList = new ScoreList()
+        this.gameSettings = new GameSettings()
         this.scoreCounter = new ScoreCounter()
         this.userHud = new userHUD()
 
@@ -68,6 +69,10 @@ class Controller{
         return this._gameBoardObject
     }
 
+    get gameSettings(){
+        return this._gameSettingsObject
+    }
+
     get loginPortal(){
         return this._loginPortalObject
     }
@@ -92,6 +97,11 @@ class Controller{
     set gameBoard(gbObject){
         this._gameBoardObject = gbObject
         this.displayMiddle.appendChild(this.gameBoard.element)
+    }
+
+    set gameSettings(gsObject){
+        this._gameSettingsObject = gsObject
+        this.displayLeft.appendChild(this.gameSettings.element)
     }
 
     set loginPortal(lpObject){
@@ -150,7 +160,8 @@ class Controller{
     displayGame(){
         this.gameBoard.showAsFlex()
         this.userHud.showAsFlex()
-        this.scoreCounter.showAsFlex()        
+        this.scoreCounter.showAsFlex()
+        this.gameSettings.showAsFlex()        
         this.scoreList.showAsInline()
         this.scoreList.submitScoreAndUpdate(this.currentUser, 0)
         
