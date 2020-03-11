@@ -4,9 +4,7 @@ class ScoreList extends GameWindow{
 
     constructor(){
         super()
-        this.element = document.createElement('table')
-        this.element.id = ScoreList.tableId
-        this.addHeaders()
+        this.element = this.newScoreListTableElement()
         this.hide()
     }
 
@@ -15,46 +13,84 @@ class ScoreList extends GameWindow{
         return document.querySelector('div#scoreList')
     }
 
+    static get leftColHeader(){
+        return 'Rank'
+    }
+
+    static get middleColHeader(){
+        return 'Username'
+    }
+
+    static get rightColHeader(){
+        return 'High Score'
+    }
+
+    static get submitPath(){
+        return '/submitScore'
+    }
+
     static get tableId(){
         return 'scoreList'
     }
 
+    //********** GETTERS **********//
+
+    get submitUrl(){
+        return `${Controller.baseUrl}${ScoreList.submitPath}`
+    }
+
     //CLASS FUNCTIONS
-    addHeaders(){
-        let leftHeader = this.createHeader('Rank')
-        let middleHeader = this.createHeader('Username')
-        let rightHeader = this.createHeader('High Score')
+    createNewListEntry(rank, username, score, currentUser){
+        const leftCol = this.newTableData(rank)
+        const middleCol = this.newTableData(username)
+        const rightCol = this.newTableData(score)
 
-        this.appendRow([leftHeader, middleHeader, rightHeader])  
-    }
+        let listItem = this.newRowFromArray([leftCol, middleCol, rightCol])
+        if(username == currentUser){ listItem.className = 'currentUser' }
 
-    addListItem(rank, username, score){
-        let left = this.newTableData(rank)
-        let middle = this.newTableData(username)
-        let right = this.newTableData(score)
-        const listItem = [left, middle, right]
-        this.appendRow(listItem)
-    }
-
-    appendRow(array){
-        let newRow = this.createRow()
-        array.forEach( elem => { newRow.appendChild(elem) }) 
-        this.element.appendChild(newRow)
+        this.element.appendChild(listItem)
     }
 
     clear(){
         this.element.querySelectorAll('tr:not(:first-child)').forEach( node => { node.parentNode.removeChild(node) })
     }
 
-    createRow(){
-        return document.createElement('tr')
+    newScoreListTableElement(){
+        let slTable = document.createElement('table')
+        slTable.id = ScoreList.tableId
+
+        const leftHeader = this.newHeader(ScoreList.leftColHeader)
+        const middleHeader = this.newHeader(ScoreList.middleColHeader)
+        const rightHeader = this.newHeader(ScoreList.rightColHeader)        
+
+        const headers = this.newRowFromArray([leftHeader, middleHeader, rightHeader])
+
+        slTable.appendChild(headers)  
+
+        return slTable
     }
 
-    createHeader(text){
+    newHeader(text){
         let header = document.createElement('td')
         header.innerHTML = text
         header.id = 'header'
         return header
+    }
+
+    highlightRowWithUser(username){
+        const allRows = this.element.childNodes
+        for(i=0; i<allRows.length; i++){
+            if(allRows[i].querySelector('td:nth-child(2)').innerHTML = username){
+                allRows[i].className = 'currentUser'
+                break;
+            }
+        }
+    }
+
+    newRowFromArray(array){
+        let row = document.createElement('tr')
+        array.forEach( elem => { row.appendChild(elem) }) 
+        return row
     }
 
     newTableData(innerHtml){
@@ -64,8 +100,6 @@ class ScoreList extends GameWindow{
     }
 
     submitScoreAndUpdate(user, score){
-        const url = `http://localhost:3000/submitScore`
-
         let formData = {
             username: user,
             score: score
@@ -82,20 +116,21 @@ class ScoreList extends GameWindow{
 
         console.log(JSON.stringify(formData))
 
-        fetch(url, config)
+        fetch(this.submitUrl, config)
             .then(response => response.json())
             .then( (object) => {
-                this.updateList(object)
+                this.updateList(object, user)
             })
         .catch( error => alert(error)) 
     }
 
-    updateList(response){
+    updateList(response, user){
         this.clear()
+        console.log(user)
         Object.keys(response).forEach( key => {
             let username = response[key][0]
-            let score = response[key][1]
-            this.addListItem(key, username, score)
+            let score = response[key][1]            
+            this.createNewListEntry(key, username, score, user)
         })
     }    
 }

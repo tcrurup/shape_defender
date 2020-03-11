@@ -153,6 +153,10 @@ table#scoreList tr{
     width: 100%
 }
 
+table#scoreList tr.currentUser{
+    color: blue;
+}
+
 table#scoreList tr:nth-child(even){
     background-color: rgb(228, 220, 220);
 }

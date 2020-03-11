@@ -30,6 +30,10 @@ class Controller{
         
     }
 
+    static get baseUrl(){
+        return 'http://localhost:3000'
+    }
+
     //********************GETTERS********************
 
     get allPressedKeys(){
