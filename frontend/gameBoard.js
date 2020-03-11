@@ -8,12 +8,15 @@ class GameBoard extends GameWindow{
         this.userUnit = new UserUnit(225, 700, this.spawnProjectile.bind(this))
         this.element = this.createElement()
         this.userScore = 0;
-        this.spawnCooldown = 0;
-        this.spawnDelay = 1;
+        this.timeSinceLastEnemySpawn = 0;
     }
 
     get allObjects(){
         return [...this.allEnemies, ...this.allProjectiles]
+    }
+
+    get spawnCooldown(){
+        return parseFloat(this.settings.spawnCooldown)
     }
 
     appendToDisplay(elem){
@@ -140,6 +143,7 @@ class GameBoard extends GameWindow{
     spawnEnemy(enemy){
         this.allEnemies.push(enemy)
         this.appendToDisplay(enemy.element)
+        this.timeSinceLastEnemySpawn = 0;
     }
 
     spawnProjectile(x, y){
@@ -167,10 +171,10 @@ class GameBoard extends GameWindow{
     }
 
     updateSpawner(){
-        if(this.spawnCooldown > 0){ 
-            this.spawnCooldown-- 
-        }
-        else if(this.spawnCooldown === 0){
+        this.timeSinceLastEnemySpawn += (1000.00 / this.settings.frameRate)
+        console.log(this.settings.frameRate)
+        console.log(this.spawnCooldown)
+        if(this.timeSinceLastEnemySpawn > (1000 * this.spawnCooldown)){ 
             let enemy;
             switch(Math.ceil(Math.random() * 3)){
                 case 3:
@@ -184,7 +188,6 @@ class GameBoard extends GameWindow{
                     break;                     
             }
             this.spawnEnemy(enemy)
-            this.spawnCooldown = this.spawnDelay * 60;
         }        
     }
 

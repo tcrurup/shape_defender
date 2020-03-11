@@ -186,3 +186,8 @@ table#scoreList tr td:nth-child(3){
     text-align: center;
     width: 19%;
 }
+
+div#userSettings{
+    flex-direction: column;
+    align-items: flex-end;
+}

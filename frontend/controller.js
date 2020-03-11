@@ -53,6 +53,10 @@ class Controller{
         return this.loginPortal.currentUser
     }
 
+    get currentSettings(){
+        return this.gameSettings.currentSettings
+    }
+
     get displayLeft(){
         return document.querySelector('div.screenLeft')
     }
@@ -247,8 +251,9 @@ class Controller{
     }   
 
     start(){
+        this.gameBoard.settings = this.currentSettings
+        this.loop = setInterval(this.update.bind(this), (1000 / this.currentSettings.frameRate))
         this.gameBoard.start()
-        this.loop = setInterval(this.update.bind(this), 16)
     }
 
     togglePause(){

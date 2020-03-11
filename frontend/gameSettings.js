@@ -6,14 +6,54 @@ class GameSettings extends GameWindow{
         this.hide()
     }
 
+    //********** CLASS FUNCTION **********//
+
+    static get spawnCooldownID(){
+        return 'spawnCooldown'
+    }
+
+    static get frameRateId(){
+        return 'frameRate'
+    }
+
+    //********** GETTERS **********//
+
+    get currentSettings(){
+        return {
+            frameRate: this.frameRate,
+            spawnCooldown: this.spawnCooldown
+        }
+    }
+
+    get frameRate(){
+        return this.getValueFromId(GameSettings.frameRateId)
+    }
+    
+    get spawnCooldown(){
+        return this.getValueFromId(GameSettings.spawnCooldownID)
+    }
+
+    //********** SETTERS **********//
+
+
+    //********** INSTANCE FUNCTIONS **********//
+
     createElement(){
         let element = document.createElement('div')
         element.id = 'userSettings'
 
-        const spawnCooldown = this.newSlider('spawnCooldown', .2, 5, .2, 'Spawn Cooldown: ')
-        element.appendChild(spawnCooldown)
+        const fps = this.newSlider(GameSettings.frameRateId, 10, 60, 1, "FPS: ")
+        const spawnCooldown = this.newSlider(GameSettings.spawnCooldownID, .2, 5, .2, 'Spawn Cooldown: ')
+        
+        const allSettingElements = [fps, spawnCooldown]
+
+        allSettingElements.forEach( setting => element.appendChild(setting) )
 
         return element
+    }
+
+    getValueFromId(elementId){
+        return this.element.querySelector(`#${elementId}`).value
     }
 
     newSlider(id, min, max, step, label = ""){
