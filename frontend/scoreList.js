@@ -40,6 +40,10 @@ class ScoreList extends GameWindow{
     }
 
     //CLASS FUNCTIONS
+    clear(){
+        this.element.querySelectorAll('tr:not(:first-child)').forEach( node => { node.parentNode.removeChild(node) })
+    }
+
     createNewListEntry(rank, username, score, currentUser){
         const leftCol = this.newTableData(rank)
         const middleCol = this.newTableData(username)
@@ -50,9 +54,34 @@ class ScoreList extends GameWindow{
 
         this.element.appendChild(listItem)
     }
+    
+    highlightRowWithUser(username){
+        const allRows = this.element.childNodes
+        for(i=0; i<allRows.length; i++){
+            if(allRows[i].querySelector('td:nth-child(2)').innerHTML = username){
+                allRows[i].className = 'currentUser'
+                break;
+            }
+        }
+    }
 
-    clear(){
-        this.element.querySelectorAll('tr:not(:first-child)').forEach( node => { node.parentNode.removeChild(node) })
+    newHeader(text){
+        let header = document.createElement('td')
+        header.innerHTML = text
+        header.id = 'header'
+        return header
+    }
+
+    newRowFromArray(array){
+        let row = document.createElement('tr')
+        array.forEach( elem => { row.appendChild(elem) }) 
+        return row
+    }
+
+    newTableData(innerHtml){
+        let elem = document.createElement('td')
+        elem.innerHTML = innerHtml
+        return elem
     }
 
     newScoreListTableElement(){
@@ -68,36 +97,7 @@ class ScoreList extends GameWindow{
         slTable.appendChild(headers)  
 
         return slTable
-    }
-
-    newHeader(text){
-        let header = document.createElement('td')
-        header.innerHTML = text
-        header.id = 'header'
-        return header
-    }
-
-    highlightRowWithUser(username){
-        const allRows = this.element.childNodes
-        for(i=0; i<allRows.length; i++){
-            if(allRows[i].querySelector('td:nth-child(2)').innerHTML = username){
-                allRows[i].className = 'currentUser'
-                break;
-            }
-        }
-    }
-
-    newRowFromArray(array){
-        let row = document.createElement('tr')
-        array.forEach( elem => { row.appendChild(elem) }) 
-        return row
-    }
-
-    newTableData(innerHtml){
-        let elem = document.createElement('td')
-        elem.innerHTML = innerHtml
-        return elem
-    }
+    }   
 
     submitScoreAndUpdate(user, score){
         let formData = {
@@ -114,19 +114,14 @@ class ScoreList extends GameWindow{
             }
         }
 
-        console.log(JSON.stringify(formData))
-
         fetch(this.submitUrl, config)
             .then(response => response.json())
-            .then( (object) => {
-                this.updateList(object, user)
-            })
+            .then( object => this.updateList(object, user) )
         .catch( error => alert(error)) 
     }
 
     updateList(response, user){
         this.clear()
-        console.log(user)
         Object.keys(response).forEach( key => {
             let username = response[key][0]
             let score = response[key][1]            
