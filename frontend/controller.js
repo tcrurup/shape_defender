@@ -173,7 +173,7 @@ class Controller{
         this.userHud.hide()
         this.scoreCounter.hide()
         this.scoreList.hide()
-
+        this.gameSettings.hide()
         this.loginPortal.show()
     }
 
