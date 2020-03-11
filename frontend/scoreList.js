@@ -21,13 +21,11 @@ class ScoreList extends GameWindow{
 
     //CLASS FUNCTIONS
     addHeaders(){
-        const leftHeader = this.createHeader('Rank')
-        const middleHeader = this.createHeader('Username')
-        const rightHeader = this.createHeader('High Score')
+        let leftHeader = this.createHeader('Rank')
+        let middleHeader = this.createHeader('Username')
+        let rightHeader = this.createHeader('High Score')
 
-
-        const headers = [leftHeader, middleHeader, rightHeader]
-        this.appendRow(headers)  
+        this.appendRow([leftHeader, middleHeader, rightHeader])  
     }
 
     addListItem(rank, username, score){
@@ -53,8 +51,9 @@ class ScoreList extends GameWindow{
     }
 
     createHeader(text){
-        let header = document.createElement('th')
+        let header = document.createElement('td')
         header.innerHTML = text
+        header.id = 'header'
         return header
     }
 

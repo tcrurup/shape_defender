@@ -16,13 +16,16 @@ main{
     display: flex;
 }
 
+.inlineContainer{
+    display: inline-table;
+}
+
 div#controlBox{
     background-color: lightskyblue;
     border-style: solid;
     border-width: 2px;
     border-color: black;
     border-radius: 10px;
-    display: flex;
     align-items: center;
     justify-content: center;
     flex-direction: column;
@@ -137,21 +140,45 @@ canvas.projectile {
 table#scoreList{
     align-self: center;
     background-color: white;
-    flex-direction: column;
-    width: 400px;
-    height: 400px;
+    border-radius: 10%;
+    padding: 20px;
+    width: 300px;
+    height: auto;
 }
 
 table#scoreList tr{
-    align-content: flex-end;
-    flex-direction: row;
-    justify-content: space-between;
+    display: block;
+    padding-bottom: 5px;
+    padding-top: 5px;
+    width: 100%
+}
+
+table#scoreList tr:nth-child(even){
+    background-color: rgb(228, 220, 220);
+}
+
+table#scoreList tr td#header{
+    font-weight: bold;
+    text-align: center;
 }
 
 table#scoreList tr td{
-    width: 33%;
+    display: inline-block;
+    vertical-align: middle
 }
 
-table#scoreboardList th{
-    width: 33%;
+table#scoreList tr td:nth-child(1){
+    text-align: center;
+    font-weight: bold;
+    width: 14%;
+}
+
+table#scoreList tr td:nth-child(2){
+    text-align: left;
+    width: 64%;
+}
+
+table#scoreList tr td:nth-child(3){
+    text-align: center;
+    width: 19%;
 }

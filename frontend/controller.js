@@ -144,11 +144,10 @@ class Controller{
     }
 
     displayGame(){
-        this.gameBoard.show()
-        this.userHud.show()
-        this.scoreCounter.show()        
-        this.scoreList.show()
-        console.log(this.currentUser)
+        this.gameBoard.showAsFlex()
+        this.userHud.showAsFlex()
+        this.scoreCounter.showAsFlex()        
+        this.scoreList.showAsInline()
         this.scoreList.submitScoreAndUpdate(this.currentUser, 0)
         
         this.loginPortal.hide()
@@ -220,16 +219,16 @@ class Controller{
     }
 
     showGameDisplay(){
-        this.gameDisplay.style.display = 'inline-flex'
+        this.gameDisplay.showAsInline()
         this.hideLogin()
     }
 
     showLogin(){
-        this.loginPortal.show()
+        this.loginPortal.showAsFlex()
     }
 
     showScoreCounter(){
-        this.scoreCounter.show()
+        this.scoreCounter.showAsFlex()
     }   
 
     start(){
