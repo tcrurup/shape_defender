@@ -251,9 +251,9 @@ class Controller{
     }   
 
     start(){
-        this.gameBoard.settings = this.currentSettings
-        this.loop = setInterval(this.update.bind(this), (1000 / this.currentSettings.frameRate))
-        this.gameBoard.start()
+        const settings = this.currentSettings
+        this.loop = setInterval(this.update.bind(this), (1000 / settings.frameRate))
+        this.gameBoard.start(settings)
     }
 
     togglePause(){

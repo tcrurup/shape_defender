@@ -6,9 +6,9 @@ class GameSettings extends GameWindow{
         this.hide()
     }
 
-    //********** CLASS FUNCTION **********//
+    //********** CLASS FUNCTIONS **********//
 
-    static get spawnCooldownID(){
+    static get spawnCooldownId(){
         return 'spawnCooldown'
     }
 
@@ -16,21 +16,48 @@ class GameSettings extends GameWindow{
         return 'frameRate'
     }
 
+    static get enemyYVelId(){
+        return 'enemyYVel'
+    }
+
+    static get shootCooldownId(){
+        return 'shootCooldown'
+    }
+
+    static get maxXIncreaseId(){
+        return 'maxXIncrease'
+    }
+
     //********** GETTERS **********//
 
     get currentSettings(){
         return {
             frameRate: this.frameRate,
-            spawnCooldown: this.spawnCooldown
+            spawnCooldown: this.spawnCooldown,
+            shootCooldown: this.shootCooldown,
+            enemyYVel: this.enemyYVel,
+            maxXIncrease: this.maxXIncrease
         }
+    }
+
+    get enemyYVel(){
+        return this.getValueFromId(GameSettings.enemyYVelId)
     }
 
     get frameRate(){
         return this.getValueFromId(GameSettings.frameRateId)
     }
+
+    get maxXIncrease(){
+        return this.getValueFromId(GameSettings.maxXIncreaseId)
+    }
+
+    get shootCooldown(){
+        return this.getValueFromId(GameSettings.shootCooldownId)
+    }
     
     get spawnCooldown(){
-        return this.getValueFromId(GameSettings.spawnCooldownID)
+        return this.getValueFromId(GameSettings.spawnCooldownId)
     }
 
     //********** SETTERS **********//
@@ -43,9 +70,12 @@ class GameSettings extends GameWindow{
         element.id = 'userSettings'
 
         const fps = this.newSlider(GameSettings.frameRateId, 10, 60, 1, "FPS: ")
-        const spawnCooldown = this.newSlider(GameSettings.spawnCooldownID, .2, 5, .2, 'Spawn Cooldown: ')
+        const spawnCooldown = this.newSlider(GameSettings.spawnCooldownId, .2, 5, .2, 'Spawn Cooldown: ')
+        const enemySpeed = this.newSlider(GameSettings.enemyYVelId, 1, 20, 1, "Circle Speed: ")
+        const shootCooldown = this.newSlider(GameSettings.shootCooldownId, 2, 360, 1, "Shot Cooldown: ")
+        const maxXIncreaseOnLoop = this.newSlider(GameSettings.maxXIncreaseId, .2, 4, .2, "Max X Increase On Loop: ")
         
-        const allSettingElements = [fps, spawnCooldown]
+        const allSettingElements = [fps, spawnCooldown, enemySpeed, shootCooldown, maxXIncreaseOnLoop]
 
         allSettingElements.forEach( setting => element.appendChild(setting) )
 

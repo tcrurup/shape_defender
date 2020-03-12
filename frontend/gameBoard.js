@@ -15,7 +15,11 @@ class GameBoard extends GameWindow{
         return [...this.allEnemies, ...this.allProjectiles]
     }
 
-    get spawnCooldown(){
+    get enemyYVelSetting(){
+        return parseInt(this.settings.enemyYVel)
+    }
+
+    get spawnCooldownSetting(){
         return parseFloat(this.settings.spawnCooldown)
     }
 
@@ -80,6 +84,7 @@ class GameBoard extends GameWindow{
     cycleEnemiesAtBottom(){
         this.allEnemies.filter( x => { return x.atBottom === true } ).forEach( enemy => {
             enemy.y = 0;
+            enemy.increaseXVelocityUpTo(this.settings.maxXIncrease)
             enemy.atBottom = false;
             this.spawnEnemy(enemy.clone())
         });
@@ -152,7 +157,9 @@ class GameBoard extends GameWindow{
         this.allProjectiles.push(projectile)        
     }
 
-    start(){
+    start(gameSettings){
+        this.settings = gameSettings
+        this.userUnit.setShotCooldownFrameCount(this.settings.shootCooldown)
         this.hideMenu();
     }
 
@@ -172,9 +179,7 @@ class GameBoard extends GameWindow{
 
     updateSpawner(){
         this.timeSinceLastEnemySpawn += (1000.00 / this.settings.frameRate)
-        console.log(this.settings.frameRate)
-        console.log(this.spawnCooldown)
-        if(this.timeSinceLastEnemySpawn > (1000 * this.spawnCooldown)){ 
+        if(this.timeSinceLastEnemySpawn > (1000 * this.spawnCooldownSetting)){ 
             let enemy;
             switch(Math.ceil(Math.random() * 3)){
                 case 3:
@@ -187,6 +192,8 @@ class GameBoard extends GameWindow{
                     enemy = new SmallEnemy();
                     break;                     
             }
+            enemy.verticalSpeed = this.enemyYVelSetting
+            console.log(this.enemyYVelSetting)
             this.spawnEnemy(enemy)
         }        
     }

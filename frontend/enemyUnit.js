@@ -1,15 +1,23 @@
 class EnemyUnit extends GameUnit{
 
-    constructor(initX = Math.floor(Math.random() * 475), initY = 0, xVel=5){
+    constructor(initX = Math.floor(Math.random() * 475), initY = 0, xVel=5, yVel=5){
         super()
         this.atBottom = false;
         this.x = initX;
         this.y = initY;
         this.xVel = xVel;
-        this.yVel = 3;
+        this.yVel = yVel
     }
 
+    set verticalSpeed(speed){
+        this.yVel = speed
+    }
 
+    increaseXVelocityUpTo(max){
+        const factor = parseFloat(max)
+        this.xVel += (Math.random() * factor)
+        this.yVel -= (Math.random() * 2)
+    }
 
     update(){
         this.y += this.yVel;
@@ -31,8 +39,8 @@ class EnemyUnit extends GameUnit{
 
 class SmallEnemy extends EnemyUnit{
 
-    constructor(initX, initY, xVel){
-        super(initX, initY, xVel)
+    constructor(initX, initY, xVel, yVel){
+        super(initX, initY, xVel, yVel)
         this.element = Shape.circle('enemyShape', 20, 'red')
         this.pointValue = 100;
         return this
@@ -43,43 +51,49 @@ class SmallEnemy extends EnemyUnit{
     }
 
     clone(){
-        return new SmallEnemy(Controller.randomXCoordinate, this.y, this.xVel * -1);
+        return new SmallEnemy(Controller.randomXCoordinate, this.y, this.xVel * -1, this.yVel);
     }
 }
 
 class MediumEnemy extends EnemyUnit{
 
-    constructor(initX, initY, xVel){
-        super(initX, initY, xVel)
+    constructor(initX, initY, xVel, yVel){
+        super(initX, initY, xVel, yVel)
         this.element = Shape.circle('enemyShape', 40, 'blue')
         this.pointValue = 200;
         return this
     }
 
     breaksInto(){
-        return [new SmallEnemy(this.left, this.top, this.xVel), new SmallEnemy(this.left, this.top, this.xVel*-1)]
+        return [
+            new SmallEnemy(this.left, this.top, this.xVel, this.yVel), 
+            new SmallEnemy(this.left, this.top, this.xVel*-1, this.yVel)
+        ]
     }
 
     clone(){
-        return new MediumEnemy(Controller.randomXCoordinate, this.y, this.xVel * -1);
+        return new MediumEnemy(Controller.randomXCoordinate, this.y, this.xVel * -1, this.yVel);
     }
 }
 
 class LargeEnemy extends EnemyUnit{
 
-    constructor(initX, initY, xVel){
-        super(initX, initY, xVel)
+    constructor(initX, initY, xVel, yVel){
+        super(initX, initY, xVel, yVel)
         this.element = Shape.circle('enemyShape', 80, 'Yellow')
         this.pointValue = 400;
         return this
     }
 
     breaksInto(){
-        return [new MediumEnemy(this.left, this.top, this.xVel), new MediumEnemy(this.left, this.top, this.xVel*-1)]
+        return [
+            new MediumEnemy(this.left, this.top, this.xVel, this.yVel), 
+            new MediumEnemy(this.left, this.top, this.xVel*-1, this.yVel)
+        ]
     }
 
     clone(){
-        return new LargeEnemy(Controller.randomXCoordinate, this.y, this.xVel * -1);
+        return new LargeEnemy(Controller.randomXCoordinate, this.y, this.xVel * -1, this.yVel);
     }
 }
 

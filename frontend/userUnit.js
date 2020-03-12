@@ -5,17 +5,22 @@ class UserUnit extends GameUnit{
         super(initX, initY)
 
         this.element = Shape.equilateralTriangle('userShape', 50, 50)
-        this.fireRate = 1;
         this.shootCallback = shootCB
-        this.shotCooldownFrames = 0;
+        this.shotCooldown = 0;
         this.isDestroyed = false;
         return this;
     } 
 
+    //********** INSTANCE METHODS **********//
+
+    setShotCooldownFrameCount(numFrames){
+        this.maxShotCooldown = numFrames
+    }
+
     update(inputs){
 
         //Reduce the cooldown on the weapon every fram by the fire rate
-        if(this.shotCooldownFrames > 0){ this.shotCooldownFrames -= this.fireRate }
+        if(this.shotCooldown > 0){ this.shotCooldown-- }
         if (inputs.length > 0){
             inputs.forEach( input => {
                 switch(input){
@@ -36,7 +41,7 @@ class UserUnit extends GameUnit{
                         if(this.x > 455){ this.x = 455 }
                         break;
                     case ' ':
-                        if(this.shotCooldownFrames === 0){ this.shoot() } 
+                        if(this.shotCooldown === 0){ this.shoot() } 
                         break;     
                 }
             })
@@ -53,7 +58,8 @@ class UserUnit extends GameUnit{
 
     shoot(){
         this.shootCallback(this.center, this.y)
-        this.shotCooldownFrames = 15
+        this.shotCooldown = this.maxShotCooldown
+        console.log(this.shotCooldown)
     }
 
 }
