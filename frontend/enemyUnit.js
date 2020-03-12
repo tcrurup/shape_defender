@@ -16,7 +16,7 @@ class EnemyUnit extends GameUnit{
     increaseXVelocityUpTo(max){
         const factor = parseFloat(max)
         this.xVel += (Math.random() * factor)
-        this.yVel -= (Math.random() * 2)
+        this.yVel += (Math.random() * 2)
     }
 
     update(){

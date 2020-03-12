@@ -3,6 +3,7 @@ class GameSettings extends GameWindow{
     constructor(){
         super()
         this.element = this.createElement()
+        this.toDefault()
         this.hide()
     }
 
@@ -26,6 +27,22 @@ class GameSettings extends GameWindow{
 
     static get maxXIncreaseId(){
         return 'maxXIncrease'
+    }
+
+    static get defaultButtonId(){
+        return 'defaultButton'
+    }
+    
+    static get defaultSettings(){
+        let def = {}
+
+        def[GameSettings.spawnCooldownId] = 4;
+        def[GameSettings.frameRateId] = 60;
+        def[GameSettings.enemyYVelId] = 5;
+        def[GameSettings.shootCooldownId] = 8;
+        def[GameSettings.maxXIncreaseId] = 3.0;
+
+        return def
     }
 
     //********** GETTERS **********//
@@ -72,14 +89,23 @@ class GameSettings extends GameWindow{
         const fps = this.newSlider(GameSettings.frameRateId, 10, 60, 1, "FPS: ")
         const spawnCooldown = this.newSlider(GameSettings.spawnCooldownId, .2, 5, .2, 'Spawn Cooldown: ')
         const enemySpeed = this.newSlider(GameSettings.enemyYVelId, 1, 20, 1, "Circle Speed: ")
-        const shootCooldown = this.newSlider(GameSettings.shootCooldownId, 2, 360, 1, "Shot Cooldown: ")
+        const shootCooldown = this.newSlider(GameSettings.shootCooldownId, 2, 30, 1, "Shot Cooldown: ")
         const maxXIncreaseOnLoop = this.newSlider(GameSettings.maxXIncreaseId, .2, 4, .2, "Max X Increase On Loop: ")
+
         
-        const allSettingElements = [fps, spawnCooldown, enemySpeed, shootCooldown, maxXIncreaseOnLoop]
+        const allSettingElements = [fps, spawnCooldown, enemySpeed, shootCooldown, maxXIncreaseOnLoop, this._defaultButtonElement()]
 
         allSettingElements.forEach( setting => element.appendChild(setting) )
 
         return element
+    }
+
+    _defaultButtonElement(){
+        let button = document.createElement('button')
+        button.id = GameSettings.defaultButtonId
+        button.innerHTML = "DEFAULT"
+        button.addEventListener( 'click', this.toDefault.bind(this) )
+        return button
     }
 
     getValueFromId(elementId){
@@ -115,5 +141,18 @@ class GameSettings extends GameWindow{
         slider.addEventListener('change', onSliderChange)
 
         return container
+    }
+
+    setValueById(elementId, value){
+        let slider =   this.element.querySelector(`#${elementId}`)
+        slider.value = value
+        slider.dispatchEvent(new Event('change'))
+    }
+
+    toDefault(){
+        const defSetting = GameSettings.defaultSettings
+        for (const elementId in defSetting){
+            this.setValueById(elementId, defSetting[elementId])
+        }
     }
 }

@@ -148,7 +148,6 @@ class GameBoard extends GameWindow{
     spawnEnemy(enemy){
         this.allEnemies.push(enemy)
         this.appendToDisplay(enemy.element)
-        this.timeSinceLastEnemySpawn = 0;
     }
 
     spawnProjectile(x, y){
@@ -193,8 +192,8 @@ class GameBoard extends GameWindow{
                     break;                     
             }
             enemy.verticalSpeed = this.enemyYVelSetting
-            console.log(this.enemyYVelSetting)
             this.spawnEnemy(enemy)
+            this.timeSinceLastEnemySpawn = 0;
         }        
     }
 
