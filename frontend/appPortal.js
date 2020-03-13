@@ -163,4 +163,6 @@ class AppPortal extends GameWindow{
         return this.currentUser != null && this.currentUser != ""
     }
 
+    //********** PRIVATE **********//
+
 }

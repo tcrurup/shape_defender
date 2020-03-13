@@ -231,7 +231,11 @@ class Controller{
     restartLevel(){
         this.gameBoard.restartLevel()
         this.start();        
-    }    
+    }
+    
+    savePreset(){
+        console.log(this.currentSettings)
+    }
 
     showControlBox(){
         //this.controlBox.style.display = 'inline-flex'

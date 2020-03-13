@@ -3,6 +3,7 @@ class GameSettings extends GameWindow{
     constructor(){
         super()
         this.element = this._createElement()
+        this.presets = []
         this.toDefault()
         this.hide()
     }
@@ -35,6 +36,10 @@ class GameSettings extends GameWindow{
 
     static get defaultButtonId(){
         return 'defaultButton'
+    }
+
+    static get presetDisplayId(){
+        return 'presetNumberDisplay'
     }
     
     static get defaultSettings(){
@@ -78,6 +83,14 @@ class GameSettings extends GameWindow{
         return this.getElementValueFromId(GameSettings.maxXIncreaseId)
     }
 
+    get presetButtonElements(){
+        let allButtons = []
+        for(let i=0; i<=GameSettings.numOfPresets; i++){
+            allButtons.push(this.getElementFromId(this._presetButtonId(i)))
+        }
+        return allButtons
+    }
+
     get scoreModifier(){
         return this._calculateScoreModifier()
     }
@@ -91,22 +104,30 @@ class GameSettings extends GameWindow{
     }
 
     //********** SETTERS **********//
-
+    set currentPreset(number){
+        this.loadPreset(number)
+    }
 
     //********** INSTANCE FUNCTIONS **********//
-    savePreset(){
-        console.log(this.currentSettings)
+    loadPreset(event){
+        const presetNumber = (event.target.id.split('-'))[1]
+        this.getElementFromId(GameSettings.presetDisplayId).innerHTML = presetNumber
+        this.setAll(this.presets[presetNumber-1])
+    }
+
+    setAll(settingsHash){
+        for (const elementId in settingsHash){
+            this.setElementValueFromId(elementId, settingsHash[elementId])
+        }
     }
 
     setElementValueFromId(elementId, value){
         super.setElementValueFromId(elementId, value).dispatchEvent(new Event('change'))
     }
 
+
     toDefault(){
-        const defSetting = GameSettings.defaultSettings
-        for (const elementId in defSetting){
-            this.setElementValueFromId(elementId, defSetting[elementId])
-        }
+        this.setAll(GameSettings.defaultSettings)        
     }
 
     updateScoreModifierDisplay(){
@@ -173,6 +194,10 @@ class GameSettings extends GameWindow{
         return button
     }
 
+    _presetButtonId(presetNumber){
+        return (`preset-${presetNumber}`)
+    }
+
     _newSlider(id, min, max, step, label = ""){
         let container = document.createElement('div')
 
@@ -211,14 +236,15 @@ class GameSettings extends GameWindow{
         div.id = 'presets'
 
         let presetDisplay = document.createElement('div')
-        presetDisplay.id = 'presetNumberDisplay'
+        presetDisplay.id = GameSettings.presetDisplayId
 
         div.appendChild(presetDisplay)
         
-        const createButton = function(presetNumber) {
+        const createButton = presetNumber => {
             let button = document.createElement('button')
-            button.id = (`preset-${presetNumber}`)
+            button.id = this._presetButtonId(presetNumber)
             button.innerHTML = (`Preset ${presetNumber}`)
+            button.addEventListener('click', this.loadPreset.bind(this))
             return button
         }
         
@@ -229,7 +255,7 @@ class GameSettings extends GameWindow{
         let saveButton = document.createElement('button')
         saveButton.id = "savePresets"
         saveButton.innerHTML = "Save Presets"
-        saveButton.addEventListener('click', this.savePreset.bind(this))
+        //saveButton.addEventListener('click', this.savePreset.bind(this))
         div.appendChild(saveButton)
 
         return div
