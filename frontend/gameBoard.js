@@ -44,7 +44,7 @@ class GameBoard extends GameWindow{
                     projectile.isDestroyed = true;
                     hitEnemies.forEach( enemy => { 
                         enemy.isDestroyed = true
-                        this.userScore += enemy.pointValue
+                        this.userScore += Math.floor((enemy.pointValue * this.settings.scoreModifier))
                     })
                 }
         })
@@ -178,7 +178,7 @@ class GameBoard extends GameWindow{
 
     updateSpawner(){
         this.timeSinceLastEnemySpawn += (1000.00 / this.settings.frameRate)
-        if(this.timeSinceLastEnemySpawn > (1000 * this.spawnCooldownSetting)){ 
+        if(this.timeSinceLastEnemySpawn > (5000 / this.spawnCooldownSetting)){ 
             let enemy;
             switch(Math.ceil(Math.random() * 3)){
                 case 3:
