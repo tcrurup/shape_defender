@@ -62,7 +62,7 @@ class GameSettings extends GameWindow{
             shootCooldown: this.shootCooldown,
             enemyYVel: this.enemyYVel,
             maxXIncrease: this.maxXIncrease,
-            scoreModifier: this.calculateScoreModifier()
+            scoreModifier: this.scoreModifier
         }
     }
 
@@ -79,7 +79,7 @@ class GameSettings extends GameWindow{
     }
 
     get scoreModifier(){
-        return this.getElementValueFromId(GameSettings.scoreModifierId)
+        return this._calculateScoreModifier()
     }
 
     get shootCooldown(){
@@ -94,8 +94,27 @@ class GameSettings extends GameWindow{
 
 
     //********** INSTANCE FUNCTIONS **********//
+    savePreset(){
+        console.log(this.currentSettings)
+    }
 
-    calculateScoreModifier(){
+    setElementValueFromId(elementId, value){
+        super.setElementValueFromId(elementId, value).dispatchEvent(new Event('change'))
+    }
+
+    toDefault(){
+        const defSetting = GameSettings.defaultSettings
+        for (const elementId in defSetting){
+            this.setElementValueFromId(elementId, defSetting[elementId])
+        }
+    }
+
+    updateScoreModifierDisplay(){
+        this.getElementFromId(GameSettings.scoreModiferId).innerHTML = (`%${(this.scoreModifier *100).toFixed(2)}`)
+    }    
+
+    //********** PRIVATE **********//
+    _calculateScoreModifier(){
         let allPercentiles = []
 
         const defSettings = GameSettings.defaultSettings
@@ -114,25 +133,8 @@ class GameSettings extends GameWindow{
         let percent = (allPercentiles.reduce(reducer, 0))/allPercentiles.length
         
         return percent.toFixed(2)
-    }      
+    } 
 
-    setElementValueFromId(elementId, value){
-        super.setElementValueFromId(elementId, value).dispatchEvent(new Event('change'))
-    }
-
-    toDefault(){
-        const defSetting = GameSettings.defaultSettings
-        for (const elementId in defSetting){
-            this.setElementValueFromId(elementId, defSetting[elementId])
-        }
-    }
-
-    updateScoreModifier(){
-        const modifier = this.calculateScoreModifier()
-        this.getElementFromId(GameSettings.scoreModiferId).innerHTML = (`%${(modifier *100).toFixed(2)}`)
-    }    
-
-    //********** PRIVATE **********//
     _createElement(){
         let element = document.createElement('div')
         element.id = 'userSettings'
@@ -195,7 +197,7 @@ class GameSettings extends GameWindow{
 
         const onSliderChange = event => {
             display.innerHTML = event.target.value
-            this.updateScoreModifier()
+            this.updateScoreModifierDisplay()
         }
 
         slider.addEventListener('change', onSliderChange)
@@ -207,6 +209,11 @@ class GameSettings extends GameWindow{
         
         let div = document.createElement('div')
         div.id = 'presets'
+
+        let presetDisplay = document.createElement('div')
+        presetDisplay.id = 'presetNumberDisplay'
+
+        div.appendChild(presetDisplay)
         
         const createButton = function(presetNumber) {
             let button = document.createElement('button')
@@ -222,6 +229,7 @@ class GameSettings extends GameWindow{
         let saveButton = document.createElement('button')
         saveButton.id = "savePresets"
         saveButton.innerHTML = "Save Presets"
+        saveButton.addEventListener('click', this.savePreset.bind(this))
         div.appendChild(saveButton)
 
         return div
