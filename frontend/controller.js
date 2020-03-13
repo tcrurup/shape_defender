@@ -5,7 +5,13 @@ class Controller{
         //User HUD elements
         this.gameBoard = new GameBoard()
         this.scoreList = new ScoreList()
-        this.gameSettings = new GameSettings()
+
+        const onSaveCallback = presets => {
+            this.savePresets(presets)
+        }
+
+        this.gameSettings = new GameSettings(onSaveCallback.bind(this))
+
         this.scoreCounter = new ScoreCounter()
         this.userHud = new userHUD()
 
@@ -233,8 +239,8 @@ class Controller{
         this.start();        
     }
     
-    savePreset(){
-        console.log(this.currentSettings)
+    savePresets(presets){
+        console.log(presets)
     }
 
     showControlBox(){

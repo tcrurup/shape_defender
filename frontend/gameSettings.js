@@ -1,7 +1,8 @@
 class GameSettings extends GameWindow{
 
-    constructor(){
+    constructor(onSaveCallback){
         super()
+        this.onSaveCallback = onSaveCallback
         this.element = this._createElement()
         this.presets = []
         this.toDefault()
@@ -59,6 +60,9 @@ class GameSettings extends GameWindow{
     }
 
     //********** GETTERS **********//
+    get allPresetsAsJSON(){
+        return JSON.stringify(presets)
+    }
 
     get currentSettings(){
         return {
@@ -113,6 +117,10 @@ class GameSettings extends GameWindow{
         const presetNumber = (event.target.id.split('-'))[1]
         this.getElementFromId(GameSettings.presetDisplayId).innerHTML = presetNumber
         this.setAll(this.presets[presetNumber-1])
+    }
+
+    savePresets(){
+        this.onSaveCallback(this.presets)
     }
 
     setAll(settingsHash){
@@ -255,7 +263,7 @@ class GameSettings extends GameWindow{
         let saveButton = document.createElement('button')
         saveButton.id = "savePresets"
         saveButton.innerHTML = "Save Presets"
-        //saveButton.addEventListener('click', this.savePreset.bind(this))
+        saveButton.addEventListener('click', this.savePresets.bind(this))
         div.appendChild(saveButton)
 
         return div
