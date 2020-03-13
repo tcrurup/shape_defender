@@ -64,6 +64,10 @@ class GameSettings extends GameWindow{
         return JSON.stringify(presets)
     }
 
+    get currentPreset(){
+        return this.getElementFromId(GameSettings.presetDisplayId).innerHTML
+    }
+
     get currentSettings(){
         return {
             frameRate: this.frameRate,
@@ -136,6 +140,12 @@ class GameSettings extends GameWindow{
 
     toDefault(){
         this.setAll(GameSettings.defaultSettings)        
+    }
+
+    updatePreset(){
+        const currentPresetIndex = this.currentPreset - 1
+        console.log(parseInt(this.currentPreset - 1))
+        this.presets[currentPresetIndex] = this.currentSettings
     }
 
     updateScoreModifierDisplay(){
@@ -231,6 +241,7 @@ class GameSettings extends GameWindow{
         const onSliderChange = event => {
             display.innerHTML = event.target.value
             this.updateScoreModifierDisplay()
+            this.updatePreset()
         }
 
         slider.addEventListener('change', onSliderChange)
