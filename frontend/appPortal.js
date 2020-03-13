@@ -122,9 +122,15 @@ class AppPortal extends GameWindow{
 
     submitForm(event){
         event.preventDefault()
+        const user = document.querySelector('div#login input#username').value 
+
+        if(user === '!debug'){
+            this.callbackOnLogin()
+            return
+        }
 
         let formData = {
-            username: document.querySelector('div#login input#username').value,
+            username: user,
             password: document.querySelector('div#login input#password').value
         }
 

@@ -2,7 +2,7 @@ class GameSettings extends GameWindow{
 
     constructor(){
         super()
-        this.element = this.createElement()
+        this.element = this._createElement()
         this.toDefault()
         this.hide()
     }
@@ -67,27 +67,27 @@ class GameSettings extends GameWindow{
     }
 
     get enemyYVel(){
-        return this.getValueFromId(GameSettings.enemyYVelId)
+        return this.getElementValueFromId(GameSettings.enemyYVelId)
     }
 
     get frameRate(){
-        return this.getValueFromId(GameSettings.frameRateId)
+        return this.getElementValueFromId(GameSettings.frameRateId)
     }
 
     get maxXIncrease(){
-        return this.getValueFromId(GameSettings.maxXIncreaseId)
+        return this.getElementValueFromId(GameSettings.maxXIncreaseId)
     }
 
     get scoreModifier(){
-        return this.getValueFromId(GameSettings.scoreModifierId)
+        return this.getElementValueFromId(GameSettings.scoreModifierId)
     }
 
     get shootCooldown(){
-        return this.getValueFromId(GameSettings.shootCooldownId)
+        return this.getElementValueFromId(GameSettings.shootCooldownId)
     }
     
     get spawnCooldown(){
-        return this.getValueFromId(GameSettings.spawnCooldownId)
+        return this.getElementValueFromId(GameSettings.spawnCooldownId)
     }
 
     //********** SETTERS **********//
@@ -99,28 +99,49 @@ class GameSettings extends GameWindow{
         let allPercentiles = []
 
         const defSettings = GameSettings.defaultSettings
+
+        /* Calculate the % the current setting value is versus the default value
+        for all values and store in array */
         for (const elementId in defSettings){
-            let currentSetting = parseFloat(this.getValueFromId(elementId))
+            let currentSetting = parseFloat(this.getElementValueFromId(elementId))
             let defaultSetting = parseFloat(defSettings[elementId])
             
             allPercentiles.push(currentSetting/defaultSetting)
         }
 
+        //Find the average of the array and return that as the answer
         const reducer = (total, index) => { return total + index }
-        
         let percent = (allPercentiles.reduce(reducer, 0))/allPercentiles.length
+        
         return percent.toFixed(2)
+    }      
+
+    setElementValueFromId(elementId, value){
+        super.setElementValueFromId(elementId, value).dispatchEvent(new Event('change'))
     }
 
-    createElement(){
+    toDefault(){
+        const defSetting = GameSettings.defaultSettings
+        for (const elementId in defSetting){
+            this.setElementValueFromId(elementId, defSetting[elementId])
+        }
+    }
+
+    updateScoreModifier(){
+        const modifier = this.calculateScoreModifier()
+        this.getElementFromId(GameSettings.scoreModiferId).innerHTML = (`%${(modifier *100).toFixed(2)}`)
+    }    
+
+    //********** PRIVATE **********//
+    _createElement(){
         let element = document.createElement('div')
         element.id = 'userSettings'
 
-        const fps = this.newSlider(GameSettings.frameRateId, 10, 60, 1, "FPS: ")
-        const spawnCooldown = this.newSlider(GameSettings.spawnCooldownId, .2, 5, .2, 'Spawn Speed: ')
-        const enemySpeed = this.newSlider(GameSettings.enemyYVelId, 1, 20, 1, "Circle Speed: ")
-        const shootCooldown = this.newSlider(GameSettings.shootCooldownId, 2, 30, 1, "Shot Cooldown: ")
-        const maxXIncreaseOnLoop = this.newSlider(GameSettings.maxXIncreaseId, .2, 4, .2, "Max X Increase On Loop: ")
+        const fps = this._newSlider(GameSettings.frameRateId, 10, 60, 1, "FPS: ")
+        const spawnCooldown = this._newSlider(GameSettings.spawnCooldownId, .2, 5, .2, 'Spawn Speed: ')
+        const enemySpeed = this._newSlider(GameSettings.enemyYVelId, 1, 20, 1, "Circle Speed: ")
+        const shootCooldown = this._newSlider(GameSettings.shootCooldownId, 2, 30, 1, "Shot Cooldown: ")
+        const maxXIncreaseOnLoop = this._newSlider(GameSettings.maxXIncreaseId, .2, 4, .2, "Max X Increase On Loop: ")
         
         let scoreModifier = document.createElement('div')
         scoreModifier.id = GameSettings.scoreModiferId
@@ -133,7 +154,8 @@ class GameSettings extends GameWindow{
             shootCooldown, 
             maxXIncreaseOnLoop, 
             scoreModifier,
-            this._defaultButtonElement()
+            this._defaultButtonElement(),
+            this._presetButtonElements()
         ]
 
         allSettingElements.forEach( setting => element.appendChild(setting) )
@@ -149,26 +171,7 @@ class GameSettings extends GameWindow{
         return button
     }
 
-    _presetButtonElements(){
-        
-        const createButton = function(presetNumber) {
-            let button = document.createElement('button')
-        }
-        
-        for( const i = 1; i <= GameSettings.numOfPresets; i++ ){
-
-        }
-    }
-
-    getElementFromId(elementId){
-        return this.element.querySelector(`#${elementId}`)
-    }
-
-    getValueFromId(elementId){
-        return this.getElementFromId(elementId).value
-    }
-
-    newSlider(id, min, max, step, label = ""){
+    _newSlider(id, min, max, step, label = ""){
         let container = document.createElement('div')
 
         let slideLabel = document.createElement('label')
@@ -200,22 +203,27 @@ class GameSettings extends GameWindow{
         return container
     }
 
-    setValueById(elementId, value){
-        let slider =   this.element.querySelector(`#${elementId}`)
-        slider.value = value
-        slider.dispatchEvent(new Event('change'))
-    }
-
-    toDefault(){
-        const defSetting = GameSettings.defaultSettings
-        for (const elementId in defSetting){
-            this.setValueById(elementId, defSetting[elementId])
+    _presetButtonElements(){
+        
+        let div = document.createElement('div')
+        div.id = 'presets'
+        
+        const createButton = function(presetNumber) {
+            let button = document.createElement('button')
+            button.id = (`preset-${presetNumber}`)
+            button.innerHTML = (`Preset ${presetNumber}`)
+            return button
         }
-    }
+        
+        for (let i = 1; i <= GameSettings.numOfPresets; i++){
+            div.appendChild(createButton(i))
+        }
 
-    updateScoreModifier(){
-        const modifier = this.calculateScoreModifier()
+        let saveButton = document.createElement('button')
+        saveButton.id = "savePresets"
+        saveButton.innerHTML = "Save Presets"
+        div.appendChild(saveButton)
 
-        this.getElementFromId(GameSettings.scoreModiferId).innerHTML = (`%${(modifier *100).toFixed(2)}`)
+        return div
     }
 }
