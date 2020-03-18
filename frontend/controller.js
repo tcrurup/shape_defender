@@ -240,7 +240,7 @@ class Controller{
     }
     
     savePresets(presets){
-        console.log(presets)
+        this.loginPortal.savePresets(presets)
     }
 
     showControlBox(){

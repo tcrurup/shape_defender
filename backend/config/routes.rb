@@ -4,4 +4,5 @@ Rails.application.routes.draw do
   post '/login' => 'sessions#login'
   post '/signup' => 'sessions#sign_up'
   post '/submitScore' => 'sessions#submit_score'
+  post '/savePresets' => 'sessions#save_presets'
 end

@@ -12,6 +12,10 @@ class SessionsController < ApplicationController
         end
     end
 
+    def save_presets
+        puts params
+    end
+
     def sign_up
         user = User.new(username: session_params[:username], password: session_params[:password])
 

@@ -99,6 +99,14 @@ class GameSettings extends GameWindow{
         return allButtons
     }
 
+    get presetsAsObject(){
+        let obj = {}
+        for(let i=0; i<this.presets.length; i++){
+            obj[i] = this.presets[i]
+        }
+        return obj
+    }
+
     get scoreModifier(){
         return this._calculateScoreModifier()
     }
@@ -124,7 +132,8 @@ class GameSettings extends GameWindow{
     }
 
     savePresets(){
-        this.onSaveCallback(this.presets)
+        console.log(this.presetsAsObject)
+        this.onSaveCallback(this.presetsAsObject)
     }
 
     setAll(settingsHash){

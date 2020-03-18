@@ -120,6 +120,24 @@ class AppPortal extends GameWindow{
         .catch( error => alert(error)) 
     }  
 
+    savePresets(presets){
+        
+        const config = {
+            method: "POST",
+            body: JSON.stringify(presets),
+            headers:{
+                "Content-Type" : "application/json",
+                "Accept" : "application/json"
+            }
+        }
+
+        const url = `http://localhost:3000/savePresets`
+        fetch(url, config)
+            .then(response => response.json())
+            .then ( object => console.log(object))
+        .catch( error => alert(error))
+    }
+
     submitForm(event){
         event.preventDefault()
         const user = document.querySelector('div#login input#username').value 
