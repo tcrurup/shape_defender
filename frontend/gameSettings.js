@@ -102,7 +102,7 @@ class GameSettings extends GameWindow{
     get presetsAsObject(){
         let obj = {}
         for(let i=0; i<this.presets.length; i++){
-            obj[i] = this.presets[i]
+            obj[`preset${i+1}`] = this.presets[i]
         }
         return obj
     }
@@ -132,7 +132,6 @@ class GameSettings extends GameWindow{
     }
 
     savePresets(){
-        console.log(this.presetsAsObject)
         this.onSaveCallback(this.presetsAsObject)
     }
 
@@ -153,7 +152,6 @@ class GameSettings extends GameWindow{
 
     updatePreset(){
         const currentPresetIndex = this.currentPreset - 1
-        console.log(parseInt(this.currentPreset - 1))
         this.presets[currentPresetIndex] = this.currentSettings
     }
 

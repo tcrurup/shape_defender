@@ -13,7 +13,10 @@ class SessionsController < ApplicationController
     end
 
     def save_presets
-        puts params
+        puts '*************************************************************'
+        puts preset1_params
+        puts preset2_params
+        puts preset3_params
     end
 
     def sign_up
@@ -44,5 +47,18 @@ class SessionsController < ApplicationController
 
     def session_params
         params.require(:session).permit(:username, :password, :score)
-    end    
+    end 
+    
+    def preset1_params
+        params.require(:preset1).permit(:frameRate, :spawnCooldown, :shootCooldown, :enemyYVel, :maxXIncrease)
+    end
+
+    def preset2_params
+        params.require(:preset2).permit(:frameRate, :spawnCooldown, :shootCooldown, :enemyYVel, :maxXIncrease)
+    end
+
+    def preset3_params
+        params.require(:preset3).permit(:frameRate, :spawnCooldown, :shootCooldown, :enemyYVel, :maxXIncrease)
+    end
+
 end

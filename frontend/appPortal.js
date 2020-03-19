@@ -122,9 +122,13 @@ class AppPortal extends GameWindow{
 
     savePresets(presets){
         
+        console.log(presets)
+        let settings = presets
+        settings['username'] = this.currentUser
+
         const config = {
             method: "POST",
-            body: JSON.stringify(presets),
+            body: JSON.stringify(settings),
             headers:{
                 "Content-Type" : "application/json",
                 "Accept" : "application/json"
@@ -144,6 +148,7 @@ class AppPortal extends GameWindow{
 
         if(user === '!debug'){
             this.callbackOnLogin()
+            this.currentUser = 'admin'
             return
         }
 
