@@ -13,10 +13,10 @@ class SessionsController < ApplicationController
     end
 
     def save_presets
-        puts '*************************************************************'
-        puts preset1_params
-        puts preset2_params
-        puts preset3_params
+        user = User.find_by(username: session_params[:username])
+        user.createOrUpdatePreset(1, preset1_params)
+        user.createOrUpdatePreset(2, preset2_params)
+        user.createOrUpdatePreset(3, preset3_params)
     end
 
     def sign_up

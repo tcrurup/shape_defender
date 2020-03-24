@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_02_27_234858) do
+ActiveRecord::Schema.define(version: 2020_03_19_144855) do
+
+  create_table "presets", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "enemyYVel"
+    t.integer "frameRate"
+    t.float "maxXIncrease"
+    t.integer "shootCooldown"
+    t.float "spawnCooldown"
+  end
 
   create_table "users", force: :cascade do |t|
     t.string "username"
