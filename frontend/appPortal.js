@@ -96,9 +96,8 @@ class AppPortal extends GameWindow{
     }
 
     loginUser(user){
-        console.log(`logging in ${user.username}`)
         this.currentUser = user.username
-        this.callbackOnLogin()
+        this.callbackOnLogin(user.presets)
     }
 
     logout(){

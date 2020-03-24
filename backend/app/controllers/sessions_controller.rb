@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
         user = User.find_by(username: session_params[:username])
         
         if(user && user.authenticate(session_params[:password]))
-            render json: user.slice(:username)
+            render json: UserSerializer.new(user).to_serialized_json
         elsif(user)
             render json: { errors: "Incorrect Password" }
         else

@@ -167,10 +167,12 @@ class Controller{
         this.showControlBox();
     }
 
-    displayGame(){
+    displayGame(userPresets){
         this.gameBoard.showAsFlex()
         this.userHud.showAsFlex()
         this.scoreCounter.showAsFlex()
+        console.log(userPresets)
+        this.gameSettings.userPresets = userPresets
         this.gameSettings.showAsFlex()        
         this.scoreList.showAsInline()
         this.scoreList.submitScoreAndUpdate(this.currentUser, 0)

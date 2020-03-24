@@ -124,6 +124,12 @@ class GameSettings extends GameWindow{
         this.loadPreset(number)
     }
 
+    set userPresets(presetsArray){
+        for(let i=0; i< presetsArray.length; i++){
+            this.presets[i] = presetsArray[i]
+        }
+    }
+
     //********** INSTANCE FUNCTIONS **********//
     loadPreset(event){
         const presetNumber = (event.target.id.split('-'))[1]

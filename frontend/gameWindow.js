@@ -16,6 +16,7 @@ class GameWindow{
     }  
 
     setElementValueFromId(elementId, value){
+        console.log(elementId)
         let element = this.getElementFromId(elementId)
         element.value = value
         return element
