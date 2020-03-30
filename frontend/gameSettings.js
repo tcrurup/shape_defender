@@ -64,7 +64,8 @@ class GameSettings extends GameWindow{
     }
 
     get currentPreset(){
-        return this.getElementFromId(GameSettings.presetDisplayId).innerHTML
+        const presetText = (this.getElementFromId(GameSettings.presetDisplayId).innerHTML.split(" "))
+        return presetText[2]
     }
 
     get currentSettings(){
@@ -133,7 +134,7 @@ class GameSettings extends GameWindow{
     loadPreset(event){
         let presetNumber
         if(event.target){
-            presetNumber = (event.target.id.split('-'))[1] || event
+            presetNumber = (event.target.id.split('-'))[1]
         }else{
             presetNumber = event
         }
@@ -166,6 +167,7 @@ class GameSettings extends GameWindow{
     }
 
     updatePreset(){
+        console.log('updating')
         const currentPresetIndex = this.currentPreset - 1
         this.presets[currentPresetIndex] = this.currentSettings
     }
