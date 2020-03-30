@@ -3,12 +3,12 @@ class Controller{
     constructor(){
 
         //User HUD elements
-        this.gameBoard = new GameBoard()
+        this.gameBoard = new GameBoard(this.logout.bind(this))
         this.scoreList = new ScoreList()
         this.gameSettings = new GameSettings(this.savePresets.bind(this))
         this.scoreCounter = new ScoreCounter()
         this.userHud = new userHUD()
-        this.loginPortal = new AppPortal(this.displayGame.bind(this))  
+        this.loginPortal = new AppPortal(this.displayGame.bind(this), this.displayLogin.bind(this))  
         this.pressedKeys = {}
         
         //Add elements to the document
@@ -140,6 +140,10 @@ class Controller{
         return this.allPressedKeys.includes(key)
     }
 
+    logout(){
+        this.loginPortal.logout()
+    }
+
     pause(){
         clearInterval(this.loop)
         this.gameBoard.showMenu();
@@ -185,7 +189,7 @@ class Controller{
         } else {
             this.isPaused = true;
             clearInterval(this.loop)
-            this.showMenu()
+            this.gameBoard.showMenu()
         }
     }
 

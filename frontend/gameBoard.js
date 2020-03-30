@@ -1,6 +1,6 @@
 class GameBoard extends GameWindow{
 
-    constructor(){
+    constructor(logoutCallback){
         super()
 
         this.allProjectiles = [];
@@ -9,6 +9,8 @@ class GameBoard extends GameWindow{
         this.element = this.createElement()
         this.userScore = 0;
         this.timeSinceLastEnemySpawn = 0;
+
+        this.element.querySelector('button#logout').addEventListener('click', logoutCallback)
     }
 
     get allObjects(){
@@ -76,7 +78,13 @@ class GameBoard extends GameWindow{
         button.id = 'startGame'
         button.innerHTML = 'START'
 
-        subElem.appendChild(button)        
+        let logoutButton = document.createElement('button')
+        logoutButton.id = 'logout'
+        logoutButton.innerHTML = 'Log Out'
+
+        subElem.appendChild(button)  
+        subElem.appendChild(logoutButton) 
+
         mainElem.appendChild(subElem)
         return mainElem
     }

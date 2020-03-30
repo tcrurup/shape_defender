@@ -1,11 +1,12 @@
 class AppPortal extends GameWindow{
 
-    constructor(callbackOnLogin){
+    constructor(callbackOnLogin, callBackOnLogout){
         super()
         this.element = this.createElement()
         this.formSubmitType = AppPortal.submitTypes.login
         this.currentUser  = null
         this.callbackOnLogin = callbackOnLogin
+        this.callBackOnLogout = callBackOnLogout
         this.formSubmitButton.addEventListener('click', this.submitForm.bind(this))
         this.signupLoginToggleLink.addEventListener('click', this.toggleLoginAndSignUp.bind(this))
     }
@@ -98,6 +99,7 @@ class AppPortal extends GameWindow{
 
     logout(){
         this.currentUser = null
+        this.callBackOnLogout()
     }
 
     processFormSubmit(config){
