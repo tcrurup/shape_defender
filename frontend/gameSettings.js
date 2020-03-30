@@ -5,7 +5,6 @@ class GameSettings extends GameWindow{
         this.onSaveCallback = onSaveCallback
         this.element = this._createElement()
         this.presets = []
-        this.toDefault()
         this.hide()
     }
 
@@ -132,7 +131,13 @@ class GameSettings extends GameWindow{
 
     //********** INSTANCE FUNCTIONS **********//
     loadPreset(event){
-        const presetNumber = (event.target.id.split('-'))[1]
+        let presetNumber
+        if(event.target){
+            presetNumber = (event.target.id.split('-'))[1] || event
+        }else{
+            presetNumber = event
+        }
+        
         this.getElementFromId(GameSettings.presetDisplayId).innerHTML = presetNumber
         this.setAll(this.presets[presetNumber-1])
     }
@@ -151,6 +156,10 @@ class GameSettings extends GameWindow{
         super.setElementValueFromId(elementId, value).dispatchEvent(new Event('change'))
     }
 
+    show(){
+        super.show()
+        this.currentPreset = 1
+    }
 
     toDefault(){
         this.setAll(GameSettings.defaultSettings)        
@@ -163,7 +172,9 @@ class GameSettings extends GameWindow{
 
     updateScoreModifierDisplay(){
         this.getElementFromId(GameSettings.scoreModiferId).innerHTML = (`%${(this.scoreModifier *100).toFixed(2)}`)
-    }    
+    }
+    
+    
 
     //********** PRIVATE **********//
     _calculateScoreModifier(){
