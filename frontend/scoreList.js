@@ -97,7 +97,11 @@ class ScoreList extends GameWindow{
         slTable.appendChild(headers)  
 
         return slTable
-    }   
+    }  
+    
+    show(){
+        this.elementClassName = 'inlineContainer'
+    }
 
     submitScoreAndUpdate(user, score){
         let formData = {

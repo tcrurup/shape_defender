@@ -39,6 +39,15 @@ class Controller{
     get currentSettings(){ return this.gameSettings.currentSettings }
     get usersCurrentScore(){ return this.gameBoard.userScore }
 
+    get gameObjects(){
+        return [
+            this.gameBoard,
+            this.userHud,
+            this.scoreCounter,
+            this.gameSettings,
+            this.scoreList
+        ]
+    }
     //********************SETTERS********************
 
     set scoreDisplayValue(value){ this.scoreCounter.score = value }
@@ -64,15 +73,10 @@ class Controller{
         document.querySelector('button#startGame').addEventListener('click', this.restartLevel.bind(this))    
     }    
 
-    displayGame(userPresets){
-        this.gameBoard.showAsFlex()
-        this.userHud.showAsFlex()
-        this.scoreCounter.showAsFlex()
+    displayGame(userPresets){ 
         this.gameSettings.userPresets = userPresets
-        this.gameSettings.showAsFlex()        
-        this.scoreList.showAsInline()
         this.scoreList.submitScoreAndUpdate(this.currentUser, 0)
-        
+        this.showGameElements()        
         this.loginPortal.hide()
     }
 
@@ -125,7 +129,7 @@ class Controller{
     }
 
     initialize(){
-        this.loginPortal.showAsFlex()
+        this.loginPortal.show()
     }
 
     inputIsValid(input){
@@ -134,10 +138,6 @@ class Controller{
 
     isPressed(key){
         return this.allPressedKeys.includes(key)
-    }
-
-    outputUserToLog(){
-        console.log(this.currentUser)
     }
 
     pause(){
@@ -164,9 +164,8 @@ class Controller{
         this.loginPortal.savePresets(presets)
     }
 
-    showGameDisplay(){
-        this.gameDisplay.showAsInline()
-        this.hideLogin()
+    showGameElements(){
+        this.gameObjects.forEach( obj => obj.show() )
     }
 
     showScoreCounter(){

@@ -25,11 +25,8 @@ class GameWindow{
         this.elementClassName = 'hidden'
     }
 
-    showAsFlex(){
+    show(){
         this.elementClassName = 'flexContainer'
     }
-    
-    showAsInline(){
-        this.elementClassName = 'inlineContainer'
-    }
+
 }
