@@ -1,11 +1,7 @@
 document.addEventListener("DOMContentLoaded", function(){
-    createController();
+    (new Controller).initialize()
 });
 
-function createController(){
-    let controller = new Controller
-    controller.initialize();
-}
 
 
 
