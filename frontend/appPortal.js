@@ -116,7 +116,7 @@ class AppPortal extends GameWindow{
                     this.loginUser(object)
                 }
             })
-        .catch( error => alert(error)) 
+        .catch( error => alert(`caught ${error}`)) 
     }  
 
     savePresets(presets){

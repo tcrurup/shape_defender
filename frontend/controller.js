@@ -206,7 +206,7 @@ class Controller{
     }
 
     initialize(){
-        this.showLogin();
+        this.loginPortal.showAsFlex()
     }
 
     inputIsValid(input){
@@ -245,19 +245,11 @@ class Controller{
         this.loginPortal.savePresets(presets)
     }
 
-    showControlBox(){
-        //this.controlBox.style.display = 'inline-flex'
-    }
-
     showGameDisplay(){
         this.gameDisplay.showAsInline()
         this.hideLogin()
     }
-
-    showLogin(){
-        this.loginPortal.showAsFlex()
-    }
-
+    
     showScoreCounter(){
         this.scoreCounter.showAsFlex()
     }   

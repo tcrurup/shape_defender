@@ -23,7 +23,7 @@ class SessionsController < ApplicationController
         user = User.new(username: session_params[:username], password: session_params[:password])
 
         if(user.save)
-            render json: user.slice(:username)
+            render json: UserSerializer.new(user).to_serialized_json
         else
             render json: { errors: user.errors.full_messages }
         end
