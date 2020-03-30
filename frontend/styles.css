@@ -20,6 +20,18 @@ main{
     display: inline-table;
 }
 
+div.screenLeft{
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+div.screenRight{
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
 div#controlBox{
     background-color: lightskyblue;
     border-style: solid;
@@ -121,10 +133,6 @@ div#gameScreen {
     width: 500px;
 }
 
-div.screenRight{
-    display: inline-block
-}
-
 canvas.userShape {
     position: absolute;
 }
@@ -190,6 +198,7 @@ table#scoreList tr td:nth-child(3){
 div#userSettings{
     flex-direction: column;
     align-items: flex-end;
+    align-self:flex-start;
     font-size: 12px;
     background-color: white;
     padding: 10px;

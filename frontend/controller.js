@@ -92,7 +92,6 @@ class Controller{
     drawAllElements(){
         const leftElements = [            
             this.gameSettings.element,
-            this.scoreCounter.element,
             this.userHud.element
         ]
         const middleElements = [
@@ -100,6 +99,7 @@ class Controller{
             this.gameBoard.element
         ]
         const rightElements = [
+            this.scoreCounter.element,
             this.scoreList.element
         ]
 
