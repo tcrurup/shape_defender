@@ -5,19 +5,13 @@ class Controller{
         //User HUD elements
         this.gameBoard = new GameBoard()
         this.scoreList = new ScoreList()
-
-        const onSaveCallback = presets => {
-            this.savePresets(presets)
-        }
-
-        this.gameSettings = new GameSettings(onSaveCallback.bind(this))
+        this.gameSettings = new GameSettings(this.savePresets.bind(this))
         this.scoreCounter = new ScoreCounter()
         this.userHud = new userHUD()
-        this.loginPortal = new AppPortal() 
-        this.loginPortal.onLoginCallback = this.displayGame.bind(this)   
+        this.loginPortal = new AppPortal(this.displayGame.bind(this))  
 
         this.addInputListeners()    
-        document.querySelector('button#startGame').addEventListener('click', this.restartLevel.bind(this))    
+        
     }
 
     static get baseUrl(){
@@ -138,17 +132,9 @@ class Controller{
                 }
             }
         });
-    }
 
-
-    
-
-    debugMode(event){
-        event.preventDefault()
-        this.hideLogin();
-        this.showGameDisplay();
-        this.showControlBox();
-    }
+        document.querySelector('button#startGame').addEventListener('click', this.restartLevel.bind(this))    
+    }    
 
     displayGame(userPresets){
         this.gameBoard.showAsFlex()

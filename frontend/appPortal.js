@@ -1,11 +1,11 @@
 class AppPortal extends GameWindow{
 
-    constructor(){
+    constructor(callbackOnLogin){
         super()
         this.element = this.createElement()
         this.formSubmitType = AppPortal.submitTypes.login
         this.currentUser  = null
-
+        this.callbackOnLogin = callbackOnLogin
         this.formSubmitButton.addEventListener('click', this.submitForm.bind(this))
         this.signupLoginToggleLink.addEventListener('click', this.toggleLoginAndSignUp.bind(this))
     }
@@ -33,10 +33,6 @@ class AppPortal extends GameWindow{
     //**********SETTERS**********//
     set formButtonText(text){
         this.formSubmitButton.innerHTML = text
-    }
-
-    set onLoginCallback(cbFunction){
-        this.callbackOnLogin = cbFunction
     }
 
     set toggleLinkText(text){
