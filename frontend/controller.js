@@ -9,20 +9,23 @@ class Controller{
         this.scoreCounter = new ScoreCounter()
         this.userHud = new userHUD()
         this.loginPortal = new AppPortal(this.displayGame.bind(this))  
-
+        this.pressedKeys = {}
+        
+        //Add elements to the document
+        this.drawAllElements()
         this.addInputListeners()    
         
     }
 
-    static get baseUrl(){
-        return 'http://localhost:3000'
-    }
+    static get baseUrl(){return 'http://localhost:3000'}
+    static get leftDivId(){return 'div.screenLeft'}
+    static get middleDivId(){return 'div.screenMiddle'}
+    static get rightDivId(){return 'div.screenRight'}
 
     //********************GETTERS********************
 
     get allPressedKeys(){
         let pressedInputs = []
-
         Object.keys(this.pressedKeys).forEach( key => {
             if(this.pressedKeys[key] == true){
                 pressedInputs.push(key)
@@ -32,88 +35,13 @@ class Controller{
         return pressedInputs
     }
 
-    get currentUser(){
-        return this.loginPortal.currentUser
-    }
-
-    get currentSettings(){
-        return this.gameSettings.currentSettings
-    }
-
-    get displayLeft(){
-        return document.querySelector('div.screenLeft')
-    }
-
-    get displayMiddle(){
-        return document.querySelector('div.screenMiddle')
-    }
-
-    get displayRight(){
-        return document.querySelector('div.screenRight')
-    }
-
-    get gameBoard(){
-        return this._gameBoardObject
-    }
-
-    get gameSettings(){
-        return this._gameSettingsObject
-    }
-
-    get loginPortal(){
-        return this._loginPortalObject
-    }
-
-    get scoreCounter(){
-        return this._scoreCounterObject
-    }
-
-    get scoreList(){
-        return this._scoreListObject
-    }
-
-    get userHud(){
-        return this._userHudObject
-    }
-
-    get usersCurrentScore(){
-        return this.gameBoard.userScore
-    }
+    get currentUser(){ return this.loginPortal.currentUser }
+    get currentSettings(){ return this.gameSettings.currentSettings }
+    get usersCurrentScore(){ return this.gameBoard.userScore }
 
     //********************SETTERS********************
-    set gameBoard(gbObject){
-        this._gameBoardObject = gbObject
-        this.displayMiddle.appendChild(this.gameBoard.element)
-    }
 
-    set gameSettings(gsObject){
-        this._gameSettingsObject = gsObject
-        this.displayLeft.appendChild(this.gameSettings.element)
-    }
-
-    set loginPortal(lpObject){
-        this._loginPortalObject = lpObject
-        this.displayMiddle.appendChild(this.loginPortal.element)
-    }
-
-    set scoreCounter(scObject){
-        this._scoreCounterObject = scObject
-        this.displayLeft.appendChild(this.scoreCounter.element)
-    }
-
-    set scoreDisplayValue(value){
-        this.scoreCounter.score = value
-    }
-
-    set scoreList(slObject){
-        this._scoreListObject = slObject
-        this.displayRight.appendChild(this.scoreList.element)
-    }
-
-    set userHud(uhObject){
-        this._userHudObject = uhObject
-        this.displayLeft.appendChild(this.userHud.element)
-    }
+    set scoreDisplayValue(value){ this.scoreCounter.score = value }
 
     //********************FUNCTIONS********************
     addInputListeners(){
@@ -140,7 +68,6 @@ class Controller{
         this.gameBoard.showAsFlex()
         this.userHud.showAsFlex()
         this.scoreCounter.showAsFlex()
-        console.log(userPresets)
         this.gameSettings.userPresets = userPresets
         this.gameSettings.showAsFlex()        
         this.scoreList.showAsInline()
@@ -156,6 +83,29 @@ class Controller{
         this.scoreList.hide()
         this.gameSettings.hide()
         this.loginPortal.show()
+    }
+
+    drawAllElements(){
+        const leftElements = [            
+            this.gameSettings.element,
+            this.scoreCounter.element,
+            this.userHud.element
+        ]
+        const middleElements = [
+            this.loginPortal.element,
+            this.gameBoard.element
+        ]
+        const rightElements = [
+            this.scoreList.element
+        ]
+
+        const appendElement = (divName, element) => {
+            document.querySelector(divName).appendChild(element)
+        }
+        
+        leftElements.forEach( element => appendElement(Controller.leftDivId, element) )
+        middleElements.forEach( element => appendElement(Controller.middleDivId, element) )
+        rightElements.forEach( element => appendElement(Controller.rightDivId, element) )
     }
 
     hideControlBox(){
@@ -192,7 +142,7 @@ class Controller{
 
     pause(){
         clearInterval(this.loop)
-        this.showMenu();
+        this.gameBoard.showMenu();
     }   
 
     resetKeyInputs(){

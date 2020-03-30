@@ -59,7 +59,6 @@ class UserUnit extends GameUnit{
     shoot(){
         this.shootCallback(this.center, this.y)
         this.shotCooldown = this.maxShotCooldown
-        console.log(this.shotCooldown)
     }
 
 }
