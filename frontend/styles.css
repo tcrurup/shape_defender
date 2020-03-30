@@ -116,11 +116,22 @@ div.userInputContainer{
 }
 
 div#scoreCounter{
-    width: 200px;
-    height: 50px;
-
     background-color: white;
+    width: 200px;
+    height: auto;
+
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 15px;
+
+    padding: 10px;
     margin-bottom: 75px;
+}
+
+div#scoreCounter #counter{
+    font-size: 24px;
+    
 }
 
 
