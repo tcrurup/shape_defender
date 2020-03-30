@@ -135,7 +135,7 @@ class AppPortal extends GameWindow{
         const url = `http://localhost:3000/savePresets`
         fetch(url, config)
             .then(response => response.json())
-            .then ( object => console.log(object))
+            .then ( object => alert(object.message))
         .catch( error => alert(error))
     }
 

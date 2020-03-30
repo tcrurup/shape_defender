@@ -17,6 +17,8 @@ class SessionsController < ApplicationController
         user.createOrUpdatePreset(1, preset1_params)
         user.createOrUpdatePreset(2, preset2_params)
         user.createOrUpdatePreset(3, preset3_params)
+
+        render json: {message: "Presets Saved!"}
     end
 
     def sign_up

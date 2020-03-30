@@ -138,7 +138,7 @@ class GameSettings extends GameWindow{
             presetNumber = event
         }
         
-        this.getElementFromId(GameSettings.presetDisplayId).innerHTML = presetNumber
+        this.getElementFromId(GameSettings.presetDisplayId).innerHTML = `Using preset ${presetNumber}`
         this.setAll(this.presets[presetNumber-1])
     }
 
