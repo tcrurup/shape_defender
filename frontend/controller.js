@@ -11,30 +11,13 @@ class Controller{
         }
 
         this.gameSettings = new GameSettings(onSaveCallback.bind(this))
-
         this.scoreCounter = new ScoreCounter()
         this.userHud = new userHUD()
-
         this.loginPortal = new AppPortal() 
         this.loginPortal.onLoginCallback = this.displayGame.bind(this)   
-        
-        //Initial Settings
-        this.isPaused = false;
-        this.userPoints = 0;
-        
-        //this.speedIncreaseFactor = 1.5;  //max % enemy speed will increase upon cyclying    
 
-        //Add event listeners
-        
         this.addInputListeners()    
-
-        //document.querySelector('a#debug').addEventListener('click', this.debugMode.bind(this))
-        document.querySelector('button#startGame').addEventListener('click', this.restartLevel.bind(this))
-        
-
-        //Add on the board
-        this.resetKeyInputs()//Set initial key inputs to false to avoid unwanted initial movement
-        
+        document.querySelector('button#startGame').addEventListener('click', this.restartLevel.bind(this))    
     }
 
     static get baseUrl(){
@@ -249,7 +232,7 @@ class Controller{
         this.gameDisplay.showAsInline()
         this.hideLogin()
     }
-    
+
     showScoreCounter(){
         this.scoreCounter.showAsFlex()
     }   
